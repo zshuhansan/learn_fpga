@@ -5,6 +5,23 @@
  *   (not a pipelined processor yet)
  */
 
+/*
+ * 中文导读
+ *
+ * pipeline2 基于 pipeline1（仍是多周期、非流水线）增加“性能计数器”：
+ * - cycle：周期计数（每拍 +1）
+ * - instret：退休指令计数（这里用“每取到一条指令”近似 retired）
+ *
+ * 并通过 SYSTEM 类指令中的 CSRRS（funct3=010）提供 4 个伪指令常用 CSR 的读出：
+ * - RDCYCLE / RDCYCLEH
+ * - RDINSTRET / RDINSTRETH
+ *
+ * 实现技巧：
+ * - 这 4 个 CSR 的地址编码在 instr[31:20]（CSR Id）
+ * - 该版本并不做完整 CSR 地址译码，而是只检查足以区分这 4 个 CSR 的若干 bit
+ * - 当 isCSRRS 时，把 CSR_data 作为 writeBackData 写回 rd
+ */
+
 `default_nettype none
 `include "clockworks.v"
 `include "emitter_uart.v"
@@ -215,6 +232,21 @@ module Processor (
 
    // register write back
    // CYCLE, CYCLEH, INSTRET, INSTRETH
+   /*
+    * CSR_data：把 64 位 cycle/instret 按“低/高 32 位”切片后返回。
+    *
+    * 这里用 instr 的某些 bit 来区分 4 种 CSR：
+    * - CYCLE   = 0xC00（低 32）
+    * - CYCLEH  = 0xC80（高 32）
+    * - INSTRET = 0xC02（低 32）
+    * - INSTRETH= 0xC82（高 32）
+    *
+    * 逻辑含义（直觉）：
+    * - instr[27] 用来区分 low/high（C00 vs C80，C02 vs C82）
+    * - instr[21] 用来区分 cycle/instret（C00/C80 vs C02/C82）
+    *
+    * 注意：这是“只支持这 4 个 CSR 的最小实现”，不是通用 CSR 文件。
+    */
    wire [31:0] CSR_data =
 	       ( instr[27] & instr[21]) ? instret[63:32]:
 	       (!instr[27] & instr[21]) ? instret[31:0] :

@@ -4,6 +4,25 @@
  * Step 5: register forwarding 1/2: D reads and writes RF in same cycle
  */
 
+/*
+ * 中文导读
+ *
+ * pipeline5 在 pipeline4（stall/flush 解决冒险）的基础上，做第一个“寄存器旁路”优化：
+ * - 目标：减少数据冒险导致的 stall，尤其是“W 阶段刚写回，D 阶段马上要读同一个寄存器”的情况
+ *
+ * 背景：
+ * - pipeline4 默认假设寄存器堆读有延迟/读到的是旧值，因此 hazard 检测会把 W 阶段也纳入比较，
+ *   导致很多本可以避免的 bubble。
+ *
+ * 本步策略：
+ * - 当 D 阶段要读的 rs1/rs2 正好等于 W 阶段要写回的 rd 时，
+ *   直接把 wbData 作为 DE_rs1/DE_rs2（旁路），而不是读寄存器堆。
+ *
+ * 结果：
+ * - hazard 检测可以不再检查 MW（W 阶段）对 FD 的影响，CPI 会明显改善。
+ * - 下一步 pipeline5_bis 会进一步把寄存器堆改成“组合读”，让同周期写回/读出更自然。
+ */
+
 `default_nettype none
 `include "clockworks.v"
 `include "emitter_uart.v"

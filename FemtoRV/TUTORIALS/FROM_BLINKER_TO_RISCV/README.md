@@ -3,6 +3,7 @@
 This tutorial is a progressive journey from a simple blinky design to a RISC-V core.
 
 It works with the following boards:
+
 - IceStick
 - IceBreaker
 - ULX3S
@@ -30,20 +31,20 @@ it is not as fun).
   in assembly and in C for your core;
 - I try to make all example programs fun and interesting while reasonably short. The bundled
   demo programs include:
-    - mandelbrot set in assembly and in C
-    - rotozoom graphic effect
-    - drawing filled polygons
-    - raytracing
-  These graphic program are all displayed in text mode on the terminal, using ANSI escape
-  sequences (yes, this makes BIG pixels). For more fun, it is also possible to use a small OLED display
-  instead (will add instructions for that in the future).
+  - mandelbrot set in assembly and in C
+  - rotozoom graphic effect
+  - drawing filled polygons
+  - raytracing
+    These graphic program are all displayed in text mode on the terminal, using ANSI escape
+    sequences (yes, this makes BIG pixels). For more fun, it is also possible to use a small OLED display
+    instead (will add instructions for that in the future).
 - [Episode II](PIPELINE.md) is on pipelining, you will learn there how to transform the basic processor
   obtained at the end of this tutorial into a more efficient pipelined processor with branch prediction.
-- [Episode III)(INTERRUPTS.md) is a WIP on interrupts and the priviledged RISC-V ISA.
+- \[Episode III)(INTERRUPTS.md) is a WIP on interrupts and the priviledged RISC-V ISA.
 - This tutorial is in VERILOG. It is currently being ported into other HDLs
-    - [Amaranth/nMigen version](https://github.com/bl0x/learn-fpga-amaranth) by @bl0x
-    - TODO: Silice version
-    - TODO: SpinalHDL version
+  - [Amaranth/nMigen version](https://github.com/bl0x/learn-fpga-amaranth) by @bl0x
+  - TODO: Silice version
+  - TODO: SpinalHDL version
 
 ## Introduction and references on processor design
 
@@ -56,6 +57,7 @@ gives the principles for going much further than what I've done here (pipelines 
 For Verilog basics and syntax, I read _Verilog by example by Blaine C. Readler_, it is also short and to the point.
 
 There are two nice things with the Stackoverflow answer:
+
 - it goes to the essential, and keeps nothing else than what's essential
 - the taken example is a RISC processor, that shares several similarities with RISC-V
   (except that it has status flags, that RISC-V does not have).
@@ -83,15 +85,19 @@ gently take you from the most trivial Blinky design to a fully functional RISC-V
 ## Prerequisites:
 
 First step is cloning the learn-fpga repository:
+
 ```
 $ git clone https://github.com/BrunoLevy/learn-fpga.git
 ```
 
 Before starting, you will need to install the following softwares:
+
 - iverilog/icarus (simulation)
+
 ```
   $ sudo apt-get install iverilog
 ```
+
 - yosys/nextpnr, the toolchain for your board. See [this link](../toolchain.md).
 
 Note that iverilog/icarus is sufficient to run and play with all the
@@ -104,6 +110,7 @@ is not of the same magnitude when you are doing simulation !!!
 
 Let us start and create our first blinky ! Our blinky is implemented as a VERILOG module,
 connected to inputs and outputs, as follows ([step1.v](step1.v)):
+
 ```verilog
    module SOC (
        input  CLK,
@@ -122,6 +129,7 @@ connected to inputs and outputs, as follows ([step1.v](step1.v)):
 
    endmodule
 ```
+
 We call it SOC (System On Chip), which is a big name for a blinky, but
 that's what our blinky will be morphed into after all the steps of
 this tutorial. Our SOC is connected to the following signals:
@@ -129,24 +137,27 @@ this tutorial. Our SOC is connected to the following signals:
 - `CLK` (input) is the system clock.
 - `LEDS` (output) is connected to the 5 LEDs of the board.
 - `RESET` (input) is a reset button. You'll say that the IceStick
-   has no button, but in fact ... (we'll talk about that
-   later)
+  has no button, but in fact ... (we'll talk about that
+  later)
 - `RXD` and `TXD` (input,output) connected to the FTDI chip that emulates
-   a serial port through USB. We'll also talk about that
-   later.
+  a serial port through USB. We'll also talk about that
+  later.
 
 You can synthesize and send the bitstream to the device as follows:
+
 ```
 $ BOARDS/run_xxx.sh step1.v
 ```
+
 where `xxx` corresponds to your board.
 
 The five leds will light on... but they are not blinking. Why is this so ?
 In fact they are blinking, but it is too fast for you to distinguish anything.
 
 To see something, it is possible to use simulation. To use simulation, we write
-a new VERILOG file [bench_iverilog.v](bench_iverilog.v),
+a new VERILOG file [bench\_iverilog.v](bench_iverilog.v),
 with a module `bench` that encapsulates our `SOC`:
+
 ```verilog
 module bench();
    reg CLK;
@@ -176,18 +187,22 @@ module bench();
    end
 endmodule
 ```
+
 The module `bench` drives all the signals of our `SOC` (called
 `uut` here for "unit under test"). The `forever` loop wiggles
 the `CLK` signal and displays the status of the LEDs whenever
 it changes.
 
 Now we can start the simulation:
+
 ```
   $ iverilog -DBENCH -DBOARD_FREQ=10 bench_iverilog.v step1.v
   $ vvp a.out
 ```
+
 ... but that's a lot to remember, so I created a script for that,
 you'll prefer to do:
+
 ```
   $ ./run.sh step1.v
 ```
@@ -197,13 +212,15 @@ you insert "print" statements (`$display`) in your VERILOG code,
 which is not directly possible when you run on the device !
 
 To exit the simulation:
+
 ```
   <ctrl><c>
   finish
 ```
+
 _Note: I developped the first version of femtorv completely on device,
- using only the LEDs to debug because I did not know how to
- use simulation, don't do that, it's stupid !_
+using only the LEDs to debug because I did not know how to
+use simulation, don't do that, it's stupid !_
 
 **Try this** How would you modify `step1.v` to slow it down
 sufficiently for one to see the LEDs blinking ?
@@ -227,6 +244,7 @@ with the LEDs.
 To do that, I created a `Clockworks` module in [clockworks.v](clockworks.v),
 that contains the gearbox and a mechanism related with the `RESET` signal (that
 I'll talk about later). `Clockworks` is implemented as follows:
+
 ```verilog
 module Clockworks
 (
@@ -245,6 +263,7 @@ module Clockworks
 ...
 endmodule
 ```
+
 This divides clock frequency by `2^SLOW`.
 
 The `Clockworks` module is then inserted
@@ -288,21 +307,25 @@ module SOC (
    assign TXD  = 1'b0; // not used for now
 endmodule
 ```
+
 It also handles the `RESET` signal.
 
 Now you can try it on simulation:
+
 ```
   $ ./run.sh step2.v
 ```
 
 As you can see, the counter is now much slower. Try it also on device:
+
 ```
   $ BOARDS/run_xxx.sh step2.v
 ```
+
 Yes, now we can see clearly what happens ! And what about the `RESET`
 button ? The IceStick has no button. In fact it has one !
 
-![](IceStick_RESET.jpg)
+!\[]\(IceStick\_RESET.jpg null)
 
 Press a finger on the circled region of the image (around pin 47).
 
@@ -330,6 +353,7 @@ the time (except when there are jumps and branches). Let us
 start with something similar, but much simpler: a pre-programmed
 christmas tinsel, that loads the LEDs pattern from a memory (see
 [step3.v](step3.v)). Our tinsel has a memory with the patterns:
+
 ```verilog
    reg [4:0] MEM [0:20];
    initial begin
@@ -342,6 +366,7 @@ christmas tinsel, that loads the LEDs pattern from a memory (see
        MEM[20] = 5'b00000;
    end
 ```
+
 _Note that what's in the initial block does not generate any circuitry
 when synthesized, it is directly translated into the initialization
 data for the BRAMs of the FPGA._
@@ -358,12 +383,13 @@ a mechanism to fetch `MEM` contents indexed by `PC`:
       PC <= (!resetn || PC==20) ? 0 : (PC+1);
    end
 ```
-_Note the test `PC==20` to make it cycle._
+
+_Note the test_ _`PC==20`_ _to make it cycle._
 
 Now try it with simulation and on device.
 
 **Try this** create several blinking modes, and switch between
-  modes using `RESET`.
+modes using `RESET`.
 
 ## The RISC-V instruction set architecture
 
@@ -385,7 +411,7 @@ no need to dive into the details for now. Let's take a global look at these
 11 instructions:
 
 | instruction | description                          | algo                                 |
-|-------------|--------------------------------------|--------------------------------------|
+| ----------- | ------------------------------------ | ------------------------------------ |
 | branch      | conditional jump, 6 variants         | `if(reg OP reg) PC<-PC+imm`          |
 | ALU reg     | Three-registers ALU ops, 10 variants | `reg <- reg OP reg`                  |
 | ALU imm     | Two-registers ALU ops, 9 variants    | `reg <- reg OP imm`                  |
@@ -399,39 +425,32 @@ no need to dive into the details for now. Let's take a global look at these
 | `SYSTEM`    | system calls, breakpoints            | (not detailed here, skipped for now) |
 
 - The 6 branch variants are conditional jumps, that depend on a test
-on two registers.
-
+  on two registers.
 - ALU operations can be of the form `register <- register OP register`
-or `register <- register OP immediate`
-
+  or `register <- register OP immediate`
 - Then we have load and store, that can operate
-on bytes, on 16 bit values (called half-words) or 32 bit values
-(called words). In addition byte and half-word loads can do sign
-expansion. The source/target address is obtained by adding an
-immediate offset to the content of a register.
-
+  on bytes, on 16 bit values (called half-words) or 32 bit values
+  (called words). In addition byte and half-word loads can do sign
+  expansion. The source/target address is obtained by adding an
+  immediate offset to the content of a register.
 - The remaining instructions are more special (one
-may skip their description in a first read, you just need to know
-that they are used to implement unconditional jumps, function calls,
-memory ordering for multicores, system calls and breaks):
-
-    - `LUI` (load upper immediate) is used to load the upper 20 bits of a constant. The lower
-bits can then be set using `ADDI` or `ORI`. At first sight it may
-seem weird that we need two instructions to load a 32 bit constant
-in a register, but in fact it is a smart choice, because all
-instructions are 32-bit long.
-
-    - `AUIPC` (add upper immediate to PC) adds a constant to the current program counter and places the
-result in a register. It is meant to be used in combination with
-`JALR` to reach a 32-bit PC-relative address.
-
-    - `JAL` (jump and link) adds an offset to the PC and stores the address
-of the instruction following the jump in a register. It can be used to
-implement function calls. `JALR` does the same thing, but adds the
-offset to a register.
-
-    - `FENCE` and `SYSTEMS` are used to implement memory ordering in
-multicore systems, and system calls/breaks respectively.
+  may skip their description in a first read, you just need to know
+  that they are used to implement unconditional jumps, function calls,
+  memory ordering for multicores, system calls and breaks):
+  - `LUI` (load upper immediate) is used to load the upper 20 bits of a constant. The lower
+    bits can then be set using `ADDI` or `ORI`. At first sight it may
+    seem weird that we need two instructions to load a 32 bit constant
+    in a register, but in fact it is a smart choice, because all
+    instructions are 32-bit long.
+  - `AUIPC` (add upper immediate to PC) adds a constant to the current program counter and places the
+    result in a register. It is meant to be used in combination with
+    `JALR` to reach a 32-bit PC-relative address.
+  - `JAL` (jump and link) adds an offset to the PC and stores the address
+    of the instruction following the jump in a register. It can be used to
+    implement function calls. `JALR` does the same thing, but adds the
+    offset to a register.
+  - `FENCE` and `SYSTEMS` are used to implement memory ordering in
+    multicore systems, and system calls/breaks respectively.
 
 To summarize, we got branches (conditional jumps), ALU operations,
 load and store, and a couple of special instructions used to implement
@@ -456,7 +475,7 @@ has all the information that we need summarized in two tables in page 130 (RV32/
 Let us take a look at the big table, first thing to notice is that the 7 LSBs tells you which instruction it is
 (there are 10 possibilities, we do not count `FENCE` for now).
 
-```verilog
+```Verilog
    reg [31:0] instr;
    ...
    wire isALUreg  =  (instr[6:0] == 7'b0110011); // rd <- rs1 OP rs2
@@ -477,29 +496,31 @@ The table on the top distinguishes 6 types of instructions
 of the instruction and how they are encoded within the 32 bits of the instruction word.
 
 `R-type` instructions take two source registers `rs1` and `rs2`,
- apply an operation on them and stores the result in a
- third destination register `rd` (`ADD`, `SUB`, `SLL`, `SLT`, `SLTU`, `XOR`,
- `SRL`, `SRA`, `OR`, `AND`).
+apply an operation on them and stores the result in a
+third destination register `rd` (`ADD`, `SUB`, `SLL`, `SLT`, `SLTU`, `XOR`,
+`SRL`, `SRA`, `OR`, `AND`).
 
- Since RISC-V has 32 registers,
- each of `rs1`,`rs2` and `rd` use 5 bits of the instruction
- word. Interestingly, these are the same bits for all
- instruction formats. Hence, "decoding" `rs1`,`rs2`
- and `rd` is just a matter of drawing some wires
- from the instruction word:
+Since RISC-V has 32 registers,
+each of `rs1`,`rs2` and `rd` use 5 bits of the instruction
+word. Interestingly, these are the same bits for all
+instruction formats. Hence, "decoding" `rs1`,`rs2`
+and `rd` is just a matter of drawing some wires
+from the instruction word:
+
 ```verilog
    wire [4:0] rs1Id = instr[19:15];
    wire [4:0] rs2Id = instr[24:20];
    wire [4:0] rdId  = instr[11:7];
 ```
 
- Then, one needs to recognize among the 10 R-type instructions.
- It is done mostly with the `funct3` field, a 3-bits code. With
- a 3-bits code, one can only encode 8 different instructions, hence
- there is also a `funct7` field (7 MSBs of instruction word). Bit
- 30 of the instruction word encodes `ADD`/`SUB` and `SRA`/`SRL`
- (arithmetic right shift with sign expansion/logical right shift).
- The instruction decoder has wires for `funct3` and `funct7`:
+Then, one needs to recognize among the 10 R-type instructions.
+It is done mostly with the `funct3` field, a 3-bits code. With
+a 3-bits code, one can only encode 8 different instructions, hence
+there is also a `funct7` field (7 MSBs of instruction word). Bit
+30 of the instruction word encodes `ADD`/`SUB` and `SRA`/`SRL`
+(arithmetic right shift with sign expansion/logical right shift).
+The instruction decoder has wires for `funct3` and `funct7`:
+
 ```verilog
    wire [2:0] funct3 = instr[14:12];
    wire [6:0] funct7 = instr[31:25];
@@ -522,6 +543,7 @@ word is used, to distinguish `SRAI`/`SRLI` arithmetic and logical right shifts).
 
 The immediate value is encoded in the 12 MSBs of the instruction word,
 hence we will draw additional wires to get it:
+
 ```verilog
    wire [31:0] Iimm={{21{instr[31]}}, instr[30:20]};
 ```
@@ -539,19 +561,20 @@ value in the instruction word.
 To understand what it means, let's get back to Chapter 2, page 16.
 The different instruction types correspond to the way _immediate values_ are encoded in them.
 
-| Instr. type | Description                                    | Immediate value encoding                             |
-|-------------|------------------------------------------------|------------------------------------------------------|
-| `R-type`    | register-register ALU ops. [more on this here](https://www.youtube.com/watch?v=pVWtI0426mU) | None    |
-| `I-type`    | register-immediate integer ALU ops and `JALR`. | 12 bits, sign expansion                              |
-| `S-type`    | store                                          | 12 bits, sign expansion                              |
-| `B-type`    | branch                                         | 12 bits, sign expansion, upper `[31:1]` (bit 0 is 0) |
-| `U-type`    | `LUI`,`AUIPC`                                  | 20 bits, upper `31:12` (bits `[11:0]` are 0)         |
-| `J-type`    | `JAL`                                          | 12 bits, sign expansion, upper `[31:1]` (bit 0 is 0) |
+| Instr. type | Description                                                                                 | Immediate value encoding                             |
+| ----------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `R-type`    | register-register ALU ops. [more on this here](https://www.youtube.com/watch?v=pVWtI0426mU) | None                                                 |
+| `I-type`    | register-immediate integer ALU ops and `JALR`.                                              | 12 bits, sign expansion                              |
+| `S-type`    | store                                                                                       | 12 bits, sign expansion                              |
+| `B-type`    | branch                                                                                      | 12 bits, sign expansion, upper `[31:1]` (bit 0 is 0) |
+| `U-type`    | `LUI`,`AUIPC`                                                                               | 20 bits, upper `31:12` (bits `[11:0]` are 0)         |
+| `J-type`    | `JAL`                                                                                       | 12 bits, sign expansion, upper `[31:1]` (bit 0 is 0) |
 
 Note that `I-type` and `S-type` encode the same type of values (but they are taken from different parts of `instr`).
 Same thing for `B-type` and `J-type`.
 
 One can decode the different types of immediates as follows:
+
 ```verilog
    wire [31:0] Uimm={    instr[31],   instr[30:12], {12{1'b0}}};
    wire [31:0] Iimm={{21{instr[31]}}, instr[30:20]};
@@ -559,11 +582,13 @@ One can decode the different types of immediates as follows:
    wire [31:0] Bimm={{20{instr[31]}}, instr[7],instr[30:25],instr[11:8],1'b0};
    wire [31:0] Jimm={{12{instr[31]}}, instr[19:12],instr[20],instr[30:21],1'b0};
 ```
+
 Note that `Iimm`, `Simm`, `Bimm` and `Jimm` do sign expansion (by copying
 bit 31 the required number of times to fill the MSBs).
 
 And that's all for our instruction decoder ! To summarize, the instruction
 decoder gets the following information from the instruction word:
+
 - signals isXXX that recognizes among the 11 possible RISC-V instructions
 - source and destination registers `rs1`,`rs2` and `rd`
 - function codes `funct3` and `funct7`
@@ -598,6 +623,7 @@ especially interesting under this circumstance.
 ```
 
 Then we can fetch and recognize the instructions as follows:
+
 ```verilog
    always @(posedge clk) begin
       if(!resetn) begin
@@ -609,8 +635,9 @@ Then we can fetch and recognize the instructions as follows:
    end
    assign LEDS = isSYSTEM ? 31 : {PC[0],isALUreg,isALUimm,isStore,isLoad};
 ```
+
 (first led is wired to `PC[0]` so that we will see it blinking even if
- there is the same instruction several times).
+there is the same instruction several times).
 
 As you can see, the program counter is only incremented if instruction
 is not `SYSTEM`. For now, the only `SYSTEM` instruction that we support
@@ -618,6 +645,7 @@ is `EBREAK`, that halts execution.
 
 In simulation mode, we can in addition display the name of the recognized instruction
 and the fields:
+
 ```verilog
 `ifdef BENCH
    always @(posedge clk) begin
@@ -644,7 +672,7 @@ different RISC-V instruction and test whether the decoder recognizes them.
 ## Sidebar: the elegance of RISC-V
 
 This paragraph may be skipped.
-it just contains my own impressions and reflexions on the RISC-V instruction set, inspired by the comments and Q&A in italics in the
+it just contains my own impressions and reflexions on the RISC-V instruction set, inspired by the comments and Q\&A in italics in the
 [RISC-V reference manual](https://github.com/riscv/riscv-isa-manual/releases/download/Ratified-IMAFDQC/riscv-spec-20191213.pdf).
 
 At this point, I realized what an _instruction set architecture_ means: it is for sure a specification of _what bit pattern does what_
@@ -661,22 +689,24 @@ _distillation_. Now, in 2020, many things were tested in terms of ISA, and this 
 attempts, taking the good choices and avoiding the suboptimal ones.
 
 What is really nice in the ISA is:
+
 - instruction size is fixed. Makes things really easier. _(there are extension with varying instrution length, but at least the core
   instruction set is simple)_;
 - `rs1`,`rs2`,`rd` are always encoded by the same bits of `instr`;
 - the immediate formats that need to do sign expansion do it from the same bit (`instr[31]`);
 - the weird instructions `LUI`,`AUIPC`,`JAL`,`JALR` can be combined to implement higher-level tasks
-   (load 32-bit constant in register, jump to arbitrary address, function calls). Their existence is
-   justified by the fact it makes the design easier. Then assembly programmer's life is made easier by
-   _pseudo-instructions_ `CALL`, `RET`, ... See [risc-v assembly manual](https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md), the
-   two tables at the end of the page. Same thing for tests/branch instructions obtained by swapping parameters (e.g. `a < b <=> b > a`
-   etc...), there are pseudo-instructions that do the job for you.
+  (load 32-bit constant in register, jump to arbitrary address, function calls). Their existence is
+  justified by the fact it makes the design easier. Then assembly programmer's life is made easier by
+  _pseudo-instructions_ `CALL`, `RET`, ... See [risc-v assembly manual](https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md), the
+  two tables at the end of the page. Same thing for tests/branch instructions obtained by swapping parameters (e.g. `a < b <=> b > a`
+  etc...), there are pseudo-instructions that do the job for you.
 
 Put differently, to appreciate the elegance of the RISC-V ISA, imagine
 that your mission is to _invent it_. That is, invent both the set of
 instructions and the way they are encoded as bit patterns. The constraints are:
+
 - fixed instruction length (32 bits)
-- as simple as possible: the ultimate sophistication is simplicity [Leonardo da Vinci] !!
+- as simple as possible: the ultimate sophistication is simplicity \[Leonardo da Vinci] !!
 - source and destination registers always encoded at the same position
 - whenever there is sign-extension, it should be done from the same bit
 - it should be simple to load an arbitrary 32-bits immediate value in a register (but may take several instructions)
@@ -715,6 +745,7 @@ as `0`, but really makes the instruction set more compact.
 ## Step 5: The register bank and the state machine
 
 The register bank is implemented as follows:
+
 ```verilog
    reg [31:0] RegisterBank [0:31];
 ```
@@ -725,14 +756,15 @@ we need to do the following four things:
 
 - fetch the instruction: `instr <= MEM[PC]`
 - fetch the values of `rs1` and `rs2`: `rs1 <= RegisterBank[rs1Id]; rs2 <= RegisterBank[rs2Id]`
-   where `rs1` and `rs2` are two registers. We need to do that because `RegisterBank` will be
-   synthesized as a block of BRAM, and one needs one cycle to access the content of BRAM.
+  where `rs1` and `rs2` are two registers. We need to do that because `RegisterBank` will be
+  synthesized as a block of BRAM, and one needs one cycle to access the content of BRAM.
 - compute `rs1` `OP` `rs2` (where `OP` depends on `funct3` and `funct7`)
 - store the result in `rd`: `RegisterBank[rdId] <= writeBackData`. This can be done during
   the same cycle as the previous step if `OP` is computed by a combinatorial circuit.
 
 The first three operations are implemented by a state machine,
 as follows (see [step5.v](step5.v)):
+
 ```verilog
    localparam FETCH_INSTR = 0;
    localparam FETCH_REGS  = 1;
@@ -759,6 +791,7 @@ as follows (see [step5.v](step5.v)):
 ```
 
 The fourth one (register write-back) is implemented in this block:
+
 ```verilog
    wire [31:0] writeBackData = ... ;
    wire writeBackEn = ...;
@@ -768,6 +801,7 @@ The fourth one (register write-back) is implemented in this block:
       end
    end
 ```
+
 Remember that writing to register 0 has no effect (hence the test `rdId != 0`).
 The signal `writeBackEn` is asserted whenever `writeBackData` should be written
 to register `rdId`.
@@ -784,8 +818,8 @@ Now we can fetch instructions from memory, decode them and read register
 values, but our (wannabe) CPU is still unable to do anything. Let us see
 how to do actual computations on register's values.
 
-_So, are you going to create an `ALU` module ? And by the way, why did not
- you create a `Decoder` module, and a `RegisterBank` module ?_
+_So, are you going to create an_ _`ALU`_ _module ? And by the way, why did not
+you create a_ _`Decoder`_ _module, and a_ _`RegisterBank`_ _module ?_
 
 My very first design used multiple modules and multiple files, for
 a total of 1000 lines of code or so, then Matthias Koch wrote a monolithic
@@ -802,23 +836,26 @@ answer though, it is a matter of taste and style ! In this tutorial, we use
 a (mostly) monolithic design.
 
 Now we want to implement two types of instructions:
+
 - Rtype: `rd` <- `rs1` `OP` `rs2`  (recognized by `isALUreg`)
 - Itype: `rd` <- `rs1` `OP` `Iimm` (recognized by `isALUimm`)
 
 The ALU takes two inputs `aluIn1` and `aluIn2`, computes
 `aluIn1` `OP` `aluIn2` and stores it in `aluOut`:
+
 ```verilog
    wire [31:0] aluIn1 = rs1;
    wire [31:0] aluIn2 = isALUreg ? rs2 : Iimm;
    reg [31:0] aluOut;
 ```
+
 Depending on the instruction type, `aluIn2` is either the value
 in the second source register `rs2`, or an immediate in the `Itype`
 format (`Immm`). The operation `OP` depends mostly on `funct3`
 (and also on `funct7`). Keep a copy of the [RISC-V reference manual](https://github.com/riscv/riscv-isa-manual/releases/download/Ratified-IMAFDQC/riscv-spec-20191213.pdf) open page 130 on your knees or in another window:
 
 | funct3 | operation                                     |
-|--------|-----------------------------------------------|
+| ------ | --------------------------------------------- |
 | 3'b000 | `ADD` or `SUB`                                |
 | 3'b001 | left shift                                    |
 | 3'b010 | signed comparison (<)                         |
@@ -829,17 +866,18 @@ format (`Immm`). The operation `OP` depends mostly on `funct3`
 | 3'b111 | `AND`                                         |
 
 - for `ADD`/`SUB`, if its an `ALUreg` operation (Rtype), then one makes the
-difference between `ADD` and `SUB` by testing bit 5 of `funct7` (1 for `SUB`).
-If it is an `ALUimm` operation (Itype), then it can be only `ADD`. In this
-context, one just needs to test bit 5 of `instr` to distinguish between
-`ALUreg` (if it is 1) and `ALUimm` (if it is 0).
+  difference between `ADD` and `SUB` by testing bit 5 of `funct7` (1 for `SUB`).
+  If it is an `ALUimm` operation (Itype), then it can be only `ADD`. In this
+  context, one just needs to test bit 5 of `instr` to distinguish between
+  `ALUreg` (if it is 1) and `ALUimm` (if it is 0).
 - for logical or arithmetic right shift, one makes the difference also by testing
-bit 5 of `funct7`, 1 for arithmetic shift (with sign expansion) and 0 for
-logical shift.
+  bit 5 of `funct7`, 1 for arithmetic shift (with sign expansion) and 0 for
+  logical shift.
 - the shift amount is either the content of `rs2` for `ALUreg` instructions or
   `instr[24:20]` (the same bits as `rs2Id`) for `ALUimm` instructions.
 
 Putting everything together, one gets the following VERILOG code for the ALU:
+
 ```verilog
    reg [31:0] aluOut;
    wire [4:0] shamt = isALUreg ? rs2[4:0] : instr[24:20]; // shift amount
@@ -856,11 +894,13 @@ Putting everything together, one gets the following VERILOG code for the ALU:
       endcase
    end
 ```
+
 _Note:_ although it is declared as a `reg`, `aluOut` will be a combinatorial function
 (no flipflop generated), because its value is determined in a combinatorial block
 (`always @(*)`), and all the configurations are enumerated in the `case` statement.
 
 Register write-back is configured as follows:
+
 ```verilog
    assign writeBackData = aluOut;
    assign writeBackEn = (state == EXECUTE && (isALUreg || isALUimm));
@@ -877,9 +917,9 @@ then branches, then... the rest. Before then, as you probably have noticed,
 translating RISC-V programs into binary (that is, assembling manually) is
 extremely painful. Next section gives a much easier solution.
 
-| ALUreg | ALUimm | Jump  | Branch | LUI | AUIPC | Load  | Store | SYSTEM |
-|--------|--------|-------|--------|-----|-------|-------|-------|--------|
-| [*] 10 | [*] 9  | [ ] 2 | [ ] 6  | [ ] | [ ]   | [ ] 5 | [ ] 3 | [*] 1  |
+| ALUreg   | ALUimm  | Jump   | Branch | LUI  | AUIPC | Load   | Store  | SYSTEM  |
+| -------- | ------- | ------ | ------ | ---- | ----- | ------ | ------ | ------- |
+| \[\*] 10 | \[\*] 9 | \[ ] 2 | \[ ] 6 | \[ ] | \[ ]  | \[ ] 5 | \[ ] 3 | \[\*] 1 |
 
 ## Step 7: using the VERILOG assembler
 
@@ -891,11 +931,12 @@ content of that file. We will see later how to do that.
 But in our case, it would be very convenient to be able to write small
 assembly programs directly in the same VERILOG file as our design. In fact,
 it is possible to do so, by implementing a RISC-V assembler directly in
-VERILOG (using tasks and functions), as done in [riscv_assembly.v](riscv_assembly.v).
+VERILOG (using tasks and functions), as done in [riscv\_assembly.v](riscv_assembly.v).
 
 In [step7.v](step7.v), memory is initialized with
 the same assembly program as in [step6.v](step6.v).
 It looks like that now, Much easier to read, no ?
+
 ```verilog
    `include "riscv_assembly.v"
    initial begin
@@ -914,6 +955,7 @@ It looks like that now, Much easier to read, no ?
       EBREAK();
    end
 ```
+
 _Note:_ `riscv_assembly.v` needs to be included from inside the module that
 uses assembly.
 
@@ -921,6 +963,7 @@ In this step, we make another modification: in the previous steps, `PC` was
 the index of the current instruction. For what follows, we want it to be
 the _address_ of the current instruction. Since each instruction is 32-bits
 long, it means that:
+
 - to increment `PC`, we do `PC <= PC + 4` (instead of `PC <= PC + 1` as before)
 - to fetch the current instruction, we do `instr <= MEM[PC[31:2]];` (we ignore
   the two LSBs of `PC`).
@@ -933,15 +976,16 @@ to a register. Hence `JAL` and `JALR` can be used to implement not only
 jumps, but also function calls. Here is what the two instructions are
 supposed to do:
 
-| instruction     | effect                  |
-|-----------------|-------------------------|
-| JAL rd,imm      | rd<-PC+4; PC<-PC+Jimm   |
-| JALR rd,rs1,imm | rd<-PC+4; PC<-rs1+Iimm  |
+| instruction     | effect                 |
+| --------------- | ---------------------- |
+| JAL rd,imm      | rd<-PC+4; PC<-PC+Jimm  |
+| JALR rd,rs1,imm | rd<-PC+4; PC<-rs1+Iimm |
 
 To implement these two instructions, we need to make
 the following changes to our core. First thing is
 register write-back: now value can be `PC+4` instead
 of `aluOut` for jump instructions:
+
 ```verilog
    assign writeBackData = (isJAL || isJALR) ? (PC + 4) : aluOut;
    assign writeBackEn = (state == EXECUTE &&
@@ -954,6 +998,7 @@ of `aluOut` for jump instructions:
 
 We also need to declare a `nextPC` value, that implements the
 three possibilities:
+
 ```verilog
    wire [31:0] nextPC = isJAL  ? PC+Jimm :
 	                isJALR ? rs1+Iimm :
@@ -965,6 +1010,7 @@ with `PC <= nextPC;` and that's all !
 
 We can now implement a simple (infinite) loop to test our new
 jump instruction:
+
 ```verilog
 `include "riscv_assembly.v"
       integer L0_=4;
@@ -1010,9 +1056,10 @@ soon able to run RISC-V programs that are more interesting than a blinky.
 
 **You are here !**
 Still some work to do, but we are making progress.
-| ALUreg | ALUimm | Jump  | Branch | LUI | AUIPC | Load  | Store | SYSTEM |
-|--------|--------|-------|--------|-----|-------|-------|-------|--------|
-| [*] 10 | [*] 9  | [*] 2 | [ ] 6  | [ ] | [ ]   | [ ] 5 | [ ] 3 | [*] 1  |
+
+| ALUreg   | ALUimm  | Jump    | Branch | LUI  | AUIPC | Load   | Store  | SYSTEM  |
+| -------- | ------- | ------- | ------ | ---- | ----- | ------ | ------ | ------- |
+| \[\*] 10 | \[\*] 9 | \[\*] 2 | \[ ] 6 | \[ ] | \[ ]  | \[ ] 5 | \[ ] 3 | \[\*] 1 |
 
 **Try this** add a couple of instructions before the loop, run in simulation,
 fix the label as indicated by the simulator, re-run in simulation, run on device.
@@ -1025,7 +1072,7 @@ are more limited in the address range they can reach from `PC` (12-bits offset).
 There are 6 different branch instructions:
 
 | instruction      | effect                                             |
-|------------------|----------------------------------------------------|
+| ---------------- | -------------------------------------------------- |
 | BEQ rs1,rs2,imm  | if(rs1 == rs2) PC <- PC+Bimm                       |
 | BNE rs1,rs2,imm  | if(rs1 != rs2) PC <- PC+Bimm                       |
 | BLT rs1,rs2,imm  | if(rs1 <  rs2) PC <- PC+Bimm (signed comparison)   |
@@ -1044,6 +1091,7 @@ RISC-V assembly programmer's life easier (more on this later).
 
 Back to our branch instructions, we will need to add in the ALU some wires
 to compute the result of the test, as follows:
+
 ```verilog
    reg takeBranch;
    always @(*) begin
@@ -1057,6 +1105,7 @@ to compute the result of the test, as follows:
 	default: takeBranch = 1'b0;
       endcase
 ```
+
 _Note 1_ it is possible to create a much more compact ALU, that uses a much smaller number
 of LUTs when synthesized, we sill see that later (for now, our goal is to have a RISC-V
 processor that works, we will optimize it later).
@@ -1068,6 +1117,7 @@ a latch, which we do not want).
 
 Now the only thing that remains to do for implementing branches is to add a case for
 `nextPC`, as follows:
+
 ```verilog
    wire [31:0] nextPC = (isBranch && takeBranch) ? PC+Bimm :
    	                isJAL                    ? PC+Jimm :
@@ -1102,9 +1152,9 @@ one right to left).
 **You are here !**
 Wow, we have implemented 28 instructions out of 38 ! Let us continue...
 
-| ALUreg | ALUimm | Jump  | Branch | LUI | AUIPC | Load  | Store | SYSTEM |
-|--------|--------|-------|--------|-----|-------|-------|-------|--------|
-| [*] 10 | [*] 9  | [*] 2 | [ *] 6 | [ ] | [ ]   | [ ] 5 | [ ] 3 | [*] 1  |
+| ALUreg   | ALUimm  | Jump    | Branch   | LUI  | AUIPC | Load   | Store  | SYSTEM  |
+| -------- | ------- | ------- | -------- | ---- | ----- | ------ | ------ | ------- |
+| \[\*] 10 | \[\*] 9 | \[\*] 2 | \[ \*] 6 | \[ ] | \[ ]  | \[ ] 5 | \[ ] 3 | \[\*] 1 |
 
 ## Step 10: LUI and AUIPC
 
@@ -1112,7 +1162,7 @@ We still have these two weird instructions to implement. What do they do ?
 It is rather simple:
 
 | instruction   | effect          |
-|---------------|-----------------|
+| ------------- | --------------- |
 | LUI rd, imm   | rd <= Uimm      |
 | AUIPC rd, imm | rd <= PC + Uimm |
 
@@ -1125,6 +1175,7 @@ require up to two instructions).
 
 Implementing these two instructions just requires to change `writeBackEn` and
 `writeBackData` as follows:
+
 ```verilog
    assign writeBackData = (isJAL || isJALR) ? (PC + 4) :
 			  (isLUI) ? Uimm :
@@ -1144,10 +1195,9 @@ Implementing these two instructions just requires to change `writeBackEn` and
 **You are here !**
 Seems that we are nearly there ! 8 instructions to go...
 
-| ALUreg | ALUimm | Jump  | Branch | LUI | AUIPC | Load  | Store | SYSTEM |
-|--------|--------|-------|--------|-----|-------|-------|-------|--------|
-| [*] 10 | [*] 9  | [*] 2 | [ *] 6 | [*] | [*]   | [ ] 5 | [ ] 3 | [*] 1  |
-
+| ALUreg   | ALUimm  | Jump    | Branch   | LUI   | AUIPC | Load   | Store  | SYSTEM  |
+| -------- | ------- | ------- | -------- | ----- | ----- | ------ | ------ | ------- |
+| \[\*] 10 | \[\*] 9 | \[\*] 2 | \[ \*] 6 | \[\*] | \[\*] | \[ ] 5 | \[ ] 3 | \[\*] 1 |
 
 **Try this** run [step10.v](step10.v) in simulation and on the device.
 
@@ -1214,11 +1264,13 @@ module Processor (
 ...
 endmodule
 ```
+
 (in addition, we have a `x1` signal that contains the contents
 of register `x1`, that can be used for visual debugging. We will
 plug it to the LEDs).
 
 The state machine has one additional state:
+
 ```verilog
    localparam FETCH_INSTR = 0;
    localparam WAIT_INSTR  = 1;
@@ -1246,15 +1298,18 @@ The state machine has one additional state:
       end
    endcase
 ```
+
 _Note_ we will see later how to simplify it and get back to three states.
 
 Now, `mem_addr` and `mem_rstrb` can be wired as follows:
+
 ```verilog
    assign mem_addr = PC;
    assign mem_rstrb = (state == FETCH_INSTR);
 ```
 
 And finally, everything is installed and connected in the `SOC`
+
 ```verilog
 module SOC (
     input  CLK,        // system clock
@@ -1317,22 +1372,27 @@ Sure we can, but to do that we need to compute a 33 bits subtraction, and
 test the sign bit. Matthias Koch (@Mecrisp) explained me this trick, that
 is also used in swapforth/J1 (another small RISC core that works on
 the IceStick).  The 33 bits subtract is written as follows:
+
 ```verilog
    wire [32:0] aluMinus = {1'b0,aluIn1} - {1'b0,aluIn2};
 ```
+
 if you want to know what `A-B` does in Verilog, it corresponds
 to `A+~B+1` (negate all the bits of B before adding, and add 1), it
 is how two's complement subtraction works. For instance, take
 `4'b0000 - 4'b0001`, the result is `-1`, encoded as `4'b1111`. It is
 computed as follows by the formula: `4'b0000 + ~4'b0001 + 1` = `4'b0000 + 4'b1110 + 1`
-= `4'b1111`. So we will keep the following expression (we could have kept the
+\= `4'b1111`. So we will keep the following expression (we could have kept the
 simpler form above, but it is interesting to be aware of what happens under the
 scene):
+
 ```verilog
    wire [32:0] aluMinus = {1'b1, ~aluIn2} + {1'b0,aluIn1} + 33'b1;
 ```
+
 Then we can create the wires for the three tests (this saves three 32-bit
 adders):
+
 ```
    wire        EQ  = (aluMinus[31:0] == 0);
    wire        LTU = aluMinus[32];
@@ -1340,18 +1400,20 @@ adders):
 ```
 
 - The first one, `EQ`, goes high when `aluIn1` and `aluIn2` have the same value, or
-`aluMinus == 0` (no need to test the 33-rd bit)
+  `aluMinus == 0` (no need to test the 33-rd bit)
 - the second one, `LTU`, corresponds to unsigned comparison. It is given by the sign bit of
-our 33-bits subtraction.
+  our 33-bits subtraction.
 - for the third one, there are two cases: if the signs differ, then `LT` goes high if
   `aluIn1` is negative, else it is given by the sign bit of our 33-bits subtraction.
 
 Of course, we still need one adder for addition:
+
 ```verilog
    wire [31:0] aluPlus = aluIn1 + aluIn2;
 ```
 
 Then, `aluOut` is computed as follows:
+
 ```verilog
    reg [31:0]  aluOut;
    always @(*) begin
@@ -1413,6 +1475,7 @@ By another sorcerer's trick indicated by by Matthias Koch (@mecrisp), it is
 possible to merge the two right shifts, by creating a 33 bits shifter with the
 additional bit set to 0 or 1 depending on input's bit31 and on whether it is a
 logical shift or an arithmetic shift.
+
 ```verilog
    wire [31:0] shifter =
                $signed({instr[30] & aluIn1[31], shifter_in}) >>> aluIn2[4:0];
@@ -1420,12 +1483,14 @@ logical shift or an arithmetic shift.
 
 Even better, Matthias told me it is possible to use in fact a single shifter, by flipping the
 input and flipping the output if it is a left shift:
+
 ```verilog
    wire [31:0] shifter_in = (funct3 == 3'b001) ? flip32(aluIn1) : aluIn1;
    wire [31:0] leftshift = flip32(shifter);
 ```
 
 The ALU then looks like that:
+
 ```verilog
    reg [31:0]  aluOut;
    always @(*) begin
@@ -1452,6 +1517,7 @@ _Note 2_ with a multi-cycle ALU, we could also have a single 33-bits adder, and 
 in three cycles, by separating the computation of `~aluIn2`, `aluIn1+(~aluIn2)` and `aluIn1+(~aluIn2)+1`.
 
 Before then, another easy win is factoring the adder used for address computation, as follows:
+
 ```verilog
    wire [31:0] PCplusImm = PC + ( instr[3] ? Jimm[31:0] :
 				  instr[4] ? Uimm[31:0] :
@@ -1460,6 +1526,7 @@ Before then, another easy win is factoring the adder used for address computatio
 ```
 
 Then these two adders can be used by both `nextPC` and `writeBackData`:
+
 ```verilog
 
    assign writeBackData = (isJAL || isJALR) ? (PCplus4) :
@@ -1485,9 +1552,9 @@ OK, so now we have an (uncomplete) RISC-V processor, a SOC, both fit
 on the device. Remember, we are approaching the end, only
 8 instructions to go (5 Load variants, 3 Store variants).
 
-| ALUreg | ALUimm | Jump  | Branch | LUI | AUIPC | Load  | Store | SYSTEM |
-|--------|--------|-------|--------|-----|-------|-------|-------|--------|
-| [*] 10 | [*] 9  | [*] 2 | [ *] 6 | [*] | [*]   | [ ] 5 | [ ] 3 | [*] 1  |
+| ALUreg   | ALUimm  | Jump    | Branch   | LUI   | AUIPC | Load   | Store  | SYSTEM  |
+| -------- | ------- | ------- | -------- | ----- | ----- | ------ | ------ | ------- |
+| \[\*] 10 | \[\*] 9 | \[\*] 2 | \[ \*] 6 | \[\*] | \[\*] | \[ ] 5 | \[ ] 3 | \[\*] 1 |
 
 Before attacking them, let us learn a bit more on RISC-V assembly, and
 function calls. Up to now, we have used a gearbox to slow down the CPU in
@@ -1496,6 +1563,7 @@ a `wait` function instead and call it ? Let us see how to do that.
 
 First thing to do is to remove the `#(.SLOW(nnn))` parameter in the `Clockworks`
 instanciation:
+
 ```verilog
    Clockworks CW(
      .CLK(CLK),
@@ -1504,10 +1572,12 @@ instanciation:
      .resetn(resetn)
    );
 ```
+
 this no longer generates a gearbox and directly wires the `CLK` signal of the board
 to the internal `clk` signal used by our design.
 
 OK, so now we need to see two different things:
+
 - how to write a function that waits for some time
 - how to call it
 
@@ -1594,17 +1664,17 @@ Let us chose a `slow_bit` constant, wire a `wait` function that counts to
 endmodule
 ```
 
-
 Try [step13.v](step13.v) in simulation and on the device.
 
 **Try this** Knight-driver blinky, with one routine for going from left to right,
-  another routine for going from right to left, and the wait routine. _Hint_ you
-  will need to save `x1` to another register.
+another routine for going from right to left, and the wait routine. _Hint_ you
+will need to save `x1` to another register.
 
 ## Step 14: subroutines (version 2, using RISC-V ABI and pseudo-instructions)
 
 With the ABI, we have a standard way of writing programs, but there are many
 things to remember:
+
 - all RISC-V registers are the same, but with the ABI, we need to use certain
   registers for certain tasks (`x1` for return address, `x10`..`x16` for
   function parameters, etc...);
@@ -1621,7 +1691,7 @@ Let us pretend that the register are different and give them different names
 [here](https://github.com/riscv-non-isa/riscv-asm-manual/blob/master/riscv-asm.md#general-registers).
 
 | ABI name          | name | usage                                       |
-|-------------------|------|---------------------------------------------|
+| ----------------- | ---- | ------------------------------------------- |
 | `zero`            | `x0` | read:0  write:ignored                       |
 | `ra`              | `x1` | return address                              |
 | `t0`...`t6`       | ...  | temporary registers                         |
@@ -1641,8 +1711,9 @@ function calls.
 The global pointer `gp` can be used as a "shortcut" to reach memory areas that are
 far away in 1 instruction. We will see that later (once we have `Load` and `Store`).
 
-In our VERILOG assembler [riscv_assembly.v](riscv_assembly.v), we just need to declare
+In our VERILOG assembler [riscv\_assembly.v](riscv_assembly.v), we just need to declare
 these aliases for register names:
+
 ```verilog
    localparam zero = x0;
    localparam ra   = x1;
@@ -1655,19 +1726,20 @@ these aliases for register names:
 ```
 
 Besides these names, there are also _pseudo-instructions_ for common tasks, such as:
- | pseudo-instruction    | action                               |
- |-----------------------|--------------------------------------|
- | `LI(rd,imm)`          | loads a 32-bits number in a register |
- | `CALL(offset)`        | calls a function                     |
- | `RET()`               | return from a function               |
- | `MV(rd,rs)`           | equivalent to `ADD(rd,rs,zero)`      |
- | `NOP()`               | equivalent to `ADD(zero,zero,zero)`  |
- | `J(offset)`           | equivalent to `JAL(zero,offset)`     |
- | `BEQZ(rd1,offset)`    | equivalent to `BEQ(rd1,x0,offset)`   |
- | `BNEZ(rd1,offset)`    | equivalent to `BNE(rd1,x0,offset)`   |
- | `BGT(rd1,rd2,offset)` | equivalent to `BLT(rd2,rd1,offset)`  |
 
-If the constant in the [-2048,2047] range, `LI` is implemented using `ADDI(rd,x0,imm)`, else
+| pseudo-instruction    | action                               |
+| --------------------- | ------------------------------------ |
+| `LI(rd,imm)`          | loads a 32-bits number in a register |
+| `CALL(offset)`        | calls a function                     |
+| `RET()`               | return from a function               |
+| `MV(rd,rs)`           | equivalent to `ADD(rd,rs,zero)`      |
+| `NOP()`               | equivalent to `ADD(zero,zero,zero)`  |
+| `J(offset)`           | equivalent to `JAL(zero,offset)`     |
+| `BEQZ(rd1,offset)`    | equivalent to `BEQ(rd1,x0,offset)`   |
+| `BNEZ(rd1,offset)`    | equivalent to `BNE(rd1,x0,offset)`   |
+| `BGT(rd1,rd2,offset)` | equivalent to `BLT(rd2,rd1,offset)`  |
+
+If the constant in the \[-2048,2047] range, `LI` is implemented using `ADDI(rd,x0,imm)`, else
 it uses a combination of `LUI` and `ADDI` (if you want to know how it works, see this [stackoverflow answer](https://stackoverflow.com/questions/50742420/risc-v-build-32-bit-constants-with-lui-and-addi), there are tricky details about sign expansion).
 
 Using ABI register names and pseudo-instructions, our program becomes as follows:
@@ -1697,6 +1769,7 @@ Using ABI register names and pseudo-instructions, our program becomes as follows
       endASM();
    end
 ```
+
 It does not make a huge difference, but in longer programs, it improves legibility by showing
 the intent of the programmer (this one is a function, that one is a jump to a label etc...).
 Without it, since everything looks like the same, reading a program is more difficult.
@@ -1715,13 +1788,13 @@ in hardware (5 `Load` variants and 3 `Store` variants).
 
 Let us see now how to implement load instructions. There are 5 different instructions:
 
- | Instruction     | Effect                                                       |
- |-----------------|--------------------------------------------------------------|
- | LW(rd,rs1,imm)  | Load word at address (rs1+imm) into rd                       |
- | LBU(rd,rs1,imm) | Load byte at address (rs1+imm) into rd                       |
- | LHU(rd,rs1,imm) | Load half-word at address (rs1+imm) into rd                  |
- | LB(rd,rs1,imm)  | Load byte at address (rs1+imm) into rd then sign extend      |
- | LH(rd,rs1,imm)  | Load half-word at address (rs1+imm) into rd then sign extend |
+| Instruction     | Effect                                                       |
+| --------------- | ------------------------------------------------------------ |
+| LW(rd,rs1,imm)  | Load word at address (rs1+imm) into rd                       |
+| LBU(rd,rs1,imm) | Load byte at address (rs1+imm) into rd                       |
+| LHU(rd,rs1,imm) | Load half-word at address (rs1+imm) into rd                  |
+| LB(rd,rs1,imm)  | Load byte at address (rs1+imm) into rd then sign extend      |
+| LH(rd,rs1,imm)  | Load half-word at address (rs1+imm) into rd then sign extend |
 
 _Note_ addresses are aligned on word boundaries for `LW` (multiple of 4 bytes) and
 halfword boundaries for `LH`,`LHU` (multiple of 2 bytes). It is a good thing, it
@@ -1732,6 +1805,7 @@ loaded value (that we will call `LOAD_data`).
 
 As you can see, we got instructions for loading words, half-words and bytes, and
 instructions that load half-words and bytes exist in two versions:
+
 - `LBU`,`LHU` that load a byte,halfword in the LSBs of `rd`
 - `LB`,`LH` that load a byte,halfword in the LSBs of `rd` then do sign extensin:
 
@@ -1838,6 +1912,7 @@ driven as follows:
 ```
 
 Let us test now our new instructions with the following program:
+
 ```verilog
    integer L0_   = 8;
    integer wait_ = 32;
@@ -1872,6 +1947,7 @@ Let us test now our new instructions with the following program:
       MEM[103] = {8'hff, 8'hf, 8'he, 8'hd};
    end
 ```
+
 This program initializes some values in four words
 at address 400, and loads them in `a10` in a loop.
 There is also a delay loop (`wait` function) to let
@@ -1882,22 +1958,23 @@ Test the other instructions. Do a programmable tinsel as in step 3.
 
 **You are here !** Just three instructions to go and we will be done !
 
-| ALUreg | ALUimm | Jump  | Branch | LUI | AUIPC | Load  | Store | SYSTEM |
-|--------|--------|-------|--------|-----|-------|-------|-------|--------|
-| [*] 10 | [*] 9  | [*] 2 | [*] 6  | [*] | [*]   | [*] 5 | [ ] 3 | [*] 1  |
+| ALUreg   | ALUimm  | Jump    | Branch  | LUI   | AUIPC | Load    | Store  | SYSTEM  |
+| -------- | ------- | ------- | ------- | ----- | ----- | ------- | ------ | ------- |
+| \[\*] 10 | \[\*] 9 | \[\*] 2 | \[\*] 6 | \[\*] | \[\*] | \[\*] 5 | \[ ] 3 | \[\*] 1 |
 
 ## Step 16: Store
 
 We are approaching the end, but still some work to do, to implement
 the following three instructions:
 
- | Instruction     | Effect                                  |
- |-----------------|-----------------------------------------|
- | SW(rs2,rs1,imm) | store rs2 at address rs1+imm            |
- | SB(rs2,rs1,imm) | store 8 LSBs of rs2 at address rs1+imm  |
- | SH(rs2,rs1,imm) | store 16 LSBs of rs2 at address rs1+imm |
+| Instruction     | Effect                                  |
+| --------------- | --------------------------------------- |
+| SW(rs2,rs1,imm) | store rs2 at address rs1+imm            |
+| SB(rs2,rs1,imm) | store 8 LSBs of rs2 at address rs1+imm  |
+| SH(rs2,rs1,imm) | store 16 LSBs of rs2 at address rs1+imm |
 
 To do so, we will need to do three different things:
+
 - modify the interface between the processor and the memory in
   such a way that the processor can write to the memory
 - the memory is addressed by words. Each write operation will
@@ -1907,10 +1984,9 @@ To do so, we will need to do three different things:
   effectively modified in memory (a 4-bits mask)
 - the state machine needs to be modified.
 
-
 The `Memory` module is modified as follows:
 
-``` verilog
+```verilog
 module Memory (
    input             clk,
    input      [31:0] mem_addr,
@@ -1938,7 +2014,6 @@ module Memory (
    end
 ```
 
-
 We have two new input signals: `mem_wdata`, a 32-bits signal
 with the value to be written, and `mem_wmask` a 4-bits signal
 that indicates which byte should be written.
@@ -1965,6 +2040,7 @@ used for the (duplicated) register bank, leaving 6 kB of BRAM that we use
 to synthesize system RAM.
 
 The `Processor` module is updated accordingly:
+
 ```verilog
 module Processor (
     input 	      clk,
@@ -1984,6 +2060,7 @@ Let us see now how to compute the word to be written and the mask. The
 address where the value should be written is still `rs1 + imm`, but
 the format of the immediate value is different between `Load` (`Iimm`)
 and `Store` (`Simm`):
+
 ```
    wire [31:0] loadstore_addr = rs1 + (isStore ? Simm : Iimm);
 ```
@@ -1993,6 +2070,7 @@ or a word, and for bytes and halfwords, also depends on the 2 LSBs of
 the address. Interestingly, we do not need to test whether we write a
 byte, a halfword or a word, because the write mask (see lated) will
 ignore MSBs for byte and halfword write:
+
 ```
    assign mem_wdata[ 7: 0] = rs2[7:0];
    assign mem_wdata[15: 8] = loadstore_addr[0] ? rs2[7:0]  : rs2[15: 8];
@@ -2004,8 +2082,8 @@ ignore MSBs for byte and halfword write:
 And finally, the 4-bits write mask, that indicate which byte of `mem_wdata`
 should be effectively written to memory. It is determined as follows:
 
-| write mask                                   | Instruction
-|----------------------------------------------|------------------------------------------|
+| write mask                                   | Instruction                              |
+| -------------------------------------------- | ---------------------------------------- |
 | `4'b1111`                                    | `SW`                                     |
 | `4'b0011` or `4'b1100`                       | `SH`, depending on `loadstore_addr[1]`   |
 | `4'b0001`, `4'b0010`, `4'b0100` or `4'b1000` | `SB`, depending on `loadstore_addr[1:0]` |
@@ -2025,6 +2103,7 @@ Deriving the expression is a bit painful. With Matthias Koch we ended up with th
 ```
 
 Let us now create additional states in the state machine:
+
 ```verilog
    localparam FETCH_INSTR = 0;
    localparam WAIT_INSTR  = 1;
@@ -2062,6 +2141,7 @@ Let us now create additional states in the state machine:
 ```
 
 The signals interfaced with the memory as driven as follows:
+
 ```verilog
    assign mem_addr = (state == WAIT_INSTR || state == FETCH_INSTR) ?
 		     PC : loadstore_addr ;
@@ -2071,10 +2151,12 @@ The signals interfaced with the memory as driven as follows:
 
 And, at last, a little thing: do not write back to register bank if instruction
 is a `Store` !
+
 ```verilog
    assign writeBackEn = (state==EXECUTE && !isBranch && !isStore && !isLoad) ||
 			(state==WAIT_DATA) ;
 ```
+
 _Note_ The `!isLoad` term that prevents writing `rd` during `EXECUTE` can be removed from the condition,
 since `rd` will be overwritten right after during the `WAIT_DATA`. It is there to have something easier
 to understand with simulations.
@@ -2084,9 +2166,9 @@ to address 800, then displays the values of the copied bytes.
 
 **You are here !** Congratulations ! You have finished implementing your first RV32I RISC-V core !
 
-| ALUreg | ALUimm | Jump  | Branch | LUI | AUIPC | Load  | Store | SYSTEM |
-|--------|--------|-------|--------|-----|-------|-------|-------|--------|
-| [*] 10 | [*] 9  | [*] 2 | [*] 6  | [*] | [*]   | [*] 5 | [*] 3 | [*] 1  |
+| ALUreg   | ALUimm  | Jump    | Branch  | LUI   | AUIPC | Load    | Store   | SYSTEM  |
+| -------- | ------- | ------- | ------- | ----- | ----- | ------- | ------- | ------- |
+| \[\*] 10 | \[\*] 9 | \[\*] 2 | \[\*] 6 | \[\*] | \[\*] | \[\*] 5 | \[\*] 3 | \[\*] 1 |
 
 _But wait a minute_ for sure we have worked a lot to implement a RISC-V core, but all what I can see know
 is just something that looks like the stupid blinky at step 1 ! I want to see more !
@@ -2126,6 +2208,7 @@ address decoding, in such a way that everything still fits in the IceStick.
 
 To determine whether a memory request should be routed to the RAM or to the
 devices, we insert the following circuitry into the SOC:
+
 ```verilog
    wire [31:0] RAM_rdata;
    wire [29:0] mem_wordaddr = mem_addr[31:2];
@@ -2135,6 +2218,7 @@ devices, we insert the following circuitry into the SOC:
 ```
 
 The RAM is wired as follows:
+
 ```verilog
    Memory RAM(
       .clk(clk),
@@ -2145,10 +2229,12 @@ The RAM is wired as follows:
       .mem_wmask({4{isRAM}}&mem_wmask)
    );
 ```
+
 (note the `isRAM` signal ANDed with the write mask)
 
 Now we can add the logic to wire our LEDs. They are
 declared as a `reg` in the SOC module interface:
+
 ```verilog
 module SOC (
     input 	     CLK,
@@ -2160,6 +2246,7 @@ module SOC (
 ```
 
 driven by a simple block:
+
 ```verilog
    localparam IO_LEDS_bit = 0;
 
@@ -2171,6 +2258,7 @@ driven by a simple block:
 ```
 
 Now we can write (yet another version of) our old good blinky:
+
 ```verilog
       LI(gp,32'h400000);
       LI(a0,0);
@@ -2262,7 +2350,6 @@ one, that can be only written to, sends one character. The second one, that can
 be only read from, indicates whether the UART is ready (bit 9 = 0) or busy
 sending a character (bit 9 = 1).
 
-
 Now our processor has more possibilities to communicate with the outside world
 than the poor five LEDs we had before ! Let us implement a function to send
 a character:
@@ -2289,6 +2376,7 @@ the UART status indicates that it is busy sending a character.
 _Wait a minute_ in simulation, how does it know how to display something ?
 
 It's because I cheated a bit, I added the following block of code to the SOC:
+
 ```verilog
 `ifdef BENCH
    always @(posedge clk) begin
@@ -2299,6 +2387,7 @@ It's because I cheated a bit, I added the following block of code to the SOC:
    end
 `endif
 ```
+
 (the magic constant argument to`$fflush()` corresponds to `stdout`, you need to
 do that else you do not see anything on the terminal until the output buffer
 of `stdout` is full). Doing so we do not test the UART in simulation (it is completely bypassed).
@@ -2309,10 +2398,13 @@ examples of this type of simulation later on).
 **Try this** run [step17.v](step17.v) on device.
 
 To display what's sent to the UART, use:
+
 ```
   $ ./terminal.sh
 ```
+
 _Notes_
+
 - Edit `terminal.sh` and chose your favourite terminal emulator in there. You may also
   need to change `DEVICE=/dev/ttyUSB1` according to your local configuration.
 - If garbage is displayed, try sending a break (under picocom: press `<ctrl><A>` `<crtl><\>`)
@@ -2322,7 +2414,6 @@ _Notes_
   changed both in `emitter_uart.v` and in `terminal.sh` (works with most FPGAs, except for GOWIN
   boards that have a BL702 instead of the classic FTDI chip which may explain.)
 
-
 ## Step 18: Computing the Mandelbrot set
 
 Now that we have a functional RISC-V processor and a SOC with an UART that can send characters
@@ -2331,7 +2422,7 @@ are going to write a program in RISC-V assembly that computes a crude, ASCII-art
 the Mandelbrot set.
 
 Our "image" will be made of 80x80 characters. So let us start by writing a program that fills
-the image with "*" characters. To do that, we will use two nested loops. The Y coordinate
+the image with "\*" characters. To do that, we will use two nested loops. The Y coordinate
 will be stored in `s0` and the X coordinate in `s1`. The upper bound (80) will be stored
 in `s11`. The program looks like that:
 
@@ -2360,6 +2451,7 @@ in `s11`. The program looks like that:
 
       EBREAK();
 ```
+
 (and we copy the `putc` function from the previous example).
 
 **Fixed point** So now we want to compute the Mandelbrot set. To do that, we need to manipulate real numbers.
@@ -2409,6 +2501,7 @@ we will see later how to directly use gcc and gas):
       BNEZ(a1,LabelRef(mulsi3_L0_));
       RET();
 ```
+
 (do not forget to declare the new labels before the `initial` block).
 
 So now, before displaying the Mandelbrot set, to test our fixed-point
@@ -2485,6 +2578,7 @@ to display it. The corresponding program looks like that:
 ```
 
 and the output looks like that:
+
 ```
           ***********
         ***************
@@ -2518,6 +2612,7 @@ and the output looks like that:
 ```
 
 Now to compute the Mandelbrot set, we need to iterate the following operation:
+
 ```
    Z <- 0; iter <- 0
    do
@@ -2525,10 +2620,12 @@ Now to compute the Mandelbrot set, we need to iterate the following operation:
       iter <- iter + 1
    while |Z| < 2
 ```
+
 where `Z` and `C` are complex numbers. `C = x + iy` corresponds to the current pixel.
 Remember the rule for complex number multiplication (`i*i = -1`), we can compute
 `Z^2 = (Zr + i*Zi)^2 = Zr^2-Zi^2 + 2*i*Zr*Zi`. The loop that computes these iterates
 writes:
+
 ```verilog
    Label(loop_Z_);
       MV(a0,s4); // Zrr  <- (Zr*Zr) >> mandel_shift
@@ -2559,6 +2656,7 @@ writes:
 
 in the end, we display different characters depending on the value
 of `iter` (`s10`) when the loop is exited:
+
 ```
    Label(exit_Z_);
       LI(a0,colormap_);
@@ -2566,8 +2664,10 @@ of `iter` (`s10`) when the loop is exited:
       LBU(a0,a0,0);
       CALL(LabelRef(putc_));
 ```
+
 where the "colormap" is an array of characters that mimic
 different "intensities", from the darkest to the brightest:
+
 ```
    Label(colormap_);
       DATAB(" ",".",",",":");
@@ -2575,7 +2675,7 @@ different "intensities", from the darkest to the brightest:
       DATAB("#","@", 0 , 0 );
 ```
 
-![](https://github.com/BrunoLevy/learn-fpga/blob/master/FemtoRV/TUTORIALS/Images/mandelbrot_terminal.gif)
+!\[]\(https\://github.com/BrunoLevy/learn-fpga/blob/master/FemtoRV/TUTORIALS/Images/mandelbrot\_terminal.gif null)
 
 **Try that** run [step18.v](step18.v) in simulation and on the device. Modify it to draw your own graphics (for instance,
 try drawing "concentric circles" using the "colormap").
@@ -2585,6 +2685,7 @@ try drawing "concentric circles" using the "colormap").
 As you have seen in Step 18, simulation is much much slower than running the design on the device. However, there is
 another tool, called `verilator`, that lets you convert a VERILOG design into C++. Then you compile the C++, and you
 have a simulation that is much much faster than icarus/iverilog. Let us first install verilator:
+
 ```
   $ apt-get install verilator
 ```
@@ -2610,15 +2711,17 @@ int main(int argc, char** argv, char** env) {
 }
 ```
 
-In addition, in [sim_main.cpp](sim_main.cpp), there is some code to decode whenever the LEDs change, and display their
+In addition, in [sim\_main.cpp](sim_main.cpp), there is some code to decode whenever the LEDs change, and display their
 status.
 
 To convert a design to C++, use the following command:
+
 ```
   $ verilator -DBENCH -DBOARD_FREQ=12 -Wno-fatal --top-module SOC -cc -exe sim_main.cpp step18.v
 ```
 
 Then to compile the C++ and run the generated program:
+
 ```
   $ cd obj_dir
   $ make -f VSOC.mk
@@ -2629,6 +2732,7 @@ As you can see, it is much much faster than icarus/iverilog ! For a small design
 are developping an RV32IMFC core, with a FPU, it is good to have efficient simulation !
 
 To make things easier, there is a `run_verilator.sh` script, that you can invoke as follows:
+
 ```
   $ run_verilator.sh step18.v
 ```
@@ -2663,6 +2767,7 @@ where `firmware.hex` is an ASCII file with the initial content of `MEM` in hexad
 
 So if we want to use an external assembler, all we have to do is figure out the following
 things:
+
 - how to compile RISC-V assembly code using GNU tools
 - how to tell GNU tools about the device we have created (RAM start address, RAM amount)
 - how to convert the output of GNU tools into a file that `$readmemh()` can understand
@@ -2702,11 +2807,13 @@ wait:
 
 As you can see, it is very similar to the code we wrote up to now in the
 VERILOG assembler. In this program, we have three different things:
+
 - **main program**
 - **utilities**, here the `wait` function
 - **setup**, that is, initializing `gp` and `sp`
 
 So we will split the file into three parts:
+
 - [FIRMWARE/blinker.S](FIRMWARE/blinker.S) with the `main` function
 - [FIRMWARE/wait.S](FIRMWARE/wait.S) with the `wait` function
 - [FIRMWARE/start.S](FIRMWARE/start.S) with the setup code, that calls `main` in the end.
@@ -2718,6 +2825,7 @@ assembler, linker) on your machine. Our makefile can do that for you:
   $ cd learn-fpga/FemtoRV
   $ make ICESTICK.firmware_config
 ```
+
 _Note:_ always use `ICESTICK.firmware_config`, even if you have a larger board,
 it will configure the makefiles for `RV32I` build (and that's what our processor
 supports).
@@ -2726,12 +2834,14 @@ This will download some files and unpack them in `learn-fpga/FemtoRV/FIRMWARE/TO
 Add the `riscv64-unknown-elf-gcc..../bin/` directory to your path.
 
 Now to compile our program:
+
 ```
   $ cd learn-fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/FIRMWARE
   $ riscv64-unknown-elf-as -march=rv32i -mabi=ilp32 -mno-relax start.S -o start.o
   $ riscv64-unknown-elf-as -march=rv32i -mabi=ilp32 -mno-relax blinker.S -o blinker.o
   $ riscv64-unknown-elf-as -march=rv32i -mabi=ilp32 -mno-relax wait.S -o wait.o
 ```
+
 We specify the architecture (`rv32i`) that corresponds to the instructions
 supported by our processor and the ABI (`ilp32`) that corresponds to the way functions
 are called. THe `no-relax` option concerns the `gp` register that we use for
@@ -2788,8 +2898,8 @@ extracts the parts that are interesting for us and writes them in ASCII hexadeci
 _Note_ you can invoke `make xxxx.bram.hex` directly, it will invoke the assembler, linker and
 elf conversion utility for you automatically.
 
-
 Now you can run the example in simulation and on the device:
+
 ```
   $ cd ..
   $ ./run_verilator.sh step20.v
@@ -2801,6 +2911,7 @@ to write the famous "hello world" program. What we need is a `putstring` routine
 a string on the tty. It takes as input the address of the first character of the string
 to display in `a0`.  We just need to loop on all characters of the string, and
 exit the loop as soon as we find a null character, and call `putchar` for each character:
+
 ```
 # Warning, buggy code ahead !
 putstring:
@@ -2812,6 +2923,7 @@ putstring:
 	j .L2
 .L3:    ret
 ```
+
 Have you seen the comment ? It means the code above has an error, can you spot it ?
 
 A hint, `putstring` is a function that calls a function. Don't we need to do special
@@ -2843,6 +2955,7 @@ putstring:
 ```
 
 The function can be used as follows:
+
 ```
    la   a0, hello
    call putstring
@@ -2888,12 +3001,12 @@ For this reason, we include a much smaller / much simpler version in
 [FIRMWARE/print.c](FIRMWARE/print.c) (also taken from picorv), and included in the objects
 to be linked with executables.
 
-![](mandel_and_riscvlogo.png)
+!\[]\(mandel\_and\_riscvlogo.png null)
 
 There are two other examples, a C version of the Mandelbrot program:
-[FIRMWARE/mandel_C.c](FIRMWARE/mandel_C.c). It uses
+[FIRMWARE/mandel\_C.c](FIRMWARE/mandel_C.c). It uses
 [ANSI colors](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences) to display
-low-resolution "graphics" in the terminal. There is also [FIRMWARE/riscv_logo.c](FIRMWARE/riscv_logo.c)
+low-resolution "graphics" in the terminal. There is also [FIRMWARE/riscv\_logo.c](FIRMWARE/riscv_logo.c)
 that displays a spinning Risc-V logo (in a 90-ish demoscene style !).
 
 **Try this** Compile `sieve.c` (`cd FIRMWARE; make sieve.bram.hex`) and test it in simulation (`./run_verilator.sh step20.v`)
@@ -2918,7 +3031,7 @@ code fills more than 95% of the BRAM.
 
 _and some optimizations in the processor_
 
-![](IceStick_SPIFLASH.jpg)
+!\[]\(IceStick\_SPIFLASH.jpg null)
 
 On the IceStick, there are only 8 blocks of 1 kB of BRAM, and since we
 need to use two of them for the registers, this leaves only 6 kB of
@@ -2939,10 +3052,11 @@ read on a pin, one bit at a time, then the chip sends the data back on
 another pin, one bit at a time. If you want to learn more about it,
 my notes about SPI flash are
 [here](https://github.com/BrunoLevy/learn-fpga/blob/master/FemtoRV/TUTORIALS/spi_flash.md)
-and the VERILOG implementation is in [spi_flash.v](spi_flash.v).
+and the VERILOG implementation is in [spi\_flash.v](spi_flash.v).
 It supports different protocols, depending on the used number of pins and whether pins are bidirectional.
 
 The `MappedSPIFlash` module has the following interface:
+
 ```verilog
 module MappedSPIFlash(
     input wire 	       clk,
@@ -2958,16 +3072,16 @@ module MappedSPIFlash(
 );
 ```
 
-| signal       | description                                                    |
-|--------------|----------------------------------------------------------------|
-| clk          | system clock                                                   |
-| rstrb        | read strobe, goes high whenever processor wants to read a word |
-| word_address | address of the word to be read                                 |
-| rdata        | data read from memory                                          |
-| rbusy        | asserted if busy receiving data                                |
-| CLK          | clock pin of the SPI flash chip                                |
-| CS_N         | chip select pin of the SPI flash chip, active low              |
-| IO           | two bidirectional pins for sending and receiving data          |
+| signal        | description                                                    |
+| ------------- | -------------------------------------------------------------- |
+| clk           | system clock                                                   |
+| rstrb         | read strobe, goes high whenever processor wants to read a word |
+| word\_address | address of the word to be read                                 |
+| rdata         | data read from memory                                          |
+| rbusy         | asserted if busy receiving data                                |
+| CLK           | clock pin of the SPI flash chip                                |
+| CS\_N         | chip select pin of the SPI flash chip, active low              |
+| IO            | two bidirectional pins for sending and receiving data          |
 
 Now the idea is to modify our SOC in such a way that some addresses correspond to the SPI flash.
 First we need to decide how it will be projected into the memory space of our processor. The
@@ -2978,6 +3092,7 @@ we use three of them.
 
 Then we have the different
 signals to discriminate the different zones of our memory:
+
 ```verilog
    wire isSPIFlash  = mem_addr[23];
    wire isIO        = mem_addr[23:22] == 2'b01;
@@ -2985,6 +3100,7 @@ signals to discriminate the different zones of our memory:
 ```
 
 The `MappedSPIFlash` module is wired as follows:
+
 ```verilog
    wire SPIFlash_rdata;
    wire SPIFlash_rbusy;
@@ -2999,10 +3115,12 @@ The `MappedSPIFlash` module is wired as follows:
       .IO(SPIFLASH_IO)
    );
 ```
+
 (the pins `SPIFLASH_CLK`, `SPIFLASH_CS_N`, `SPIFLASH_IO[0]` and `SPIFLASH_IO[1]` are declared
 in the constraint file, in the `BOARDS` subdirectory).
 
 The data sent to the processor has a three-ways mux:
+
 ```verilog
    assign mem_rdata = isRAM      ? RAM_rdata :
                       isSPIFlash ? SPIFlash_rdata :
@@ -3014,6 +3132,7 @@ address, but how does it know that data is ready ? (remember, data arrives one b
 this `SPIFlash_rbusy` that goes high whenever `MappedSPIFlash` is busy receiving some data, we need to take it
 into account in our processor's state machine. We add a new input signal `mem_rbusy` to our processor,
 and modify the state machine as follows:
+
 ```verilog
    ...
    WAIT_DATA: begin
@@ -3025,6 +3144,7 @@ and modify the state machine as follows:
 ```
 
 Then, in the SOC, this signal is wired to `SPIFlash_rbusy`:
+
 ```verilog
    wire mem_rbusy;
    ...
@@ -3040,6 +3160,7 @@ Then, in the SOC, this signal is wired to `SPIFlash_rbusy`:
 By the way, since we are revisiting the state machine, there is something
 we can do. Remember this portion of the state machine, don't you think
 we could go faster ?
+
 ```verilog
    WAIT_INSTR: begin
       instr <= mem_rdata;
@@ -3055,6 +3176,7 @@ we could go faster ?
 Yes, `rs1Id` and `rs2Id` are simply 5 wires (each) drawn from `instr`, so we can
 get them from `mem_rdata` directly, and fetch the registers in the `WAIT_INSTR` state,
 as follows:
+
 ```verilog
    WAIT_INSTR: begin
       instr <= mem_rdata;
@@ -3063,17 +3185,20 @@ as follows:
       state <= EXECUTE;
    end
 ```
+
 Doing so we gain one cycle per instruction, and it is an easy win !
 
 Oh, and one more thing, why do we need a `LOAD` and a `STORE` state, could'nt we
 initiate memory transfers in the `EXECUTE` state ? Yes we can, so we need to change the write mask and
 read strobes accordingly, like that:
+
 ```verilog
    assign mem_rstrb = (state == FETCH_INSTR || (state == EXECUTE & isLoad));
    assign mem_wmask = {4{(state == EXECUTE) & isStore}} & STORE_wmask;
 ```
 
 Then the state machine has 4 states only !
+
 ```verilog
    localparam FETCH_INSTR = 0;
    localparam WAIT_INSTR  = 1;
@@ -3116,6 +3241,7 @@ Then the state machine has 4 states only !
 
 There are several other things that we can optimize. First thing, you may have noticed that
 the two LSBs of the instructions are always `2'b11` in RV32I, so we do not need to load them:
+
 ```verilog
    reg [31:2] instr;
    ...
@@ -3127,6 +3253,7 @@ the two LSBs of the instructions are always `2'b11` in RV32I, so we do not need 
 
 Something else: we are doing all address computations with 32 bits, whereas our address space
 has 24 bits only, we can save significant resources there:
+
 ```verilog
    localparam ADDR_WIDTH=24;
    wire [ADDR_WIDTH-1:0] PCplusImm = PC + ( instr[3] ? Jimm[31:0] :
@@ -3144,6 +3271,7 @@ has 24 bits only, we can save significant resources there:
 The up to date verilog file is avalaible in [step22.v](step22.v). Let us now check
 that we are able to access the SPI flash from our processor, with the following
 [program](FIRMWARE/read_spiflash.c):
+
 ```C
 #include "io.h"
 #define SPI_FLASH_BASE ((char*)(1 << 23))
@@ -3181,6 +3309,7 @@ so we were not able to see anything, but you can reset the processor, pushing th
 button (mentioned in [step 2](README.md#step-2-slower-blinky)). Each time you push the
 "button", it will display on the terminal the first 16 words stored in the SPI flash.
 On a IceStick, you will see something like:
+
 ```
 00FF FF00 AA7E 7E99 0051 0501 0092 6220 4B01 0072 8290 0000 0011 0101 0000 0000
 ```
@@ -3188,6 +3317,7 @@ On a IceStick, you will see something like:
 Do you have an idea where these values come from ? Remember why there is this SPI flash chip on your FPGA
 board: it is where your design is stored. When the FPGA starts, it loads its design from the SPI flash. The
 design corresponds to the file `SOC.bin`, that is generated at the end of the `yosys/nextpnr/icepack` pipeline:
+
 - `yosys` transforms your verilog into a "circuit", also called a "netlist"
 - then `nextpnr` maps the gates  of this circuit to the logical elements of the FPGA,
 - and finally `icepack` converts the result into a "binary stream" directly understood by the FPGA.
@@ -3199,6 +3329,7 @@ Let us examine the 16 first words of the binary stream:
 ```
 
 Then you'll see something like:
+
 ```
 0000000 00ff ff00 aa7e 7e99 0051 0501 0092 6220
 0000020 4b01 0072 8290 0000 0011 0101 0000 0000
@@ -3225,19 +3356,21 @@ a program that displays the stored file. To know where to stop, you may need eit
 or to precode the length of the file.
 
 For ICE40 boards (IceStick, IceBreaker, ...), use:
+
 ```
  $ iceprog -o 1M hello.txt
 ```
 
 For ECP5 boards (ULX3S), use:
+
 ```
  $ cp hello.txt hello.img
  $ ujprog -j flash -f 1048576 hello.img
 ```
-(using latest version of `ujprog` compiled from [https://github.com/kost/fujprog](https://github.com/kost/fujprog)).
 
+(using latest version of `ujprog` compiled from <https://github.com/kost/fujprog>).
 
-![](ST_NICCC_tty.png)
+!\[]\(ST\_NICCC\_tty.png null)
 
 OK, so now we are ready to use the new storage that we have for more interesting things.
 What we will do is displaying
@@ -3253,23 +3386,29 @@ ICE40-based boards (IceStick, IceBreaker), use:
 ```
 
 For ECP5 boards (ULX3S), use:
+
 ```
  $ cp learn_fpga/FemtoRV/FIRMWARE/EXAMPLES/DATA/scene1.dat scene1.img
  $ ujprog -j flash -f 1048576 scene1.img
 ```
-(using latest version of `ujprog` compiled from [https://github.com/kost/fujprog](https://github.com/kost/fujprog)).
+
+(using latest version of `ujprog` compiled from <https://github.com/kost/fujprog>).
 
 Now you can compile the program:
+
 ```
  $ cd FIRMWARE
  $ make ST_NICCC.bram.hex
  $ cd ..
 ```
+
 and send the design and the program to the device:
+
 ```
  $ BOARDS/run_xxx.sh step22.v
  $ ./terminal.sh
 ```
+
 **Try this** Store an image in SPI Flash (in a format that is easy to read), and write a program to display it.
 You can use `printf("\033[48;2;%d;%d;%dm ",R,G,B);` to send a pixel (where `R`,`G`,`B` are numbers between 0 and 255),
 and `printf("\033[48;2;0;0;0m\n");` after each scanline.
@@ -3331,36 +3470,43 @@ It is the same thing as before, but we tell the linker to put everything in flas
 we will see later how it works for global variables). Let us test it with a program that does not
 write to global variables, for instance [FIRMWARE/hello.S](FIRMWARE/hello.S). To link it using our
 new linker script, we do:
+
 ```
   $ riscv64-unknown-elf-ld -T spiflash0.ld -m elf32lriscv -nostdlib -norelax hello.o putchar.o -o hello.spiflash0.elf
 ```
 
 But since it is tedious to type, it is automated by the Makefile:
+
 ```
   $ make hello.spiflash0.elf
 ```
 
 Now you need to convert the ELF executable into a flat binary:
+
 ```
   $ riscv64-unknown-elf-objcopy hello.spiflash0.elf hello.spiflash0.bin -O binary
 ```
 
 or with our Makefile:
+
 ```
   $ make hello.spiflash0.bin
 ```
 
 and send it to the SPI flash at offset 128k:
+
 ```
   $ iceprog -o 128k hello.spiflash0.bin
 ```
 
 or with our Makefile:
+
 ```
   $ make hello.spiflash0.prog
 ```
 
 and then:
+
 ```
   $ ./terminal.sh
 ```
@@ -3380,7 +3526,7 @@ To fix this, one can make the CPU jump to flash memory each time reset goes low:
    end
 ```
 
-Note that state is set to WAIT_DATA, so that it waits for `mem_rbusy` to go low before
+Note that state is set to WAIT\_DATA, so that it waits for `mem_rbusy` to go low before
 doing anything else.
 
 OK, so now we have a large quantity of flash memory in which we can install the code
@@ -3392,6 +3538,7 @@ have written [FIRMWARE/start.S](FIRMWARE/start.S), that initializes `sp` at the
 end of the RAM (`0x1800`) and it suffices.
 
 But how does it work for a program like that ?
+
 ```C
   int x = 3;
   void main() {
@@ -3411,6 +3558,7 @@ values to the variables). Let us see how to do that.
 
 When you compile C code, the compiler inserts directives to indicate where the different
 things go (sections). To take a look, generate assembly from one of our C programs:
+
 ```
 $ cd FIRMWARE
 $ make ST_NICCC.o
@@ -3420,7 +3568,7 @@ $ readelf -S ST_NICCC.o
 it will show you the different sections that are present in the object file.
 
 | section     | description        |
-|-------------|--------------------|
+| ----------- | ------------------ |
 | text        | executable code    |
 | bss, sbss   | uninitialized data |
 | data, sdata | read-write data    |
@@ -3441,6 +3589,7 @@ the `Offs` field indicates the offset for the section's data in the `.o` file, a
 the `Size` field the number of bytes in the section.
 
 So what we have to do is writing a linker script that will say the following things:
+
 - `text` sections go to the flash memory
 - `bss` sections go to BRAM
 - `data` sections go to BRAM, but have their initial values stored in the flash memory
@@ -3580,6 +3729,7 @@ note that it declares `_sidata` right at the end of the text section, so that th
 put its initialization data there.
 
 OK, so let us try it with one of our examples:
+
 ```
   $ cd FIRMWARE
   $ make mandel_C.spiflash1.prog
@@ -3651,9 +3801,10 @@ follows:
 **Try this** run the `ST_NICCC` demo (`make ST_NICCC.spiflash2.prog`). Then uncomment
 the line in `ST_NICCC.c` with the definition for `RV32_FASTCODE` and re-run it.
 
-![](tinyraytracer_tty.png)
+!\[]\(tinyraytracer\_tty.png null)
 
 Now we can run larger programs on our device:
+
 - [FIRMWARE/pi.c](FIRMWARE/pi.c) (by Fabrice Beillard, computes the decimals of pi)
 - [FIRMWARE/tinyraytracer.c](FIRMWARE/tinyraytracer.c) (by Dmitry Sokolov, raytracing)
 
@@ -3700,3 +3851,4 @@ to run existing binary code on a processor that you create on your own !
 _WIP_
 
 - step 25: More devices (LED matrix, OLED screen...)
+

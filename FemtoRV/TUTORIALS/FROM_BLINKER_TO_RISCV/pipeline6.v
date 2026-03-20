@@ -4,6 +4,21 @@
  * Step 6: register forwarding 2/2: full register forwarding
  */
 
+/*
+ * 中文导读
+ *
+ * pipeline6 在 pipeline5 的基础上实现“真正的前递（forwarding / bypass）”：
+ * - 不仅解决 D/W 同周期读写的问题，还把 E 阶段所需的 rs1/rs2 直接从更靠后的阶段取值
+ *   （通常从 M 阶段的 EM_Eresult 或 W 阶段的 wbData 前递）
+ *
+ * 这样做的效果：
+ * - 大多数 RAW 数据相关不再需要 stall（因为结果还没写回寄存器堆也能被后续指令使用）
+ * - 仍然无法避免的一类典型冒险：load-use（load 的数据要到 M/W 才出现，紧跟一条使用它的指令仍需插 bubble）
+ *
+ * 因此 pipeline6 的 hazard 检测会显著简化：主要检测 DE 是 load/CSRRS 且 FD 要读它的 rd 的情况。
+ * 代价是：E 阶段入口多了比较器与 3 路 mux，关键路径可能变长（fmax 可能下降），这是典型权衡。
+ */
+
 `default_nettype none
 `include "clockworks.v"
 `include "emitter_uart.v"

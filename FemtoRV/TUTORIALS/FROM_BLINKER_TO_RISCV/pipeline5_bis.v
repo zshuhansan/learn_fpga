@@ -5,6 +5,24 @@
  *     done with combinatorial RF.
  */
 
+/*
+ * 中文导读
+ *
+ * pipeline5_bis 是 pipeline5 的“另一种实现方式”：用组合读寄存器堆（combinational RF）
+ * 来达到“同周期写回 + 读出”的效果。
+ *
+ * 关键差异：
+ * - pipeline5：寄存器堆读仍然按时钟锁存 DE_rs1/DE_rs2，并通过旁路在 D 阶段特判 wbData
+ * - pipeline5_bis：DE_rs1/DE_rs2 直接定义成 wire，从 RegisterBank[rsId] 组合读出
+ *   寄存器堆只在 posedge 时写（wbEnable 时写入 RegisterBank[wbRdId] <= wbData）
+ *
+ * 这类结构在 FPGA 上可能会把寄存器堆综合成触发器阵列（而非 BRAM），
+ * 从而换取更简单的时序与更少的 hazard stall（代价是 FF 用量上升）。
+ *
+ * VERBOSE：
+ * - 本文件默认打开 `define VERBOSE，用于在仿真中输出更详细的流水线日志，便于理解数据流。
+ */
+
 `default_nettype none
 `include "clockworks.v"
 `include "emitter_uart.v"

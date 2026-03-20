@@ -5,6 +5,27 @@
  *   (not a pipelined processor yet)
  */
 
+/*
+ * 中文导读（本文件做什么）
+ *
+ * pipeline1 是“流水线篇”的第一个过渡版本：它还不是流水线 CPU，
+ * 但它把第一篇末尾的“统一内存（指令与数据共用一条总线）”拆成两块内部存储：
+ *
+ * - PROGROM：程序只读存储（指令），用 $readmemh("PROGROM.hex") 初始化
+ * - DATARAM：数据读写存储（变量/栈等），用 $readmemh("DATARAM.hex") 初始化
+ *
+ * CPU 内部仍然是 3~4 周期多周期执行（状态机）：取指 -> 读寄存器 -> 执行 -> (可选)等待 load 数据
+ *
+ * 另外保留一个“外部 IO 总线”用于 UART/LED 等外设（与第一篇 step17 兼容）：
+ * - 地址空间用 mem_addr[22] 区分 RAM 与 IO 页：
+ *   mem_addr[22]=0 -> DATARAM（内部 RAM）
+ *   mem_addr[22]=1 -> IO 页（外设寄存器，由 SOC 译码）
+ *
+ * 这一步的意义：
+ * - 为后续真正流水线（取指/译码/执行/访存/写回并行）准备“指令存储/数据存储分离”的结构
+ * - 让访存延迟变成固定 1 拍（内部 BRAM），为后续 hazard/forwarding 更好建模
+ */
+
 `default_nettype none
 `include "clockworks.v"
 `include "emitter_uart.v"
@@ -20,6 +41,14 @@ module Processor (
     output 	  IO_mem_wr     // IO write flag
 );
 
+   /*
+    * 处理器内部存储：
+    * - PROGROM：指令 ROM（只读），按 word 访问（PC[15:2]）
+    * - DATARAM：数据 RAM（读写），按 word 访问（mem_addr[15:2]）
+    *
+    * 注意：这里把 ROM/RAM 都放在 Processor 内部，便于先做出“分离 I/D 存储”的最小改动。
+    * 后续版本会把它们抽象成更通用的接口（甚至替换成 cache）。
+    */
 
    reg [31:0] PROGROM [0:16383];
    reg [31:0] DATARAM [0:16383];
@@ -58,6 +87,14 @@ module Processor (
    assign IO_mem_wdata = mem_wdata;
    assign IO_mem_wr    = isIO & mem_wmask[0];
 
+   /*
+    * PC / instr：
+    * - PC 是字节地址（每条 32-bit 指令，PC 每次 +4）
+    * - instr 保存当前指令字
+    *
+    * 这里把 opcode 判断写成 instr[6:2]，利用 RV32I 指令的低两位永远是 2'b11，
+    * 从而省一点逻辑（把 7-bit opcode 压缩成 5-bit 判别）。
+    */
    reg [31:0] PC=0;  // program counter
    reg [31:0] instr; // current instruction (ignore two LSBs, always 11)
 
@@ -92,6 +129,16 @@ module Processor (
    // SYSTEM: EBREAK
    wire isEBREAK     = isSYSTEM & (funct3 == 3'b000);
 
+   /*
+    * RegisterBank：
+    * - 体系结构寄存器堆 x0..x31（注意 x0 写入应当被忽略）
+    * - rs1/rs2 在 WAIT_INSTR 阶段从寄存器堆读出并锁存（建模“寄存器堆读延迟 1 拍”）
+    * - writeBackData/writeBackEn 在 EXECUTE/WAIT_DATA 阶段控制写回
+    *
+    * cycle/instret：
+    * - cycle：每拍+1，统计周期数
+    * - instret：这里用“每取到一条指令”近似退休（retired）计数（用于粗略 CPI）
+    */
    // The registers bank
    reg [31:0] RegisterBank [0:31];
    reg [31:0] rs1; // value of source
@@ -271,6 +318,15 @@ module Processor (
               4'b1111;
 
    // The state machine
+   /*
+    * 多周期状态机（仍非流水线）：
+    * - FETCH_INSTR：从 PROGROM 读指令（同步读，下一拍可用）
+    * - WAIT_INSTR：锁存 rs1/rs2，并让 instret++（近似每条指令一次）
+    * - EXECUTE：执行 ALU/分支/跳转；若是 load 则进入 WAIT_DATA
+    * - WAIT_DATA：load 数据已在 mem_rdata 上，写回后回到取指
+    *
+    * 说明：DATARAM 读延迟固定 1 拍，因此 load 只需额外等待 1 个状态。
+    */
    localparam FETCH_INSTR = 0;
    localparam WAIT_INSTR  = 1;
    localparam EXECUTE     = 2;
@@ -325,8 +381,19 @@ module Processor (
       end
    end
 
+   /*
+    * 写回使能规则：
+    * - EXECUTE：除 Branch/Store 外的大多数指令都在此阶段写回
+    * - WAIT_DATA：Load 指令的数据在此阶段写回（LOAD_data 已从 mem_rdata 对齐/扩展）
+    */
    assign writeBackEn = (state==EXECUTE && !isBranch && !isStore) ||
 			(state==WAIT_DATA) ;
+   /*
+    * 对 DATARAM/IO 的访问：
+    * - mem_addr：load/store 的字节地址（rs1 + imm）
+    * - mem_wmask：只有在 EXECUTE 且 isStore 时为非 0（按字节 lane 写）
+    * - mem_rdata：由 isRAM/isIO 在上面 mux 出来
+    */
    assign mem_addr = loadstore_addr;
    assign mem_wmask = {4{(state == EXECUTE) & isStore}} & STORE_wmask;
 endmodule
@@ -340,6 +407,15 @@ module SOC (
     output 	     TXD  // UART transmit
 );
 
+   /*
+    * SOC 负责把“CPU 的 IO 总线”落到实际外设上。
+    * 这里的 IO 地址译码采用 1-hot word 地址（与 step17 相同思想）：
+    * - 只看 IO_mem_addr[15:2]，若某一位为 1 则命中对应外设寄存器
+    *
+    * 本文件只实现两个外设：
+    * - LED：写 IO_LEDS_bit 对应地址，更新 LEDS[4:0]
+    * - UART TX：写 IO_UART_DAT_bit 发送一个字节；读 IO_UART_CNTL_bit 返回 busy（bit9）
+    */
    wire clk;
    wire resetn;
 

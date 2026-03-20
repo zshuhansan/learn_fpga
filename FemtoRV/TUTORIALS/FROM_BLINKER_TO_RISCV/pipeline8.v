@@ -4,6 +4,23 @@
  * Step 8: dynamic branch prediction
  */
 
+/*
+ * 中文导读
+ *
+ * pipeline8 在 pipeline7（静态预测 BTFNT）的基础上实现“动态分支预测”：
+ * - 用 BHT（Branch History Table，分支历史表）记录近期分支行为
+ * - 用 2-bit 饱和计数器（saturating counter）作为每个表项的状态
+ * - 进一步可用 gshare：把全局分支历史与 PC 低位 XOR 作为索引，减少 aliasing
+ *
+ * 流水线整合方式（与 pipeline7 一致的套路）：
+ * - D 阶段：根据 BHT 产生 D_predictBranch，并据此产生 D_PCprediction 供 F 取指
+ * - E 阶段：计算真实分支结果 E_takeBranch，若与 D_predictBranch 不一致则发出纠正 PC，并 flush
+ * - E 阶段：用真实结果更新 BHT（学习）
+ *
+ * 注意：分支预测只影响“是否提前取分支目标”。真正的跳转目标地址仍由 E 阶段确认；
+ *       预测错误会付出 flush 的代价，但预测准确率提升能显著降低平均 CPI。
+ */
+
 `default_nettype none
 `include "clockworks.v"
 `include "emitter_uart.v"

@@ -4,6 +4,28 @@
  * Step 4: stalling and bubbles
  */
 
+/*
+ * 中文导读
+ *
+ * pipeline4 是真正“并行 5 级流水线”的第一个可用版本：
+ * - 去掉了 pipeline3 的顺序阶段状态机，让 F/D/E/M/W 每拍同时推进不同指令
+ *
+ * 但一旦并行推进，就会出现两大类冒险（hazards）：
+ * 1) 控制冒险（control hazard）：跳转/分支目标 PC 在 E 阶段才知道，之前 F 已经取了“错的指令”
+ * 2) 数据冒险（data hazard）：后续指令在 D 阶段读寄存器时，前一条指令的结果还没写回
+ *
+ * 本文件通过三组控制信号解决它们：
+ * - F_stall / D_stall：让前端停住（保持 FD_ / DE_ 等寄存器不更新），避免继续取/译码
+ * - D_flush / E_flush：向流水线注入 bubble（把某级指令强制变为 NOP），用于冲刷错误路径或制造空泡
+ *
+ * 核心思想：
+ * - jump/branch 在 E 阶段判定：若需要改 PC，则 D_flush 和 E_flush 置位（冲刷两条指令）
+ * - 若检测到数据相关，则 F/D stall，同时对 E_flush 注入一个 NOP，让后续对齐到正确数据
+ *
+ * 这一步的实现比较“保守”：它会在更多情况下选择 stall/flush，因此 CPI 还不是最优；
+ * 后续版本会加入旁路/组合读/前递/分支预测来减少 bubble。
+ */
+
 `default_nettype none
 `include "clockworks.v"
 `include "emitter_uart.v"

@@ -4,6 +4,22 @@
  * Bruno Levy, Sept 2022
  */
 
+/*
+ * 中文导读
+ *
+ * pipelineX 是 pipeline9 思路的一个“可配置 RV32I 变体”，重点在于尝试小型时序/面积优化：
+ * - CONFIG_REGISTERED_D_PREDICT_BRANCH：把 D 阶段的分支预测信号寄存一拍（registered）
+ *   目的：缩短从组合预测逻辑到 F_PC mux 的关键路径，有时能提高 fmax
+ *   代价：预测信号延迟 1 拍，可能引入额外 bubble 或需要更谨慎的 flush/纠正逻辑
+ *
+ * 其它开关与 pipeline9 类似：
+ * - CONFIG_PC_PREDICT：启用 D->F 预测路径
+ * - CONFIG_RAS：返回地址栈（加速 JALR 返回）
+ * - CONFIG_GSHARE：动态分支预测（不启用则退化为静态 BTFNT）
+ *
+ * 这份文件适合用于：对比不同“关键路径切分方式”对 fmax 的影响。
+ */
+
 `define CONFIG_PC_PREDICT // enables D -> F path (needed by options above)
 `define CONFIG_RAS        // return address stack
 `define CONFIG_GSHARE     // gshare branch prediction (or BTFNT if not set)

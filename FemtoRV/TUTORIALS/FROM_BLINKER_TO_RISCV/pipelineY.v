@@ -5,6 +5,22 @@
  * Bruno Levy, Sept 2022
  */
 
+/*
+ * 中文导读
+ *
+ * pipelineY 是 tordboyau 内核的“通用可配置版本”之一（主要面向 RV32I，预留 RV32M 开关）。
+ * 它集成了本教程流水线篇的核心机制：
+ * - 5 级并行流水线（F/D/E/M/W）
+ * - 数据冒险：前递 + 必要 stall（load-use 等）
+ * - 控制冒险：D->F PC 预测 + E 阶段纠正 + flush
+ * - 分支预测：CONFIG_GSHARE（动态），否则退化为静态 BTFNT
+ * - 返回地址栈：CONFIG_RAS
+ *
+ * CONFIG_INITIALIZE 在本文件默认开启：
+ * - 这是为了兼容 Icarus/iverilog 以及某些综合工具：它们可能要求显式初始化寄存器堆/BHT
+ * - 实际硬件上是否需要初始化取决于 FPGA/综合工具对寄存器初值的支持情况
+ */
+
 `define CONFIG_PC_PREDICT // enables D -> F path (needed by RAS and GSHARE)
 `define CONFIG_RAS        // return address stack
 `define CONFIG_GSHARE     // gshare branch prediction (or BTFNT if not set)

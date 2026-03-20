@@ -4,6 +4,28 @@
  * Step 3: "sequential pipeline"
  */
 
+/*
+ * 中文导读
+ *
+ * pipeline3 是“顺序流水线（sequential pipeline）”版本：
+ * - 它把核心重构成经典 5 级流水线结构：F(取指)/D(译码)/E(执行)/M(访存)/W(写回)
+ * - 但为了降低一次性引入并行流水线的复杂度，本文件仍保留一个 one-hot 状态机 state，
+ *   每个时钟只激活一个阶段（因此 CPI ≈ 5），本质上仍是多周期 CPU。
+ *
+ * 本步的学习重点不在性能，而在“分阶段结构 + 流水线寄存器的组织方式”：
+ * - 用 FD_* 保存 F->D 的输出
+ * - 用 DE_* 保存 D->E 的输出
+ * - 用 EM_* 保存 E->M 的输出
+ * - 用 MW_* 保存 M->W 的输出
+ *
+ * 同时引入两个“逆流信号”（后级影响前级），它们是后续真正流水线难点的来源：
+ * - jumpOrBranch/jumpOrBranchAddress：从 E/M 阶段决定跳转/分支后，回到 F 阶段修正 PC
+ * - wbEnable/wbRdId/wbData：从 W 阶段产生写回信息，回到 D 阶段写寄存器堆
+ *
+ * 另外，本文件 `include 了 riscv_disassembly.v，用于仿真时把各级指令反汇编打印出来，
+ * 对理解流水线里“同一时刻不同阶段对应不同指令”非常有帮助。
+ */
+
 `default_nettype none
 `include "clockworks.v"
 `include "emitter_uart.v"

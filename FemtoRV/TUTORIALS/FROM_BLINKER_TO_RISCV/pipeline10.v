@@ -5,6 +5,21 @@
  * Bruno Levy, Sept 2022
  */
 
+/*
+ * 中文导读
+ *
+ * pipeline10 在 pipeline9（RV32I）基础上加入 RV32M 扩展（整数乘除/取模）：
+ * - 乘法（MUL/MULH/...）：通常可映射到 FPGA DSP，接近 1 周期得到结果
+ * - 除法/取模（DIV/DIVU/REM/REMU）：需要多周期迭代算法，因此会引入“E 阶段内部的长操作”
+ *
+ * 因此本文件除了保持原有的流水线、前递、预测、RAS 外，还额外引入：
+ * - 除法器内部状态寄存器（EE_* 前缀）：在 E 阶段跨多个周期保持 dividend/divisor/quotient 等
+ * - aluBusy / E_stall / M_flush：当除法在跑时，需要冻结 F/D/E（不让新指令进入），并对 M 注入 bubble，
+ *   直到除法完成再继续推进流水线
+ *
+ * 这体现了一个常见现实：并不是所有指令都能在 1-cycle 的 EX 阶段完成，流水线必须支持“可变延迟执行单元”。
+ */
+
 `define CONFIG_PC_PREDICT // enables D -> F path (needed by RAS and GSHARE)
 `define CONFIG_RAS        // return address stack
 `define CONFIG_GSHARE     // gshare branch prediction (or BTFNT if not set)

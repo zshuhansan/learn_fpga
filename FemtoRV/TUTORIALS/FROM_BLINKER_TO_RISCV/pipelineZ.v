@@ -6,6 +6,21 @@
  * Bruno Levy, Sept 2022
  */
 
+/*
+ * 中文导读
+ *
+ * pipelineZ 是 pipelineY 的一个“实验性优化版本”，用于测试一些小改动对性能/面积/fmax 的影响。
+ * 它默认开启：
+ * - CONFIG_PC_PREDICT：D->F 预测 PC 路径
+ * - CONFIG_RAS：返回地址栈（改善函数返回 JALR 的预测）
+ * - CONFIG_GSHARE：动态分支预测（gshare）
+ * - CONFIG_RV32M：RV32M（乘除/取模）扩展
+ * - CONFIG_INITIALIZE：初始化寄存器堆与 BHT（方便 iverilog 仿真/某些综合器）
+ *
+ * 文件结构与 pipeline10 类似，但你可以把它当作“在 RV32IM 上继续挤 fmax/面积”的试验场。
+ * 如果你在比较不同版本的 fmax/LUT/FF，建议同时看 PIPELINE.zh-CN.md 中的表格与说明。
+ */
+
 `define CONFIG_PC_PREDICT // enables D -> F path (needed by RAS and GSHARE)
 `define CONFIG_RAS        // return address stack
 `define CONFIG_GSHARE     // gshare branch prediction (or BTFNT if not set)

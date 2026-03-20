@@ -10,6 +10,26 @@
  *    and forward/backward.
  */
 
+/*
+ * 中文导读
+ *
+ * pipeline7 在 pipeline6（前递）基础上引入“PC 预测路径”（从 D 直接影响 F），
+ * 以及一个最简单的静态分支预测策略 BTFNT：
+ * - Backward Taken：后向分支（Bimm 符号位为 1）预测 taken（多用于循环）
+ * - Forward Not Taken：前向分支预测 not taken
+ *
+ * 核心思路：
+ * - 对 JAL：目标地址 DE_PC + Jimm 不依赖寄存器值，可在 D 阶段就算出来并让 F 立刻按目标取指
+ * - 对 Branch：仅对后向分支预测 taken，让 F 提前取分支目标
+ * - 对 JALR：目标依赖 rs1，只能在 E 阶段知道，因此仍需要纠正/flush
+ *
+ * 因此本文件会出现两条“PC 来源”：
+ * - D 阶段预测的 PC（乐观路径）
+ * - E 阶段纠正的 PC（预测失败或 JALR/分支真实结果不同）
+ *
+ * 预测失败的代价仍然是 flush（插 bubble），但总体 CPI 会下降。
+ */
+
 `default_nettype none
 `include "clockworks.v"
 `include "emitter_uart.v"

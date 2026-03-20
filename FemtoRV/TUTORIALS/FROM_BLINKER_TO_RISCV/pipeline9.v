@@ -5,6 +5,21 @@
  * Bruno Levy, Sept 2022
  */
 
+/*
+ * 中文导读
+ *
+ * pipeline9 是把前面 pipeline4~8 的想法“产品化/参数化”的版本（tordboyau 内核）：
+ * - 真正并行的 5 级流水线（F/D/E/M/W）
+ * - 数据冒险：前递（forwarding）+ 必要时的 stall（主要针对 load-use）
+ * - 控制冒险：D->F 的 PC 预测路径 + E 阶段纠正 + flush
+ * - 分支预测：可选 gshare（动态）或 BTFNT（静态）
+ * - 返回地址预测：可选 RAS（Return Address Stack），加速 JALR 返回
+ * - 可选调试器：在仿真中逐周期查看流水线各级、写回、预测/纠正、前递等信号
+ *
+ * 这份代码比 pipeline4~8 更“工程化”，因此有多个编译宏开关（见下方 CONFIG_*）。
+ * 你可以把它当作“本教程流水线核心的最终整合版本”来阅读。
+ */
+
 `define CONFIG_PC_PREDICT // enables D -> F path (needed by RAS and GSHARE)
 `define CONFIG_RAS        // return address stack
 `define CONFIG_GSHARE     // gshare branch prediction (or BTFNT if not set)
