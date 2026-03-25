@@ -30,7 +30,7 @@ void VSOC::eval_step() {
             Verilated::debug(1);
             __Vchange = _change_request(vlSymsp);
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("pipeline4.v", 537, "",
+            VL_FATAL_MT("pipeline10_routeA.v", 14, "",
                 "Verilated model didn't converge\n"
                 "- See DIDNOTCONVERGE in the Verilator manual");
         } else {
@@ -55,7 +55,7 @@ void VSOC::_eval_initial_loop(VSOC__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = _change_request(vlSymsp);
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("pipeline4.v", 537, "",
+            VL_FATAL_MT("pipeline10_routeA.v", 14, "",
                 "Verilated model didn't DC converge\n"
                 "- See DIDNOTCONVERGE in the Verilator manual");
         } else {
@@ -68,15 +68,18 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VSOC::_sequent__TOP__1\n"); );
     VSOC* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Variables
-    CData/*4:0*/ __Vfunc_SOC__DOT__CPU__DOT__rs1Id__0__Vfuncout;
-    CData/*4:0*/ __Vfunc_SOC__DOT__CPU__DOT__rs2Id__1__Vfuncout;
-    CData/*0:0*/ __Vfunc_SOC__DOT__CPU__DOT__isStore__37__Vfuncout;
-    CData/*1:0*/ __Vfunc_SOC__DOT__CPU__DOT__csrId__46__Vfuncout;
-    CData/*1:0*/ __Vfunc_SOC__DOT__CPU__DOT__csrId__47__Vfuncout;
-    CData/*1:0*/ __Vfunc_SOC__DOT__CPU__DOT__csrId__48__Vfuncout;
-    CData/*4:0*/ __Vfunc_SOC__DOT__CPU__DOT__rdId__110__Vfuncout;
-    CData/*4:0*/ __Vdlyvdim0__SOC__DOT__CPU__DOT__RegisterBank__v0;
-    CData/*0:0*/ __Vdlyvset__SOC__DOT__CPU__DOT__RegisterBank__v0;
+    CData/*1:0*/ __Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__Vfuncout;
+    CData/*1:0*/ __Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__prev;
+    CData/*0:0*/ __Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__dir;
+    CData/*0:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isBranch__5__Vfuncout;
+    CData/*0:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJAL__6__Vfuncout;
+    CData/*0:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__7__Vfuncout;
+    CData/*0:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isLoad__8__Vfuncout;
+    CData/*0:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isStore__9__Vfuncout;
+    CData/*0:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isRV32M__10__Vfuncout;
+    CData/*0:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isALUreg__11__Vfuncout;
+    CData/*1:0*/ __Vdlyvval__SOC__DOT__CPU__DOT__BHT__v0;
+    CData/*0:0*/ __Vdlyvset__SOC__DOT__CPU__DOT__BHT__v0;
     CData/*4:0*/ __Vdlyvlsb__SOC__DOT__CPU__DOT__DATARAM__v0;
     CData/*7:0*/ __Vdlyvval__SOC__DOT__CPU__DOT__DATARAM__v0;
     CData/*0:0*/ __Vdlyvset__SOC__DOT__CPU__DOT__DATARAM__v0;
@@ -89,2815 +92,287 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
     CData/*4:0*/ __Vdlyvlsb__SOC__DOT__CPU__DOT__DATARAM__v3;
     CData/*7:0*/ __Vdlyvval__SOC__DOT__CPU__DOT__DATARAM__v3;
     CData/*0:0*/ __Vdlyvset__SOC__DOT__CPU__DOT__DATARAM__v3;
+    CData/*4:0*/ __Vdlyvdim0__SOC__DOT__CPU__DOT__RF__DOT__regs__v0;
+    CData/*0:0*/ __Vdlyvset__SOC__DOT__CPU__DOT__RF__DOT__regs__v0;
     CData/*0:0*/ __Vdly__SOC__DOT__uart_ready;
     CData/*7:0*/ __Vdly__SOC__DOT__UART__DOT__cnt;
+    SData/*11:0*/ __Vfunc_SOC__DOT__CPU__DOT__BHT_index__1__Vfuncout;
+    SData/*8:0*/ __Vdly__SOC__DOT__CPU__DOT__branch_history;
+    SData/*11:0*/ __Vdlyvdim0__SOC__DOT__CPU__DOT__BHT__v0;
     SData/*13:0*/ __Vdlyvdim0__SOC__DOT__CPU__DOT__DATARAM__v0;
     SData/*13:0*/ __Vdlyvdim0__SOC__DOT__CPU__DOT__DATARAM__v1;
     SData/*13:0*/ __Vdlyvdim0__SOC__DOT__CPU__DOT__DATARAM__v2;
     SData/*13:0*/ __Vdlyvdim0__SOC__DOT__CPU__DOT__DATARAM__v3;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__rs1Id__0__I;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__rs2Id__1__I;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__isStore__37__I;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__Simm__38__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__Simm__38__I;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__Iimm__39__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__Iimm__39__I;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__csrId__46__I;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__csrId__47__I;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__csrId__48__I;
-    IData/*31:0*/ __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-    IData/*31:0*/ __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__PC;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__100__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__100__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__101__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__101__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__102__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__102__instr;
-    IData/*19:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__103__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__103__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__104__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__104__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__105__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__105__instr;
-    IData/*19:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__106__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__106__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__107__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__107__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__108__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__108__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__109__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__109__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__rdId__110__I;
-    IData/*31:0*/ __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-    IData/*31:0*/ __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__PC;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__112__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__112__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__113__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__113__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__114__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__114__instr;
-    IData/*19:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__115__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__115__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__116__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__116__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__117__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__117__instr;
-    IData/*19:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__118__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__118__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__119__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__119__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__120__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__120__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__121__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__121__instr;
-    IData/*31:0*/ __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-    IData/*31:0*/ __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__PC;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__123__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__123__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__124__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__124__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__125__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__125__instr;
-    IData/*19:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__126__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__126__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__127__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__127__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__128__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__128__instr;
-    IData/*19:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__129__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__129__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__130__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__130__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__131__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__131__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__132__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__132__instr;
-    IData/*31:0*/ __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-    IData/*31:0*/ __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__PC;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__134__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__134__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__135__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__135__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__136__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__136__instr;
-    IData/*19:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__137__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__137__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__138__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__138__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__139__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__139__instr;
-    IData/*19:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__140__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__140__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__141__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__141__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__142__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__142__instr;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__143__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__143__instr;
-    IData/*31:0*/ __Vdlyvval__SOC__DOT__CPU__DOT__RegisterBank__v0;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__BHT_index__1__PC;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isBranch__5__I;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJAL__6__I;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__7__I;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isLoad__8__I;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isStore__9__I;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isRV32M__10__I;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isALUreg__11__I;
+    IData/*31:0*/ __Vdly__SOC__DOT__CPU__DOT__RAS_2;
+    IData/*31:0*/ __Vdly__SOC__DOT__CPU__DOT__RAS_0;
+    IData/*31:0*/ __Vdlyvval__SOC__DOT__CPU__DOT__RF__DOT__regs__v0;
+    IData/*31:0*/ __Vdly__SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r;
     QData/*63:0*/ __Vdly__SOC__DOT__CPU__DOT__cycle;
+    QData/*63:0*/ __Vdly__SOC__DOT__CPU__DOT__instret;
     // Body
     __Vdly__SOC__DOT__CPU__DOT__cycle = vlTOPp->SOC__DOT__CPU__DOT__cycle;
-    __Vdlyvset__SOC__DOT__CPU__DOT__RegisterBank__v0 = 0U;
-    __Vdly__SOC__DOT__uart_ready = vlTOPp->SOC__DOT__uart_ready;
-    __Vdly__SOC__DOT__UART__DOT__cnt = vlTOPp->SOC__DOT__UART__DOT__cnt;
+    __Vdly__SOC__DOT__CPU__DOT__instret = vlTOPp->SOC__DOT__CPU__DOT__instret;
+    __Vdly__SOC__DOT__CPU__DOT__RAS_2 = vlTOPp->SOC__DOT__CPU__DOT__RAS_2;
+    __Vdly__SOC__DOT__CPU__DOT__RAS_0 = vlTOPp->SOC__DOT__CPU__DOT__RAS_0;
     __Vdlyvset__SOC__DOT__CPU__DOT__DATARAM__v0 = 0U;
     __Vdlyvset__SOC__DOT__CPU__DOT__DATARAM__v1 = 0U;
     __Vdlyvset__SOC__DOT__CPU__DOT__DATARAM__v2 = 0U;
     __Vdlyvset__SOC__DOT__CPU__DOT__DATARAM__v3 = 0U;
+    __Vdly__SOC__DOT__uart_ready = vlTOPp->SOC__DOT__uart_ready;
+    __Vdly__SOC__DOT__UART__DOT__cnt = vlTOPp->SOC__DOT__UART__DOT__cnt;
+    __Vdly__SOC__DOT__CPU__DOT__branch_history = vlTOPp->SOC__DOT__CPU__DOT__branch_history;
+    __Vdlyvset__SOC__DOT__CPU__DOT__BHT__v0 = 0U;
+    __Vdly__SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r 
+        = vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r;
+    __Vdlyvset__SOC__DOT__CPU__DOT__RF__DOT__regs__v0 = 0U;
     if (VL_UNLIKELY(vlTOPp->SOC__DOT__CPU__DOT__halt)) {
-        VL_FINISH_MT("pipeline4.v", 492, "");
+        VL_FINISH_MT("ROUTE_A/processor_routeA.v", 823, "");
+    }
+    if (VL_UNLIKELY(vlTOPp->SOC__DOT__CPU__DOT__halt)) {
+        VL_WRITEF("Simulated processor's report\n----------------------------\n");
+        VL_WRITEF("Branch hit = %3.3f%%\n",64,((100.0 
+                                                * VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbBranchHit)) 
+                                               / VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbBranch)));
+        VL_WRITEF("JALR   hit = %3.3f%%\n",64,((100.0 
+                                                * VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbJALRhit)) 
+                                               / VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbJALR)));
+        VL_WRITEF("Load hzrds = %3.3f%%\n",64,((100.0 
+                                                * VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbLoadHazard)) 
+                                               / VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbLoad)));
+        VL_WRITEF("CPI        = %3.3f\n",64,((1.0 * 
+                                              VL_ITOR_D_I((IData)(vlTOPp->SOC__DOT__CPU__DOT__cycle))) 
+                                             / (1.0 
+                                                * VL_ITOR_D_I((IData)(vlTOPp->SOC__DOT__CPU__DOT__instret)))));
+        VL_WRITEF("Instr. mix = (");
+        VL_WRITEF("Branch:%3.3f%%",64,((100.0 * VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbBranch)) 
+                                       / VL_ITOR_D_I((IData)(vlTOPp->SOC__DOT__CPU__DOT__instret))));
+        VL_WRITEF(" JAL:%3.3f%%",64,((100.0 * VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbJAL)) 
+                                     / VL_ITOR_D_I((IData)(vlTOPp->SOC__DOT__CPU__DOT__instret))));
+        VL_WRITEF(" JALR:%3.3f%%",64,((100.0 * VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbJALR)) 
+                                      / VL_ITOR_D_I((IData)(vlTOPp->SOC__DOT__CPU__DOT__instret))));
+        VL_WRITEF(" Load:%3.3f%%",64,((100.0 * VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbLoad)) 
+                                      / VL_ITOR_D_I((IData)(vlTOPp->SOC__DOT__CPU__DOT__instret))));
+        VL_WRITEF(" Store:%3.3f%%",64,((100.0 * VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbStore)) 
+                                       / VL_ITOR_D_I((IData)(vlTOPp->SOC__DOT__CPU__DOT__instret))));
+        VL_WRITEF(" MUL(HSU):%3.3f%% ",64,((100.0 * 
+                                            VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbMUL)) 
+                                           / VL_ITOR_D_I((IData)(vlTOPp->SOC__DOT__CPU__DOT__instret))));
+        VL_WRITEF(" DIV/REM:%3.3f%% ",64,((100.0 * 
+                                           VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbDIV)) 
+                                          / VL_ITOR_D_I((IData)(vlTOPp->SOC__DOT__CPU__DOT__instret))));
+        VL_WRITEF(")\n");
+        VL_FINISH_MT("ROUTE_A/processor_routeA.v", 1051, "");
     }
     if (VL_UNLIKELY(vlTOPp->SOC__DOT__uart_valid)) {
-        VL_WRITEF("UART: %c\n",8,(0xffU & vlTOPp->SOC__DOT__CPU__DOT__EM_rs2));
+        VL_WRITEF("%c",8,(0xffU & vlTOPp->SOC__DOT__CPU__DOT__EM_rs2));
+        if (0x80000001U) { VL_FFLUSH_I(0x80000001U); }
     }
-    if (VL_UNLIKELY((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)))) {
-        VL_WRITEF("[W] PC=%x ",32,vlTOPp->SOC__DOT__CPU__DOT__MW_PC);
-        VL_WRITEF("     ");
-        __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__PC 
-            = vlTOPp->SOC__DOT__CPU__DOT__MW_PC;
-        __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-            = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-        if ((0x40U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-            if (VL_LIKELY((0x20U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                    if (VL_UNLIKELY(
-                                                    (0U 
-                                                     == 
-                                                     (7U 
-                                                      & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                         >> 0xcU))))) {
-                                        VL_WRITEF("ebreak");
-                                    } else {
-                                        if (VL_LIKELY(
-                                                      (2U 
-                                                       == 
-                                                       (7U 
-                                                        & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                           >> 0xcU))))) {
-                                            if ((0x8000000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                if (
-                                                    (0x200000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                    VL_WRITEF("rdinstreth x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                                  >> 7U)));
-                                                } else {
-                                                    VL_WRITEF("rdcycleh x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                                  >> 7U)));
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x200000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                    VL_WRITEF("rdinstret x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                                  >> 7U)));
-                                                } else {
-                                                    VL_WRITEF("rdcycle x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                                  >> 7U)));
-                                                }
-                                            }
-                                        } else {
-                                            VL_WRITEF("SYSTEM");
-                                        }
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if ((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                        if (VL_LIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__100__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__100__Vfuncout 
-                                        = ((0xfff00000U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__100__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0x14U)) 
-                                           | ((0xff000U 
-                                               & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__100__instr) 
-                                              | ((0x800U 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__100__instr 
-                                                     >> 9U)) 
-                                                 | (0x7feU 
-                                                    & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__100__instr 
-                                                       >> 0x14U)))));
-                                    VL_WRITEF("jal x%0#,0x%0x",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 7U)),
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__100__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            VL_WRITEF("?????");
-                        }
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__101__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__101__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__101__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | (0x7ffU 
-                                              & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__101__instr 
-                                                 >> 0x14U)));
-                                    VL_WRITEF("jalr x%0#,x%0#,%0d",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 7U)),
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 0xfU)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__101__Vfuncout);
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                VL_WRITEF("bgeu");
-                                            } else {
-                                                VL_WRITEF("bltu");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                VL_WRITEF("bge");
-                                            } else {
-                                                VL_WRITEF("blt");
-                                            }
-                                        }
-                                    } else {
-                                        if (VL_UNLIKELY(
-                                                        (0x2000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                            VL_WRITEF("B???");
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                VL_WRITEF("bne");
-                                            } else {
-                                                VL_WRITEF("beq");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__102__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__102__Vfuncout 
-                                        = ((0xfffff000U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__102__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xcU)) 
-                                           | ((0x800U 
-                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__102__instr 
-                                                  << 4U)) 
-                                              | ((0x7e0U 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__102__instr 
-                                                     >> 0x14U)) 
-                                                 | (0x1eU 
-                                                    & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__102__instr 
-                                                       >> 7U)))));
-                                    VL_WRITEF(" x%0#,x%0#,0x%0x",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 0xfU)),
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 0x14U)),
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__102__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            } else {
-                VL_WRITEF("?????");
-            }
-        } else {
-            if ((0x20U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__104__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__104__Vfuncout 
-                                        = (0xfffff000U 
-                                           & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__104__instr);
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__103__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__103__Vfuncout 
-                                        = (0xfffffU 
-                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__103__instr 
-                                              >> 0xcU));
-                                    VL_WRITEF("lui x%0#,0x%0x <0x%0x>",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 7U)),
-                                              20,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__103__Vfuncout,
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__104__Vfuncout);
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                    if ((0U == (0x1ffffffU 
-                                                & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                   >> 7U)))) {
-                                        VL_WRITEF("nop");
-                                    } else {
-                                        if ((0x2000000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                            if ((0x4000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                        VL_WRITEF("remu");
-                                                    } else {
-                                                        VL_WRITEF("rem");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                        VL_WRITEF("divu");
-                                                    } else {
-                                                        VL_WRITEF("div");
-                                                    }
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                        VL_WRITEF("mulhu");
-                                                    } else {
-                                                        VL_WRITEF("mulhsu");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                        VL_WRITEF("mulh");
-                                                    } else {
-                                                        VL_WRITEF("mul");
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            if ((0x4000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                        VL_WRITEF("and");
-                                                    } else {
-                                                        VL_WRITEF("or");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                        VL_WRITEF("%s",
-                                                                  24,
-                                                                  ((0x40000000U 
-                                                                    & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)
-                                                                    ? 0x737261U
-                                                                    : 0x73726cU));
-                                                    } else {
-                                                        VL_WRITEF("xor");
-                                                    }
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                        VL_WRITEF("sltu");
-                                                    } else {
-                                                        VL_WRITEF("slt");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                        VL_WRITEF("sll");
-                                                    } else {
-                                                        VL_WRITEF("%s",
-                                                                  24,
-                                                                  ((0x40000000U 
-                                                                    & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)
-                                                                    ? 0x737562U
-                                                                    : 0x616464U));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        VL_WRITEF(" x%0#,x%0#,x%0#",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                      >> 0xfU)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                      >> 0x14U)));
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                    if (VL_UNLIKELY(
-                                                    (0U 
-                                                     == 
-                                                     (7U 
-                                                      & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                         >> 0xcU))))) {
-                                        VL_WRITEF("sb");
-                                    } else {
-                                        if (VL_UNLIKELY(
-                                                        (1U 
-                                                         == 
-                                                         (7U 
-                                                          & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                             >> 0xcU))))) {
-                                            VL_WRITEF("sh");
-                                        } else {
-                                            if ((2U 
-                                                 == 
-                                                 (7U 
-                                                  & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                     >> 0xcU)))) {
-                                                VL_WRITEF("sw");
-                                            } else {
-                                                VL_WRITEF("s??");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__105__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__105__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__105__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | ((0x7e0U 
-                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__105__instr 
-                                                  >> 0x14U)) 
-                                              | (0x1fU 
-                                                 & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__105__instr 
-                                                    >> 7U))));
-                                    VL_WRITEF(" x%0#,%0d(x%0#)",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 0x14U)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__105__Vfuncout,
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 0xfU)));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            } else {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__107__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__107__Vfuncout 
-                                        = (0xfffff000U 
-                                           & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__107__instr);
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__106__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__106__Vfuncout 
-                                        = (0xfffffU 
-                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__106__instr 
-                                              >> 0xcU));
-                                    VL_WRITEF("auipc x%0#,0x%0x <0x%0x>",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 7U)),
-                                              20,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__106__Vfuncout,
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__107__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                VL_WRITEF("andi");
-                                            } else {
-                                                VL_WRITEF("ori");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                VL_WRITEF("%s",
-                                                          32,
-                                                          ((0x40000000U 
-                                                            & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)
-                                                            ? 0x73726169U
-                                                            : 0x73726c69U));
-                                            } else {
-                                                VL_WRITEF("xori");
-                                            }
-                                        }
-                                    } else {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                VL_WRITEF("sltiu");
-                                            } else {
-                                                VL_WRITEF("slti");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                VL_WRITEF("slli");
-                                            } else {
-                                                VL_WRITEF("addi");
-                                            }
-                                        }
-                                    }
-                                    if (((1U == (7U 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 0xcU))) 
-                                         | (5U == (7U 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                      >> 0xcU))))) {
-                                        VL_WRITEF(" x%0#,x%0#,%0#",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                      >> 0xfU)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                      >> 0x14U)));
-                                    } else {
-                                        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__108__instr 
-                                            = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-                                        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__108__Vfuncout 
-                                            = ((0xfffff800U 
-                                                & ((- (IData)(
-                                                              (1U 
-                                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__108__instr 
-                                                                  >> 0x1fU)))) 
-                                                   << 0xbU)) 
-                                               | (0x7ffU 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__108__instr 
-                                                     >> 0x14U)));
-                                        VL_WRITEF(" x%0#,x%0#,%0d",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                      >> 0xfU)),
-                                                  32,
-                                                  __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__108__Vfuncout);
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                        if (VL_UNLIKELY(
-                                                        (0x2000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr))) {
-                                            VL_WRITEF("l??");
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                VL_WRITEF("lhu");
-                                            } else {
-                                                VL_WRITEF("lbu");
-                                            }
-                                        }
-                                    } else {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                VL_WRITEF("l??");
-                                            } else {
-                                                VL_WRITEF("lw");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr)) {
-                                                VL_WRITEF("lh");
-                                            } else {
-                                                VL_WRITEF("lb");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__109__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__109__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__109__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | (0x7ffU 
-                                              & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__109__instr 
-                                                 >> 0x14U)));
-                                    VL_WRITEF(" x%0#,%0d(x%0#)",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 7U)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__109__Vfuncout,
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__99__instr 
-                                                    >> 0xfU)));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (VL_UNLIKELY(vlTOPp->SOC__DOT__CPU__DOT__wbEnable)) {
-            __Vfunc_SOC__DOT__CPU__DOT__rdId__110__I 
-                = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-            __Vfunc_SOC__DOT__CPU__DOT__rdId__110__Vfuncout 
-                = (0x1fU & (__Vfunc_SOC__DOT__CPU__DOT__rdId__110__I 
-                            >> 7U));
-            VL_WRITEF("    x%0# <- 0x%0x",5,__Vfunc_SOC__DOT__CPU__DOT__rdId__110__Vfuncout,
-                      32,vlTOPp->SOC__DOT__CPU__DOT__wbData);
-        }
-        VL_WRITEF("\n");
-        VL_WRITEF("[M] PC=%x ",32,vlTOPp->SOC__DOT__CPU__DOT__EM_PC);
-        VL_WRITEF("     ");
-        __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__PC 
-            = vlTOPp->SOC__DOT__CPU__DOT__EM_PC;
-        __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-            = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-        if ((0x40U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-            if (VL_LIKELY((0x20U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                    if (VL_UNLIKELY(
-                                                    (0U 
-                                                     == 
-                                                     (7U 
-                                                      & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                         >> 0xcU))))) {
-                                        VL_WRITEF("ebreak");
-                                    } else {
-                                        if (VL_LIKELY(
-                                                      (2U 
-                                                       == 
-                                                       (7U 
-                                                        & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                           >> 0xcU))))) {
-                                            if ((0x8000000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                if (
-                                                    (0x200000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                    VL_WRITEF("rdinstreth x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                                  >> 7U)));
-                                                } else {
-                                                    VL_WRITEF("rdcycleh x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                                  >> 7U)));
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x200000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                    VL_WRITEF("rdinstret x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                                  >> 7U)));
-                                                } else {
-                                                    VL_WRITEF("rdcycle x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                                  >> 7U)));
-                                                }
-                                            }
-                                        } else {
-                                            VL_WRITEF("SYSTEM");
-                                        }
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if ((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                        if (VL_LIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__112__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__112__Vfuncout 
-                                        = ((0xfff00000U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__112__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0x14U)) 
-                                           | ((0xff000U 
-                                               & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__112__instr) 
-                                              | ((0x800U 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__112__instr 
-                                                     >> 9U)) 
-                                                 | (0x7feU 
-                                                    & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__112__instr 
-                                                       >> 0x14U)))));
-                                    VL_WRITEF("jal x%0#,0x%0x",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 7U)),
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__112__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            VL_WRITEF("?????");
-                        }
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__113__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__113__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__113__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | (0x7ffU 
-                                              & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__113__instr 
-                                                 >> 0x14U)));
-                                    VL_WRITEF("jalr x%0#,x%0#,%0d",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 7U)),
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 0xfU)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__113__Vfuncout);
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                VL_WRITEF("bgeu");
-                                            } else {
-                                                VL_WRITEF("bltu");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                VL_WRITEF("bge");
-                                            } else {
-                                                VL_WRITEF("blt");
-                                            }
-                                        }
-                                    } else {
-                                        if (VL_UNLIKELY(
-                                                        (0x2000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                            VL_WRITEF("B???");
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                VL_WRITEF("bne");
-                                            } else {
-                                                VL_WRITEF("beq");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__114__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__114__Vfuncout 
-                                        = ((0xfffff000U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__114__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xcU)) 
-                                           | ((0x800U 
-                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__114__instr 
-                                                  << 4U)) 
-                                              | ((0x7e0U 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__114__instr 
-                                                     >> 0x14U)) 
-                                                 | (0x1eU 
-                                                    & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__114__instr 
-                                                       >> 7U)))));
-                                    VL_WRITEF(" x%0#,x%0#,0x%0x",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 0xfU)),
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 0x14U)),
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__114__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            } else {
-                VL_WRITEF("?????");
-            }
-        } else {
-            if ((0x20U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__116__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__116__Vfuncout 
-                                        = (0xfffff000U 
-                                           & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__116__instr);
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__115__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__115__Vfuncout 
-                                        = (0xfffffU 
-                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__115__instr 
-                                              >> 0xcU));
-                                    VL_WRITEF("lui x%0#,0x%0x <0x%0x>",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 7U)),
-                                              20,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__115__Vfuncout,
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__116__Vfuncout);
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                    if ((0U == (0x1ffffffU 
-                                                & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                   >> 7U)))) {
-                                        VL_WRITEF("nop");
-                                    } else {
-                                        if ((0x2000000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                            if ((0x4000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                        VL_WRITEF("remu");
-                                                    } else {
-                                                        VL_WRITEF("rem");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                        VL_WRITEF("divu");
-                                                    } else {
-                                                        VL_WRITEF("div");
-                                                    }
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                        VL_WRITEF("mulhu");
-                                                    } else {
-                                                        VL_WRITEF("mulhsu");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                        VL_WRITEF("mulh");
-                                                    } else {
-                                                        VL_WRITEF("mul");
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            if ((0x4000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                        VL_WRITEF("and");
-                                                    } else {
-                                                        VL_WRITEF("or");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                        VL_WRITEF("%s",
-                                                                  24,
-                                                                  ((0x40000000U 
-                                                                    & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)
-                                                                    ? 0x737261U
-                                                                    : 0x73726cU));
-                                                    } else {
-                                                        VL_WRITEF("xor");
-                                                    }
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                        VL_WRITEF("sltu");
-                                                    } else {
-                                                        VL_WRITEF("slt");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                        VL_WRITEF("sll");
-                                                    } else {
-                                                        VL_WRITEF("%s",
-                                                                  24,
-                                                                  ((0x40000000U 
-                                                                    & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)
-                                                                    ? 0x737562U
-                                                                    : 0x616464U));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        VL_WRITEF(" x%0#,x%0#,x%0#",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                      >> 0xfU)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                      >> 0x14U)));
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                    if (VL_UNLIKELY(
-                                                    (0U 
-                                                     == 
-                                                     (7U 
-                                                      & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                         >> 0xcU))))) {
-                                        VL_WRITEF("sb");
-                                    } else {
-                                        if (VL_UNLIKELY(
-                                                        (1U 
-                                                         == 
-                                                         (7U 
-                                                          & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                             >> 0xcU))))) {
-                                            VL_WRITEF("sh");
-                                        } else {
-                                            if ((2U 
-                                                 == 
-                                                 (7U 
-                                                  & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                     >> 0xcU)))) {
-                                                VL_WRITEF("sw");
-                                            } else {
-                                                VL_WRITEF("s??");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__117__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__117__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__117__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | ((0x7e0U 
-                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__117__instr 
-                                                  >> 0x14U)) 
-                                              | (0x1fU 
-                                                 & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__117__instr 
-                                                    >> 7U))));
-                                    VL_WRITEF(" x%0#,%0d(x%0#)",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 0x14U)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__117__Vfuncout,
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 0xfU)));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            } else {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__119__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__119__Vfuncout 
-                                        = (0xfffff000U 
-                                           & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__119__instr);
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__118__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__118__Vfuncout 
-                                        = (0xfffffU 
-                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__118__instr 
-                                              >> 0xcU));
-                                    VL_WRITEF("auipc x%0#,0x%0x <0x%0x>",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 7U)),
-                                              20,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__118__Vfuncout,
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__119__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                VL_WRITEF("andi");
-                                            } else {
-                                                VL_WRITEF("ori");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                VL_WRITEF("%s",
-                                                          32,
-                                                          ((0x40000000U 
-                                                            & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)
-                                                            ? 0x73726169U
-                                                            : 0x73726c69U));
-                                            } else {
-                                                VL_WRITEF("xori");
-                                            }
-                                        }
-                                    } else {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                VL_WRITEF("sltiu");
-                                            } else {
-                                                VL_WRITEF("slti");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                VL_WRITEF("slli");
-                                            } else {
-                                                VL_WRITEF("addi");
-                                            }
-                                        }
-                                    }
-                                    if (((1U == (7U 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 0xcU))) 
-                                         | (5U == (7U 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                      >> 0xcU))))) {
-                                        VL_WRITEF(" x%0#,x%0#,%0#",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                      >> 0xfU)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                      >> 0x14U)));
-                                    } else {
-                                        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__120__instr 
-                                            = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-                                        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__120__Vfuncout 
-                                            = ((0xfffff800U 
-                                                & ((- (IData)(
-                                                              (1U 
-                                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__120__instr 
-                                                                  >> 0x1fU)))) 
-                                                   << 0xbU)) 
-                                               | (0x7ffU 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__120__instr 
-                                                     >> 0x14U)));
-                                        VL_WRITEF(" x%0#,x%0#,%0d",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                      >> 0xfU)),
-                                                  32,
-                                                  __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__120__Vfuncout);
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                        if (VL_UNLIKELY(
-                                                        (0x2000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr))) {
-                                            VL_WRITEF("l??");
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                VL_WRITEF("lhu");
-                                            } else {
-                                                VL_WRITEF("lbu");
-                                            }
-                                        }
-                                    } else {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                VL_WRITEF("l??");
-                                            } else {
-                                                VL_WRITEF("lw");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr)) {
-                                                VL_WRITEF("lh");
-                                            } else {
-                                                VL_WRITEF("lb");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__121__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__121__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__121__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | (0x7ffU 
-                                              & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__121__instr 
-                                                 >> 0x14U)));
-                                    VL_WRITEF(" x%0#,%0d(x%0#)",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 7U)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__121__Vfuncout,
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__111__instr 
-                                                    >> 0xfU)));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        VL_WRITEF("\n");
-        VL_WRITEF("[E] PC=%x ",32,vlTOPp->SOC__DOT__CPU__DOT__DE_PC);
-        VL_WRITEF("     ");
-        __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__PC 
-            = vlTOPp->SOC__DOT__CPU__DOT__DE_PC;
-        __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-            = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-        if ((0x40U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-            if (VL_LIKELY((0x20U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                    if (VL_UNLIKELY(
-                                                    (0U 
-                                                     == 
-                                                     (7U 
-                                                      & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                         >> 0xcU))))) {
-                                        VL_WRITEF("ebreak");
-                                    } else {
-                                        if (VL_LIKELY(
-                                                      (2U 
-                                                       == 
-                                                       (7U 
-                                                        & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                           >> 0xcU))))) {
-                                            if ((0x8000000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                if (
-                                                    (0x200000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                    VL_WRITEF("rdinstreth x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                                  >> 7U)));
-                                                } else {
-                                                    VL_WRITEF("rdcycleh x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                                  >> 7U)));
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x200000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                    VL_WRITEF("rdinstret x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                                  >> 7U)));
-                                                } else {
-                                                    VL_WRITEF("rdcycle x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                                  >> 7U)));
-                                                }
-                                            }
-                                        } else {
-                                            VL_WRITEF("SYSTEM");
-                                        }
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if ((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                        if (VL_LIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__123__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__123__Vfuncout 
-                                        = ((0xfff00000U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__123__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0x14U)) 
-                                           | ((0xff000U 
-                                               & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__123__instr) 
-                                              | ((0x800U 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__123__instr 
-                                                     >> 9U)) 
-                                                 | (0x7feU 
-                                                    & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__123__instr 
-                                                       >> 0x14U)))));
-                                    VL_WRITEF("jal x%0#,0x%0x",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 7U)),
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__123__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            VL_WRITEF("?????");
-                        }
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__124__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__124__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__124__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | (0x7ffU 
-                                              & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__124__instr 
-                                                 >> 0x14U)));
-                                    VL_WRITEF("jalr x%0#,x%0#,%0d",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 7U)),
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 0xfU)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__124__Vfuncout);
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                VL_WRITEF("bgeu");
-                                            } else {
-                                                VL_WRITEF("bltu");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                VL_WRITEF("bge");
-                                            } else {
-                                                VL_WRITEF("blt");
-                                            }
-                                        }
-                                    } else {
-                                        if (VL_UNLIKELY(
-                                                        (0x2000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                            VL_WRITEF("B???");
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                VL_WRITEF("bne");
-                                            } else {
-                                                VL_WRITEF("beq");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__125__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__125__Vfuncout 
-                                        = ((0xfffff000U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__125__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xcU)) 
-                                           | ((0x800U 
-                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__125__instr 
-                                                  << 4U)) 
-                                              | ((0x7e0U 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__125__instr 
-                                                     >> 0x14U)) 
-                                                 | (0x1eU 
-                                                    & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__125__instr 
-                                                       >> 7U)))));
-                                    VL_WRITEF(" x%0#,x%0#,0x%0x",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 0xfU)),
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 0x14U)),
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__125__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            } else {
-                VL_WRITEF("?????");
-            }
-        } else {
-            if ((0x20U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__127__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__127__Vfuncout 
-                                        = (0xfffff000U 
-                                           & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__127__instr);
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__126__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__126__Vfuncout 
-                                        = (0xfffffU 
-                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__126__instr 
-                                              >> 0xcU));
-                                    VL_WRITEF("lui x%0#,0x%0x <0x%0x>",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 7U)),
-                                              20,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__126__Vfuncout,
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__127__Vfuncout);
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                    if ((0U == (0x1ffffffU 
-                                                & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                   >> 7U)))) {
-                                        VL_WRITEF("nop");
-                                    } else {
-                                        if ((0x2000000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                            if ((0x4000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                        VL_WRITEF("remu");
-                                                    } else {
-                                                        VL_WRITEF("rem");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                        VL_WRITEF("divu");
-                                                    } else {
-                                                        VL_WRITEF("div");
-                                                    }
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                        VL_WRITEF("mulhu");
-                                                    } else {
-                                                        VL_WRITEF("mulhsu");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                        VL_WRITEF("mulh");
-                                                    } else {
-                                                        VL_WRITEF("mul");
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            if ((0x4000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                        VL_WRITEF("and");
-                                                    } else {
-                                                        VL_WRITEF("or");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                        VL_WRITEF("%s",
-                                                                  24,
-                                                                  ((0x40000000U 
-                                                                    & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)
-                                                                    ? 0x737261U
-                                                                    : 0x73726cU));
-                                                    } else {
-                                                        VL_WRITEF("xor");
-                                                    }
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                        VL_WRITEF("sltu");
-                                                    } else {
-                                                        VL_WRITEF("slt");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                        VL_WRITEF("sll");
-                                                    } else {
-                                                        VL_WRITEF("%s",
-                                                                  24,
-                                                                  ((0x40000000U 
-                                                                    & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)
-                                                                    ? 0x737562U
-                                                                    : 0x616464U));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        VL_WRITEF(" x%0#,x%0#,x%0#",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                      >> 0xfU)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                      >> 0x14U)));
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                    if (VL_UNLIKELY(
-                                                    (0U 
-                                                     == 
-                                                     (7U 
-                                                      & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                         >> 0xcU))))) {
-                                        VL_WRITEF("sb");
-                                    } else {
-                                        if (VL_UNLIKELY(
-                                                        (1U 
-                                                         == 
-                                                         (7U 
-                                                          & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                             >> 0xcU))))) {
-                                            VL_WRITEF("sh");
-                                        } else {
-                                            if ((2U 
-                                                 == 
-                                                 (7U 
-                                                  & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                     >> 0xcU)))) {
-                                                VL_WRITEF("sw");
-                                            } else {
-                                                VL_WRITEF("s??");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__128__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__128__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__128__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | ((0x7e0U 
-                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__128__instr 
-                                                  >> 0x14U)) 
-                                              | (0x1fU 
-                                                 & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__128__instr 
-                                                    >> 7U))));
-                                    VL_WRITEF(" x%0#,%0d(x%0#)",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 0x14U)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__128__Vfuncout,
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 0xfU)));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            } else {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__130__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__130__Vfuncout 
-                                        = (0xfffff000U 
-                                           & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__130__instr);
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__129__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__129__Vfuncout 
-                                        = (0xfffffU 
-                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__129__instr 
-                                              >> 0xcU));
-                                    VL_WRITEF("auipc x%0#,0x%0x <0x%0x>",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 7U)),
-                                              20,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__129__Vfuncout,
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__130__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                VL_WRITEF("andi");
-                                            } else {
-                                                VL_WRITEF("ori");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                VL_WRITEF("%s",
-                                                          32,
-                                                          ((0x40000000U 
-                                                            & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)
-                                                            ? 0x73726169U
-                                                            : 0x73726c69U));
-                                            } else {
-                                                VL_WRITEF("xori");
-                                            }
-                                        }
-                                    } else {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                VL_WRITEF("sltiu");
-                                            } else {
-                                                VL_WRITEF("slti");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                VL_WRITEF("slli");
-                                            } else {
-                                                VL_WRITEF("addi");
-                                            }
-                                        }
-                                    }
-                                    if (((1U == (7U 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 0xcU))) 
-                                         | (5U == (7U 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                      >> 0xcU))))) {
-                                        VL_WRITEF(" x%0#,x%0#,%0#",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                      >> 0xfU)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                      >> 0x14U)));
-                                    } else {
-                                        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__131__instr 
-                                            = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-                                        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__131__Vfuncout 
-                                            = ((0xfffff800U 
-                                                & ((- (IData)(
-                                                              (1U 
-                                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__131__instr 
-                                                                  >> 0x1fU)))) 
-                                                   << 0xbU)) 
-                                               | (0x7ffU 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__131__instr 
-                                                     >> 0x14U)));
-                                        VL_WRITEF(" x%0#,x%0#,%0d",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                      >> 0xfU)),
-                                                  32,
-                                                  __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__131__Vfuncout);
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                        if (VL_UNLIKELY(
-                                                        (0x2000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr))) {
-                                            VL_WRITEF("l??");
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                VL_WRITEF("lhu");
-                                            } else {
-                                                VL_WRITEF("lbu");
-                                            }
-                                        }
-                                    } else {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                VL_WRITEF("l??");
-                                            } else {
-                                                VL_WRITEF("lw");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr)) {
-                                                VL_WRITEF("lh");
-                                            } else {
-                                                VL_WRITEF("lb");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__132__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__132__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__132__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | (0x7ffU 
-                                              & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__132__instr 
-                                                 >> 0x14U)));
-                                    VL_WRITEF(" x%0#,%0d(x%0#)",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 7U)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__132__Vfuncout,
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__122__instr 
-                                                    >> 0xfU)));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (VL_UNLIKELY((0x33U != vlTOPp->SOC__DOT__CPU__DOT__DE_instr))) {
-            VL_WRITEF("  rs1=0x%x  rs2=0x%x  ",32,vlTOPp->SOC__DOT__CPU__DOT__DE_rs1,
-                      32,vlTOPp->SOC__DOT__CPU__DOT__DE_rs2);
-        }
-        VL_WRITEF("\n");
-        VL_WRITEF("[D] PC=%x ",32,vlTOPp->SOC__DOT__CPU__DOT__FD_PC);
-        VL_WRITEF("[%s%s] ",8,((IData)(vlTOPp->SOC__DOT__CPU__DOT__rs1Hazard)
-                                ? 0x2aU : 0x20U),8,
-                  ((IData)(vlTOPp->SOC__DOT__CPU__DOT__rs2Hazard)
-                    ? 0x2aU : 0x20U));
-        __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__PC 
-            = vlTOPp->SOC__DOT__CPU__DOT__FD_PC;
-        __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-            = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop)
-                ? 0x33U : vlTOPp->SOC__DOT__CPU__DOT__FD_instr);
-        if ((0x40U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-            if (VL_LIKELY((0x20U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                    if (VL_UNLIKELY(
-                                                    (0U 
-                                                     == 
-                                                     (7U 
-                                                      & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                         >> 0xcU))))) {
-                                        VL_WRITEF("ebreak");
-                                    } else {
-                                        if (VL_LIKELY(
-                                                      (2U 
-                                                       == 
-                                                       (7U 
-                                                        & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                           >> 0xcU))))) {
-                                            if ((0x8000000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                if (
-                                                    (0x200000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                    VL_WRITEF("rdinstreth x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                                  >> 7U)));
-                                                } else {
-                                                    VL_WRITEF("rdcycleh x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                                  >> 7U)));
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x200000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                    VL_WRITEF("rdinstret x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                                  >> 7U)));
-                                                } else {
-                                                    VL_WRITEF("rdcycle x%0#",
-                                                              5,
-                                                              (0x1fU 
-                                                               & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                                  >> 7U)));
-                                                }
-                                            }
-                                        } else {
-                                            VL_WRITEF("SYSTEM");
-                                        }
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if ((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                        if (VL_LIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__134__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__134__Vfuncout 
-                                        = ((0xfff00000U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__134__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0x14U)) 
-                                           | ((0xff000U 
-                                               & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__134__instr) 
-                                              | ((0x800U 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__134__instr 
-                                                     >> 9U)) 
-                                                 | (0x7feU 
-                                                    & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__134__instr 
-                                                       >> 0x14U)))));
-                                    VL_WRITEF("jal x%0#,0x%0x",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 7U)),
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Jimm__134__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            VL_WRITEF("?????");
-                        }
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__135__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__135__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__135__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | (0x7ffU 
-                                              & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__135__instr 
-                                                 >> 0x14U)));
-                                    VL_WRITEF("jalr x%0#,x%0#,%0d",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 7U)),
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 0xfU)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__135__Vfuncout);
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                VL_WRITEF("bgeu");
-                                            } else {
-                                                VL_WRITEF("bltu");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                VL_WRITEF("bge");
-                                            } else {
-                                                VL_WRITEF("blt");
-                                            }
-                                        }
-                                    } else {
-                                        if (VL_UNLIKELY(
-                                                        (0x2000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                            VL_WRITEF("B???");
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                VL_WRITEF("bne");
-                                            } else {
-                                                VL_WRITEF("beq");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__136__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__136__Vfuncout 
-                                        = ((0xfffff000U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__136__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xcU)) 
-                                           | ((0x800U 
-                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__136__instr 
-                                                  << 4U)) 
-                                              | ((0x7e0U 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__136__instr 
-                                                     >> 0x14U)) 
-                                                 | (0x1eU 
-                                                    & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__136__instr 
-                                                       >> 7U)))));
-                                    VL_WRITEF(" x%0#,x%0#,0x%0x",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 0xfU)),
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 0x14U)),
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Bimm__136__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            } else {
-                VL_WRITEF("?????");
-            }
-        } else {
-            if ((0x20U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__138__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__138__Vfuncout 
-                                        = (0xfffff000U 
-                                           & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__138__instr);
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__137__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__137__Vfuncout 
-                                        = (0xfffffU 
-                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__137__instr 
-                                              >> 0xcU));
-                                    VL_WRITEF("lui x%0#,0x%0x <0x%0x>",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 7U)),
-                                              20,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__137__Vfuncout,
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__138__Vfuncout);
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                    if ((0U == (0x1ffffffU 
-                                                & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                   >> 7U)))) {
-                                        VL_WRITEF("nop");
-                                    } else {
-                                        if ((0x2000000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                            if ((0x4000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                        VL_WRITEF("remu");
-                                                    } else {
-                                                        VL_WRITEF("rem");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                        VL_WRITEF("divu");
-                                                    } else {
-                                                        VL_WRITEF("div");
-                                                    }
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                        VL_WRITEF("mulhu");
-                                                    } else {
-                                                        VL_WRITEF("mulhsu");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                        VL_WRITEF("mulh");
-                                                    } else {
-                                                        VL_WRITEF("mul");
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            if ((0x4000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                        VL_WRITEF("and");
-                                                    } else {
-                                                        VL_WRITEF("or");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                        VL_WRITEF("%s",
-                                                                  24,
-                                                                  ((0x40000000U 
-                                                                    & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)
-                                                                    ? 0x737261U
-                                                                    : 0x73726cU));
-                                                    } else {
-                                                        VL_WRITEF("xor");
-                                                    }
-                                                }
-                                            } else {
-                                                if (
-                                                    (0x2000U 
-                                                     & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                        VL_WRITEF("sltu");
-                                                    } else {
-                                                        VL_WRITEF("slt");
-                                                    }
-                                                } else {
-                                                    if (
-                                                        (0x1000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                        VL_WRITEF("sll");
-                                                    } else {
-                                                        VL_WRITEF("%s",
-                                                                  24,
-                                                                  ((0x40000000U 
-                                                                    & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)
-                                                                    ? 0x737562U
-                                                                    : 0x616464U));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        VL_WRITEF(" x%0#,x%0#,x%0#",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                      >> 0xfU)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                      >> 0x14U)));
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                    if (VL_UNLIKELY(
-                                                    (0U 
-                                                     == 
-                                                     (7U 
-                                                      & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                         >> 0xcU))))) {
-                                        VL_WRITEF("sb");
-                                    } else {
-                                        if (VL_UNLIKELY(
-                                                        (1U 
-                                                         == 
-                                                         (7U 
-                                                          & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                             >> 0xcU))))) {
-                                            VL_WRITEF("sh");
-                                        } else {
-                                            if ((2U 
-                                                 == 
-                                                 (7U 
-                                                  & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                     >> 0xcU)))) {
-                                                VL_WRITEF("sw");
-                                            } else {
-                                                VL_WRITEF("s??");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__139__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__139__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__139__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | ((0x7e0U 
-                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__139__instr 
-                                                  >> 0x14U)) 
-                                              | (0x1fU 
-                                                 & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__139__instr 
-                                                    >> 7U))));
-                                    VL_WRITEF(" x%0#,%0d(x%0#)",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 0x14U)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Simm__139__Vfuncout,
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 0xfU)));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            } else {
-                if ((0x10U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if ((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__141__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__141__Vfuncout 
-                                        = (0xfffff000U 
-                                           & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__141__instr);
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__140__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__140__Vfuncout 
-                                        = (0xfffffU 
-                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__140__instr 
-                                              >> 0xcU));
-                                    VL_WRITEF("auipc x%0#,0x%0x <0x%0x>",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 7U)),
-                                              20,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm_raw__140__Vfuncout,
-                                              32,(__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__PC 
-                                                  + __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Uimm__141__Vfuncout));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                if (VL_LIKELY((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                VL_WRITEF("andi");
-                                            } else {
-                                                VL_WRITEF("ori");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                VL_WRITEF("%s",
-                                                          32,
-                                                          ((0x40000000U 
-                                                            & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)
-                                                            ? 0x73726169U
-                                                            : 0x73726c69U));
-                                            } else {
-                                                VL_WRITEF("xori");
-                                            }
-                                        }
-                                    } else {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                VL_WRITEF("sltiu");
-                                            } else {
-                                                VL_WRITEF("slti");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                VL_WRITEF("slli");
-                                            } else {
-                                                VL_WRITEF("addi");
-                                            }
-                                        }
-                                    }
-                                    if (((1U == (7U 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 0xcU))) 
-                                         | (5U == (7U 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                      >> 0xcU))))) {
-                                        VL_WRITEF(" x%0#,x%0#,%0#",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                      >> 0xfU)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                      >> 0x14U)));
-                                    } else {
-                                        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__142__instr 
-                                            = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-                                        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__142__Vfuncout 
-                                            = ((0xfffff800U 
-                                                & ((- (IData)(
-                                                              (1U 
-                                                               & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__142__instr 
-                                                                  >> 0x1fU)))) 
-                                                   << 0xbU)) 
-                                               | (0x7ffU 
-                                                  & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__142__instr 
-                                                     >> 0x14U)));
-                                        VL_WRITEF(" x%0#,x%0#,%0d",
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                      >> 7U)),
-                                                  5,
-                                                  (0x1fU 
-                                                   & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                      >> 0xfU)),
-                                                  32,
-                                                  __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__142__Vfuncout);
-                                    }
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                } else {
-                    if (VL_UNLIKELY((8U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                        VL_WRITEF("?????");
-                    } else {
-                        if (VL_UNLIKELY((4U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                            VL_WRITEF("?????");
-                        } else {
-                            if (VL_LIKELY((2U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                if ((1U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                    if ((0x4000U & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                        if (VL_UNLIKELY(
-                                                        (0x2000U 
-                                                         & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr))) {
-                                            VL_WRITEF("l??");
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                VL_WRITEF("lhu");
-                                            } else {
-                                                VL_WRITEF("lbu");
-                                            }
-                                        }
-                                    } else {
-                                        if ((0x2000U 
-                                             & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                VL_WRITEF("l??");
-                                            } else {
-                                                VL_WRITEF("lw");
-                                            }
-                                        } else {
-                                            if ((0x1000U 
-                                                 & __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr)) {
-                                                VL_WRITEF("lh");
-                                            } else {
-                                                VL_WRITEF("lb");
-                                            }
-                                        }
-                                    }
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__143__instr 
-                                        = __Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr;
-                                    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__143__Vfuncout 
-                                        = ((0xfffff800U 
-                                            & ((- (IData)(
-                                                          (1U 
-                                                           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__143__instr 
-                                                              >> 0x1fU)))) 
-                                               << 0xbU)) 
-                                           | (0x7ffU 
-                                              & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__143__instr 
-                                                 >> 0x14U)));
-                                    VL_WRITEF(" x%0#,%0d(x%0#)",
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 7U)),
-                                              32,__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_Iimm__143__Vfuncout,
-                                              5,(0x1fU 
-                                                 & (__Vtask_SOC__DOT__CPU__DOT__riscv_disasm__133__instr 
-                                                    >> 0xfU)));
-                                } else {
-                                    VL_WRITEF("?????");
-                                }
-                            } else {
-                                VL_WRITEF("?????");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        VL_WRITEF("\n");
-        VL_WRITEF("[F] PC=%x ",32,vlTOPp->SOC__DOT__CPU__DOT__F_PC);
-        if (VL_UNLIKELY(vlTOPp->SOC__DOT__CPU__DOT__E_JumpOrBranch)) {
-            VL_WRITEF(" PC <- 0x%0x",32,vlTOPp->SOC__DOT__CPU__DOT__E_JumpOrBranchAddr);
-        }
-        VL_WRITEF("\n\n");
+    if (vlTOPp->SOC__DOT__CPU__DOT__dataHazard) {
+        vlTOPp->SOC__DOT__CPU__DOT__nbLoadHazard = 
+            ((IData)(1U) + vlTOPp->SOC__DOT__CPU__DOT__nbLoadHazard);
     }
     __Vdly__SOC__DOT__CPU__DOT__cycle = ((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt))
                                           ? (1ULL + vlTOPp->SOC__DOT__CPU__DOT__cycle)
                                           : 0ULL);
-    if (vlTOPp->SOC__DOT__CPU__DOT__wbEnable) {
-        __Vdlyvval__SOC__DOT__CPU__DOT__RegisterBank__v0 
-            = vlTOPp->SOC__DOT__CPU__DOT__wbData;
-        __Vdlyvset__SOC__DOT__CPU__DOT__RegisterBank__v0 = 1U;
-        __Vdlyvdim0__SOC__DOT__CPU__DOT__RegisterBank__v0 
-            = vlTOPp->SOC__DOT__CPU__DOT__wbRdId;
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_correctPC = vlTOPp->SOC__DOT__CPU__DOT__E_correctPC;
     }
-    vlTOPp->SOC__DOT__CPU__DOT__MW_Eresult = vlTOPp->SOC__DOT__CPU__DOT__EM_Eresult;
-    if ((1U & (((IData)(vlTOPp->SOC__DOT__UART__DOT__cnt) 
-                >> 7U) & (~ (IData)((0U != (IData)(vlTOPp->SOC__DOT__UART__DOT__data))))))) {
-        __Vdly__SOC__DOT__uart_ready = 1U;
-    } else {
-        if (((IData)(vlTOPp->SOC__DOT__uart_valid) 
-             & (IData)(vlTOPp->SOC__DOT__uart_ready))) {
-            __Vdly__SOC__DOT__uart_ready = 0U;
-        }
+    if (vlTOPp->SOC__DOT__CPU__DOT__aluBusy) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_correctPC = 0U;
     }
-    __Vdly__SOC__DOT__UART__DOT__cnt = ((1U & ((IData)(vlTOPp->SOC__DOT__uart_ready) 
-                                               | ((IData)(vlTOPp->SOC__DOT__UART__DOT__cnt) 
-                                                  >> 7U)))
-                                         ? 0x56U : 
-                                        (0xffU & ((IData)(vlTOPp->SOC__DOT__UART__DOT__cnt) 
-                                                  - (IData)(1U))));
-    if ((0x80U & (IData)(vlTOPp->SOC__DOT__UART__DOT__cnt))) {
-        vlTOPp->SOC__DOT__UART__DOT__data = (0x1ffU 
-                                             & ((IData)(vlTOPp->SOC__DOT__UART__DOT__data) 
-                                                >> 1U));
-    } else {
-        if (((IData)(vlTOPp->SOC__DOT__uart_valid) 
-             & (IData)(vlTOPp->SOC__DOT__uart_ready))) {
-            vlTOPp->SOC__DOT__UART__DOT__data = (0x200U 
-                                                 | (0x1feU 
-                                                    & (vlTOPp->SOC__DOT__CPU__DOT__EM_rs2 
-                                                       << 1U)));
-        }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__PC = ((IData)(4U) 
+                                          + vlTOPp->SOC__DOT__CPU__DOT__F_PC);
     }
-    vlTOPp->SOC__DOT__CPU__DOT__MW_IOresult = ((0x10U 
-                                                & vlTOPp->SOC__DOT__CPU__DOT__EM_addr)
-                                                ? (0x200U 
-                                                   & ((~ (IData)(vlTOPp->SOC__DOT__uart_ready)) 
-                                                      << 9U))
-                                                : 0U);
-    vlTOPp->SOC__DOT__CPU__DOT__MW_Mdata = vlTOPp->SOC__DOT__CPU__DOT__DATARAM
-        [(0x3fffU & (vlTOPp->SOC__DOT__CPU__DOT__EM_addr 
-                     >> 2U))];
-    vlTOPp->SOC__DOT__CPU__DOT__MW_addr = vlTOPp->SOC__DOT__CPU__DOT__EM_addr;
-    __Vfunc_SOC__DOT__CPU__DOT__csrId__46__I = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-    __Vfunc_SOC__DOT__CPU__DOT__csrId__46__Vfuncout 
-        = ((2U & (__Vfunc_SOC__DOT__CPU__DOT__csrId__46__I 
-                  >> 0x1aU)) | (1U & (__Vfunc_SOC__DOT__CPU__DOT__csrId__46__I 
-                                      >> 0x15U)));
-    if ((2U & (IData)(__Vfunc_SOC__DOT__CPU__DOT__csrId__46__Vfuncout))) {
-        __Vfunc_SOC__DOT__CPU__DOT__csrId__47__I = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-        __Vfunc_SOC__DOT__CPU__DOT__csrId__47__Vfuncout 
-            = ((2U & (__Vfunc_SOC__DOT__CPU__DOT__csrId__47__I 
-                      >> 0x1aU)) | (1U & (__Vfunc_SOC__DOT__CPU__DOT__csrId__47__I 
-                                          >> 0x15U)));
-        vlTOPp->SOC__DOT__CPU__DOT__MW_CSRresult = 
-            ((1U & (IData)(__Vfunc_SOC__DOT__CPU__DOT__csrId__47__Vfuncout))
-              ? (IData)((vlTOPp->SOC__DOT__CPU__DOT__instret 
-                         >> 0x20U)) : (IData)((vlTOPp->SOC__DOT__CPU__DOT__cycle 
-                                               >> 0x20U)));
-    } else {
-        __Vfunc_SOC__DOT__CPU__DOT__csrId__48__I = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-        __Vfunc_SOC__DOT__CPU__DOT__csrId__48__Vfuncout 
-            = ((2U & (__Vfunc_SOC__DOT__CPU__DOT__csrId__48__I 
-                      >> 0x1aU)) | (1U & (__Vfunc_SOC__DOT__CPU__DOT__csrId__48__I 
-                                          >> 0x15U)));
-        vlTOPp->SOC__DOT__CPU__DOT__MW_CSRresult = 
-            ((1U & (IData)(__Vfunc_SOC__DOT__CPU__DOT__csrId__48__Vfuncout))
-              ? (IData)(vlTOPp->SOC__DOT__CPU__DOT__instret)
-              : (IData)(vlTOPp->SOC__DOT__CPU__DOT__cycle));
+    if ((1U & (~ (IData)((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)))))) {
+        vlTOPp->SOC__DOT__CPU__DOT__PC = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isJALR = vlTOPp->SOC__DOT__CPU__DOT__D_isJALR;
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isJALR = 0U;
     }
     if ((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt))) {
-        if ((0x33U != vlTOPp->SOC__DOT__CPU__DOT__MW_instr)) {
-            vlTOPp->SOC__DOT__CPU__DOT__instret = (1ULL 
+        if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__MW_nop)))) {
+            __Vdly__SOC__DOT__CPU__DOT__instret = (1ULL 
                                                    + vlTOPp->SOC__DOT__CPU__DOT__instret);
         }
     } else {
-        vlTOPp->SOC__DOT__CPU__DOT__instret = 0ULL;
+        __Vdly__SOC__DOT__CPU__DOT__instret = 0ULL;
     }
-    if (((IData)(vlTOPp->SOC__DOT__IO_mem_wr) & (vlTOPp->SOC__DOT__CPU__DOT__EM_addr 
-                                                 >> 2U))) {
-        vlTOPp->LEDS = (0x1fU & vlTOPp->SOC__DOT__CPU__DOT__EM_rs2);
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is = 
+            (0xffU & ((IData)(1U) << (7U & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                            >> 0xcU))));
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isEBREAK = (
+                                                   (0x1cU 
+                                                    == 
+                                                    (0x1fU 
+                                                     & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                        >> 2U))) 
+                                                   & (~ 
+                                                      (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                       >> 0xdU)));
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isEBREAK = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isRV32M = ((0xcU 
+                                                   == 
+                                                   (0x1fU 
+                                                    & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                       >> 2U))) 
+                                                  & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                     >> 0x19U));
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isRV32M = 0U;
+    }
+    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isStore__9__I 
+        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
+    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isStore__9__Vfuncout 
+        = (0x23U == (0x7fU & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isStore__9__I));
+    if (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isStore__9__Vfuncout) {
+        vlTOPp->SOC__DOT__CPU__DOT__nbStore = ((IData)(1U) 
+                                               + vlTOPp->SOC__DOT__CPU__DOT__nbStore);
+    }
+    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isLoad__8__I 
+        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
+    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isLoad__8__Vfuncout 
+        = (3U == (0x7fU & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isLoad__8__I));
+    if (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isLoad__8__Vfuncout) {
+        vlTOPp->SOC__DOT__CPU__DOT__nbLoad = ((IData)(1U) 
+                                              + vlTOPp->SOC__DOT__CPU__DOT__nbLoad);
+    }
+    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isRV32M__10__I 
+        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
+    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isALUreg__11__I 
+        = __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isRV32M__10__I;
+    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isALUreg__11__Vfuncout 
+        = (0x33U == (0x7fU & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isALUreg__11__I));
+    __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isRV32M__10__Vfuncout 
+        = ((IData)(__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isALUreg__11__Vfuncout) 
+           & (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isRV32M__10__I 
+              >> 0x19U));
+    if (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isRV32M__10__Vfuncout) {
+        if ((0x4000U & vlTOPp->SOC__DOT__CPU__DOT__MW_instr)) {
+            vlTOPp->SOC__DOT__CPU__DOT__nbDIV = ((IData)(1U) 
+                                                 + vlTOPp->SOC__DOT__CPU__DOT__nbDIV);
+        } else {
+            vlTOPp->SOC__DOT__CPU__DOT__nbMUL = ((IData)(1U) 
+                                                 + vlTOPp->SOC__DOT__CPU__DOT__nbMUL);
+        }
+    }
+    if (((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)) 
+         & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJAL__6__I 
+            = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
+        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJAL__6__Vfuncout 
+            = (0x6fU == (0x7fU & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJAL__6__I));
+        if (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJAL__6__Vfuncout) {
+            vlTOPp->SOC__DOT__CPU__DOT__nbJAL = ((IData)(1U) 
+                                                 + vlTOPp->SOC__DOT__CPU__DOT__nbJAL);
+        }
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_funct7 = (1U 
+                                                 & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                    >> 0x1eU));
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_isStore = vlTOPp->SOC__DOT__CPU__DOT__DE_isStore;
+    }
+    if (vlTOPp->SOC__DOT__CPU__DOT__aluBusy) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_isStore = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isDIV = (((0xcU 
+                                                  == 
+                                                  (0x1fU 
+                                                   & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                      >> 2U))) 
+                                                 & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                    >> 0x19U)) 
+                                                & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                   >> 0xeU));
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isDIV = 0U;
+    }
+    if (((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)) 
+         & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isBranch__5__I 
+            = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
+        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isBranch__5__Vfuncout 
+            = (0x63U == (0x7fU & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isBranch__5__I));
+        if (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isBranch__5__Vfuncout) {
+            vlTOPp->SOC__DOT__CPU__DOT__nbBranch = 
+                ((IData)(1U) + vlTOPp->SOC__DOT__CPU__DOT__nbBranch);
+            if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_takeBranch) 
+                 == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_predictBranch))) {
+                vlTOPp->SOC__DOT__CPU__DOT__nbBranchHit 
+                    = ((IData)(1U) + vlTOPp->SOC__DOT__CPU__DOT__nbBranchHit);
+            }
+        }
+    }
+    if (((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)) 
+         & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__7__I 
+            = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
+        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__7__Vfuncout 
+            = (0x67U == (0x7fU & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__7__I));
+        if (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__7__Vfuncout) {
+            vlTOPp->SOC__DOT__CPU__DOT__nbJALR = ((IData)(1U) 
+                                                  + vlTOPp->SOC__DOT__CPU__DOT__nbJALR);
+            if ((vlTOPp->SOC__DOT__CPU__DOT__DE_predictRA 
+                 == (0xfffffffeU & vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus))) {
+                vlTOPp->SOC__DOT__CPU__DOT__nbJALRhit 
+                    = ((IData)(1U) + vlTOPp->SOC__DOT__CPU__DOT__nbJALRhit);
+            }
+        }
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        if ((1U & ((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop)) 
+                   & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_correctPC))))) {
+            if (((vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                  >> 3U) & (1U == (0x1fU & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                            >> 7U))))) {
+                __Vdly__SOC__DOT__CPU__DOT__RAS_2 = vlTOPp->SOC__DOT__CPU__DOT__RAS_1;
+                __Vdly__SOC__DOT__CPU__DOT__RAS_0 = 
+                    ((IData)(4U) + vlTOPp->SOC__DOT__CPU__DOT__FD_PC);
+            }
+            if ((((IData)(vlTOPp->SOC__DOT__CPU__DOT__D_isJALR) 
+                  & (0U == (0x1fU & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                     >> 7U)))) & ((1U 
+                                                   == 
+                                                   (0x1fU 
+                                                    & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                       >> 0xfU))) 
+                                                  | (5U 
+                                                     == 
+                                                     (0x1fU 
+                                                      & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                         >> 0xfU)))))) {
+                __Vdly__SOC__DOT__CPU__DOT__RAS_0 = vlTOPp->SOC__DOT__CPU__DOT__RAS_1;
+                __Vdly__SOC__DOT__CPU__DOT__RAS_2 = vlTOPp->SOC__DOT__CPU__DOT__RAS_3;
+            }
+        }
     }
     if ((1U & (IData)(vlTOPp->SOC__DOT__CPU__DOT__M_wmask))) {
         __Vdlyvval__SOC__DOT__CPU__DOT__DATARAM__v0 
@@ -2938,9 +413,436 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
             = (0x3fffU & (vlTOPp->SOC__DOT__CPU__DOT__EM_addr 
                           >> 2U));
     }
+    if ((1U & (((IData)(vlTOPp->SOC__DOT__UART__DOT__cnt) 
+                >> 7U) & (~ (IData)((0U != (IData)(vlTOPp->SOC__DOT__UART__DOT__data))))))) {
+        __Vdly__SOC__DOT__uart_ready = 1U;
+    } else {
+        if (((IData)(vlTOPp->SOC__DOT__uart_valid) 
+             & (IData)(vlTOPp->SOC__DOT__uart_ready))) {
+            __Vdly__SOC__DOT__uart_ready = 0U;
+        }
+    }
+    __Vdly__SOC__DOT__UART__DOT__cnt = ((1U & ((IData)(vlTOPp->SOC__DOT__uart_ready) 
+                                               | ((IData)(vlTOPp->SOC__DOT__UART__DOT__cnt) 
+                                                  >> 7U)))
+                                         ? 0x56U : 
+                                        (0xffU & ((IData)(vlTOPp->SOC__DOT__UART__DOT__cnt) 
+                                                  - (IData)(1U))));
+    if ((0x80U & (IData)(vlTOPp->SOC__DOT__UART__DOT__cnt))) {
+        vlTOPp->SOC__DOT__UART__DOT__data = (0x1ffU 
+                                             & ((IData)(vlTOPp->SOC__DOT__UART__DOT__data) 
+                                                >> 1U));
+    } else {
+        if (((IData)(vlTOPp->SOC__DOT__uart_valid) 
+             & (IData)(vlTOPp->SOC__DOT__uart_ready))) {
+            vlTOPp->SOC__DOT__UART__DOT__data = (0x200U 
+                                                 | (0x1feU 
+                                                    & (vlTOPp->SOC__DOT__CPU__DOT__EM_rs2 
+                                                       << 1U)));
+        }
+    }
+    if (((IData)(vlTOPp->SOC__DOT__IO_mem_wr) & (vlTOPp->SOC__DOT__CPU__DOT__EM_addr 
+                                                 >> 2U))) {
+        vlTOPp->LEDS = (0x1fU & vlTOPp->SOC__DOT__CPU__DOT__EM_rs2);
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_IorSimm = ((8U 
+                                                   == 
+                                                   (0x1fU 
+                                                    & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                       >> 2U)))
+                                                   ? 
+                                                  ((0xfffff800U 
+                                                    & ((- (IData)(
+                                                                  (1U 
+                                                                   & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                                      >> 0x1fU)))) 
+                                                       << 0xbU)) 
+                                                   | ((0x7e0U 
+                                                       & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                          >> 0x14U)) 
+                                                      | (0x1fU 
+                                                         & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                            >> 7U))))
+                                                   : 
+                                                  ((0xfffff800U 
+                                                    & ((- (IData)(
+                                                                  (1U 
+                                                                   & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                                      >> 0x1fU)))) 
+                                                       << 0xbU)) 
+                                                   | (0x7ffU 
+                                                      & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                         >> 0x14U))));
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isALUreg = (0xcU 
+                                                   == 
+                                                   (0x1fU 
+                                                    & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                       >> 2U)));
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isALUreg = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        if (vlTOPp->SOC__DOT__CPU__DOT__DE_isBranch) {
+            __Vdly__SOC__DOT__CPU__DOT__branch_history 
+                = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_takeBranch) 
+                    << 8U) | (0xffU & ((IData)(vlTOPp->SOC__DOT__CPU__DOT__branch_history) 
+                                       >> 1U)));
+        }
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_PCcorrection 
+            = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isBranch)
+                ? vlTOPp->SOC__DOT__CPU__DOT__DE_PCplus4orBimm
+                : (0xfffffffeU & vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus));
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        if (vlTOPp->SOC__DOT__CPU__DOT__DE_isBranch) {
+            __Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__dir 
+                = vlTOPp->SOC__DOT__CPU__DOT__E_takeBranch;
+            __Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__prev 
+                = vlTOPp->SOC__DOT__CPU__DOT__BHT[vlTOPp->SOC__DOT__CPU__DOT__DE_BHTindex];
+            __Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__Vfuncout 
+                = ((0U == (((IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__dir) 
+                            << 2U) | (IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__prev)))
+                    ? 0U : ((1U == (((IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__dir) 
+                                     << 2U) | (IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__prev)))
+                             ? 0U : ((2U == (((IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__dir) 
+                                              << 2U) 
+                                             | (IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__prev)))
+                                      ? 1U : ((3U == 
+                                               (((IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__dir) 
+                                                 << 2U) 
+                                                | (IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__prev)))
+                                               ? 2U
+                                               : ((4U 
+                                                   == 
+                                                   (((IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__dir) 
+                                                     << 2U) 
+                                                    | (IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__prev)))
+                                                   ? 1U
+                                                   : 
+                                                  ((5U 
+                                                    == 
+                                                    (((IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__dir) 
+                                                      << 2U) 
+                                                     | (IData)(__Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__prev)))
+                                                    ? 2U
+                                                    : 3U))))));
+            __Vdlyvval__SOC__DOT__CPU__DOT__BHT__v0 
+                = __Vfunc_SOC__DOT__CPU__DOT__incdec_sat__4__Vfuncout;
+            __Vdlyvset__SOC__DOT__CPU__DOT__BHT__v0 = 1U;
+            __Vdlyvdim0__SOC__DOT__CPU__DOT__BHT__v0 
+                = vlTOPp->SOC__DOT__CPU__DOT__DE_BHTindex;
+        }
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_rs1Id = (0x1fU 
+                                                & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                   >> 0xfU));
+    }
+    if ((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt))) {
+        if (vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__busy_r) {
+            if (vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divstep_do) {
+                vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r 
+                    = (vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r 
+                       - (IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divisor_r));
+                vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r 
+                    = (vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r 
+                       | vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r);
+            } else {
+                vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r 
+                    = vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r;
+                vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r 
+                    = vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r;
+            }
+            vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divisor_r 
+                = (0x7fffffffffffffffULL & (vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divisor_r 
+                                            >> 1U));
+            __Vdly__SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r 
+                = (vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r 
+                   >> 1U);
+            vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__busy_r 
+                = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__busy_r) 
+                   & (~ vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r));
+        } else {
+            if (((IData)(vlTOPp->SOC__DOT__CPU__DOT____Vcellinp__DIVU__start) 
+                 & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__finished_r)))) {
+                __Vdly__SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r = 0x80000000U;
+                vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__busy_r = 1U;
+            }
+            vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r 
+                = ((1U & ((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3)) 
+                          & (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
+                             >> 0x1fU))) ? (- vlTOPp->SOC__DOT__CPU__DOT__E_rs1)
+                    : vlTOPp->SOC__DOT__CPU__DOT__E_rs1);
+            vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divisor_r 
+                = ((QData)((IData)(((1U & ((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3)) 
+                                           & (vlTOPp->SOC__DOT__CPU__DOT__E_rs2 
+                                              >> 0x1fU)))
+                                     ? (- vlTOPp->SOC__DOT__CPU__DOT__E_rs2)
+                                     : vlTOPp->SOC__DOT__CPU__DOT__E_rs2))) 
+                   << 0x1fU);
+            vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r = 0U;
+            vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__sign_r 
+                = (1U & ((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3)) 
+                         & ((2U & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3))
+                             ? (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
+                                >> 0x1fU) : (((1U & 
+                                               (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
+                                                >> 0x1fU)) 
+                                              != (1U 
+                                                  & (vlTOPp->SOC__DOT__CPU__DOT__E_rs2 
+                                                     >> 0x1fU))) 
+                                             & (0U 
+                                                != vlTOPp->SOC__DOT__CPU__DOT__E_rs2)))));
+        }
+        vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__finished_r 
+            = (1U & vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r);
+    } else {
+        vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r = 0U;
+        vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divisor_r = 0ULL;
+        vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r = 0U;
+        __Vdly__SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r = 0U;
+        vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__sign_r = 0U;
+        vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__busy_r = 0U;
+        vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__finished_r = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_rs2Id = (0x1fU 
+                                                & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                   >> 0x14U));
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__MW_wbEnable) 
+         & (0U != (IData)(vlTOPp->SOC__DOT__CPU__DOT__MW_rdId)))) {
+        __Vdlyvval__SOC__DOT__CPU__DOT__RF__DOT__regs__v0 
+            = vlTOPp->SOC__DOT__CPU__DOT__MW_wbData;
+        __Vdlyvset__SOC__DOT__CPU__DOT__RF__DOT__regs__v0 = 1U;
+        __Vdlyvdim0__SOC__DOT__CPU__DOT__RF__DOT__regs__v0 
+            = vlTOPp->SOC__DOT__CPU__DOT__MW_rdId;
+    }
     vlTOPp->SOC__DOT__UART__DOT__cnt = __Vdly__SOC__DOT__UART__DOT__cnt;
+    if (__Vdlyvset__SOC__DOT__CPU__DOT__BHT__v0) {
+        vlTOPp->SOC__DOT__CPU__DOT__BHT[__Vdlyvdim0__SOC__DOT__CPU__DOT__BHT__v0] 
+            = __Vdlyvval__SOC__DOT__CPU__DOT__BHT__v0;
+    }
+    vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r 
+        = __Vdly__SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r;
+    if (__Vdlyvset__SOC__DOT__CPU__DOT__RF__DOT__regs__v0) {
+        vlTOPp->SOC__DOT__CPU__DOT__RF__DOT__regs[__Vdlyvdim0__SOC__DOT__CPU__DOT__RF__DOT__regs__v0] 
+            = __Vdlyvval__SOC__DOT__CPU__DOT__RF__DOT__regs__v0;
+    }
+    vlTOPp->SOC__DOT__CPU__DOT__RF__DOT__regs[0U] = 0U;
+    vlTOPp->SOC__DOT__CPU__DOT__MW_nop = vlTOPp->SOC__DOT__CPU__DOT__EM_nop;
+    vlTOPp->SOC__DOT__CPU__DOT__MW_instr = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isStore = (8U 
+                                                  == 
+                                                  (0x1fU 
+                                                   & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                      >> 2U)));
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isStore = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_predictBranch 
+            = vlTOPp->SOC__DOT__CPU__DOT__D_predictBranch;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_predictRA = vlTOPp->SOC__DOT__CPU__DOT__RAS_0;
+        if ((1U & ((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop)) 
+                   & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_correctPC))))) {
+            if (((vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                  >> 3U) & (1U == (0x1fU & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                            >> 7U))))) {
+                vlTOPp->SOC__DOT__CPU__DOT__RAS_3 = vlTOPp->SOC__DOT__CPU__DOT__RAS_2;
+                vlTOPp->SOC__DOT__CPU__DOT__RAS_1 = vlTOPp->SOC__DOT__CPU__DOT__RAS_0;
+            }
+            if ((((IData)(vlTOPp->SOC__DOT__CPU__DOT__D_isJALR) 
+                  & (0U == (0x1fU & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                     >> 7U)))) & ((1U 
+                                                   == 
+                                                   (0x1fU 
+                                                    & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                       >> 0xfU))) 
+                                                  | (5U 
+                                                     == 
+                                                     (0x1fU 
+                                                      & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                         >> 0xfU)))))) {
+                vlTOPp->SOC__DOT__CPU__DOT__RAS_1 = vlTOPp->SOC__DOT__CPU__DOT__RAS_2;
+            }
+        }
+    }
+    vlTOPp->TXD = (1U & ((IData)(vlTOPp->SOC__DOT__UART__DOT__data) 
+                         | (~ (IData)((0U != (IData)(vlTOPp->SOC__DOT__UART__DOT__data))))));
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_rs2 = vlTOPp->SOC__DOT__CPU__DOT__E_rs2;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_PCplus4orBimm 
+            = (vlTOPp->SOC__DOT__CPU__DOT__FD_PC + 
+               ((IData)(vlTOPp->SOC__DOT__CPU__DOT__D_predictBranch)
+                 ? 4U : vlTOPp->SOC__DOT__CPU__DOT__D_Bimm));
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        __Vfunc_SOC__DOT__CPU__DOT__BHT_index__1__PC 
+            = vlTOPp->SOC__DOT__CPU__DOT__FD_PC;
+        __Vfunc_SOC__DOT__CPU__DOT__BHT_index__1__Vfuncout 
+            = (0xfffU & ((__Vfunc_SOC__DOT__CPU__DOT__BHT_index__1__PC 
+                          >> 2U) ^ ((IData)(vlTOPp->SOC__DOT__CPU__DOT__branch_history) 
+                                    << 3U)));
+        vlTOPp->SOC__DOT__CPU__DOT__DE_BHTindex = __Vfunc_SOC__DOT__CPU__DOT__BHT_index__1__Vfuncout;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isBranch = (4U 
+                                                   == 
+                                                   ((4U 
+                                                     & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                        >> 4U)) 
+                                                    | ((2U 
+                                                        & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                           >> 3U)) 
+                                                       | (1U 
+                                                          & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                             >> 2U)))));
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isBranch = 0U;
+    }
+    vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divstep_do 
+        = (vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divisor_r 
+           <= (QData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r)));
+    vlTOPp->SOC__DOT__CPU__DOT__MW_rdId = vlTOPp->SOC__DOT__CPU__DOT__EM_rdId;
+    vlTOPp->SOC__DOT__CPU__DOT__MW_wbEnable = vlTOPp->SOC__DOT__CPU__DOT__EM_wbEnable;
+    vlTOPp->SOC__DOT__CPU__DOT__MW_wbData = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_isLoad)
+                                              ? ((0x400000U 
+                                                  & vlTOPp->SOC__DOT__CPU__DOT__EM_addr)
+                                                  ? 
+                                                 ((0x10U 
+                                                   & vlTOPp->SOC__DOT__CPU__DOT__EM_addr)
+                                                   ? 
+                                                  (0x200U 
+                                                   & ((~ (IData)(vlTOPp->SOC__DOT__uart_ready)) 
+                                                      << 9U))
+                                                   : 0U)
+                                                  : 
+                                                 ((0U 
+                                                   == 
+                                                   (3U 
+                                                    & (IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_funct3)))
+                                                   ? 
+                                                  ((0xffffff00U 
+                                                    & ((- (IData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_sign))) 
+                                                       << 8U)) 
+                                                   | (IData)(vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_b))
+                                                   : 
+                                                  ((1U 
+                                                    == 
+                                                    (3U 
+                                                     & (IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_funct3)))
+                                                    ? 
+                                                   ((0xffff0000U 
+                                                     & ((- (IData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_sign))) 
+                                                        << 0x10U)) 
+                                                    | (IData)(vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_h))
+                                                    : vlTOPp->SOC__DOT__CPU__DOT__EM_Mdata)))
+                                              : ((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_isCSRRS)
+                                                  ? 
+                                                 (((((1U 
+                                                      & (IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_csrId_is))
+                                                      ? (IData)(vlTOPp->SOC__DOT__CPU__DOT__cycle)
+                                                      : 0U) 
+                                                    | ((4U 
+                                                        & (IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_csrId_is))
+                                                        ? (IData)(
+                                                                  (vlTOPp->SOC__DOT__CPU__DOT__cycle 
+                                                                   >> 0x20U))
+                                                        : 0U)) 
+                                                   | ((2U 
+                                                       & (IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_csrId_is))
+                                                       ? (IData)(vlTOPp->SOC__DOT__CPU__DOT__instret)
+                                                       : 0U)) 
+                                                  | ((8U 
+                                                      & (IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_csrId_is))
+                                                      ? (IData)(
+                                                                (vlTOPp->SOC__DOT__CPU__DOT__instret 
+                                                                 >> 0x20U))
+                                                      : 0U))
+                                                  : vlTOPp->SOC__DOT__CPU__DOT__EM_Eresult));
+    vlTOPp->SOC__DOT__CPU__DOT__RAS_2 = __Vdly__SOC__DOT__CPU__DOT__RAS_2;
+    vlTOPp->SOC__DOT__CPU__DOT__RAS_0 = __Vdly__SOC__DOT__CPU__DOT__RAS_0;
+    vlTOPp->SOC__DOT__CPU__DOT__branch_history = __Vdly__SOC__DOT__CPU__DOT__branch_history;
     vlTOPp->SOC__DOT__uart_ready = __Vdly__SOC__DOT__uart_ready;
     vlTOPp->SOC__DOT__CPU__DOT__cycle = __Vdly__SOC__DOT__CPU__DOT__cycle;
+    vlTOPp->SOC__DOT__CPU__DOT__instret = __Vdly__SOC__DOT__CPU__DOT__instret;
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_nop = vlTOPp->SOC__DOT__CPU__DOT__DE_nop;
+    }
+    if (vlTOPp->SOC__DOT__CPU__DOT__aluBusy) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_nop = 1U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_instr = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
+    }
+    if (vlTOPp->SOC__DOT__CPU__DOT__aluBusy) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_instr = 0x33U;
+    }
+    vlTOPp->SOC__DOT__CPU__DOT__M_STORE_data = ((0xffffff00U 
+                                                 & vlTOPp->SOC__DOT__CPU__DOT__M_STORE_data) 
+                                                | (0xffU 
+                                                   & vlTOPp->SOC__DOT__CPU__DOT__EM_rs2));
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_rdId = vlTOPp->SOC__DOT__CPU__DOT__DE_rdId;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_wbEnable = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_wbEnable) 
+                                                   & (0U 
+                                                      != (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId)));
+    }
+    if (vlTOPp->SOC__DOT__CPU__DOT__aluBusy) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_wbEnable = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_Mdata = vlTOPp->SOC__DOT__CPU__DOT__DATARAM
+            [(0x3fffU & (vlTOPp->SOC__DOT__CPU__DOT__E_addr 
+                         >> 2U))];
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_addr = vlTOPp->SOC__DOT__CPU__DOT__E_addr;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_csrId_is = (0xfU 
+                                                   & ((IData)(1U) 
+                                                      << (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_csrId)));
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_isLoad = vlTOPp->SOC__DOT__CPU__DOT__DE_isLoad;
+    }
+    if (vlTOPp->SOC__DOT__CPU__DOT__aluBusy) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_isLoad = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_isCSRRS = vlTOPp->SOC__DOT__CPU__DOT__DE_isCSRRS;
+    }
+    if (vlTOPp->SOC__DOT__CPU__DOT__aluBusy) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_isCSRRS = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_funct3 = vlTOPp->SOC__DOT__CPU__DOT__DE_funct3;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__EM_Eresult = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isJALorJALRorLUIorAUIPC)
+                                                   ? vlTOPp->SOC__DOT__CPU__DOT__DE_PCplus4orUimm
+                                                   : vlTOPp->SOC__DOT__CPU__DOT__E_aluOut);
+    }
     if (__Vdlyvset__SOC__DOT__CPU__DOT__DATARAM__v0) {
         vlTOPp->SOC__DOT__CPU__DOT__DATARAM[__Vdlyvdim0__SOC__DOT__CPU__DOT__DATARAM__v0] 
             = (((~ ((IData)(0xffU) << (IData)(__Vdlyvlsb__SOC__DOT__CPU__DOT__DATARAM__v0))) 
@@ -2973,84 +875,40 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
                | ((IData)(__Vdlyvval__SOC__DOT__CPU__DOT__DATARAM__v3) 
                   << (IData)(__Vdlyvlsb__SOC__DOT__CPU__DOT__DATARAM__v3)));
     }
-    vlTOPp->SOC__DOT__CPU__DOT__MW_PC = vlTOPp->SOC__DOT__CPU__DOT__EM_PC;
-    vlTOPp->SOC__DOT__CPU__DOT__EM_Eresult = vlTOPp->SOC__DOT__CPU__DOT__E_result;
-    vlTOPp->TXD = (1U & ((IData)(vlTOPp->SOC__DOT__UART__DOT__data) 
-                         | (~ (IData)((0U != (IData)(vlTOPp->SOC__DOT__UART__DOT__data))))));
-    vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_H = (0xffffU 
-                                            & ((2U 
-                                                & vlTOPp->SOC__DOT__CPU__DOT__MW_addr)
-                                                ? (vlTOPp->SOC__DOT__CPU__DOT__MW_Mdata 
-                                                   >> 0x10U)
-                                                : vlTOPp->SOC__DOT__CPU__DOT__MW_Mdata));
-    vlTOPp->SOC__DOT__CPU__DOT__MW_instr = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-    vlTOPp->SOC__DOT__CPU__DOT__EM_rs2 = vlTOPp->SOC__DOT__CPU__DOT__DE_rs2;
-    __Vfunc_SOC__DOT__CPU__DOT__Iimm__39__I = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    __Vfunc_SOC__DOT__CPU__DOT__Iimm__39__Vfuncout 
-        = ((0xfffff800U & ((- (IData)((1U & (__Vfunc_SOC__DOT__CPU__DOT__Iimm__39__I 
-                                             >> 0x1fU)))) 
-                           << 0xbU)) | (0x7ffU & (__Vfunc_SOC__DOT__CPU__DOT__Iimm__39__I 
-                                                  >> 0x14U)));
-    __Vfunc_SOC__DOT__CPU__DOT__Simm__38__I = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    __Vfunc_SOC__DOT__CPU__DOT__Simm__38__Vfuncout 
-        = ((0xfffff800U & ((- (IData)((1U & (__Vfunc_SOC__DOT__CPU__DOT__Simm__38__I 
-                                             >> 0x1fU)))) 
-                           << 0xbU)) | ((0x7e0U & (__Vfunc_SOC__DOT__CPU__DOT__Simm__38__I 
-                                                   >> 0x14U)) 
-                                        | (0x1fU & 
-                                           (__Vfunc_SOC__DOT__CPU__DOT__Simm__38__I 
-                                            >> 7U))));
-    __Vfunc_SOC__DOT__CPU__DOT__isStore__37__I = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    __Vfunc_SOC__DOT__CPU__DOT__isStore__37__Vfuncout 
-        = (0x23U == (0x7fU & __Vfunc_SOC__DOT__CPU__DOT__isStore__37__I));
-    vlTOPp->SOC__DOT__CPU__DOT__EM_addr = ((IData)(__Vfunc_SOC__DOT__CPU__DOT__isStore__37__Vfuncout)
-                                            ? (vlTOPp->SOC__DOT__CPU__DOT__DE_rs1 
-                                               + __Vfunc_SOC__DOT__CPU__DOT__Simm__38__Vfuncout)
-                                            : (vlTOPp->SOC__DOT__CPU__DOT__DE_rs1 
-                                               + __Vfunc_SOC__DOT__CPU__DOT__Iimm__39__Vfuncout));
-    vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_B = (0xffU & 
-                                            ((1U & vlTOPp->SOC__DOT__CPU__DOT__MW_addr)
-                                              ? ((IData)(vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_H) 
-                                                 >> 8U)
-                                              : (IData)(vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_H)));
-    vlTOPp->SOC__DOT__CPU__DOT__EM_PC = vlTOPp->SOC__DOT__CPU__DOT__DE_PC;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__58__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__58__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__58__I 
-                    >> 7U));
-    vlTOPp->SOC__DOT__CPU__DOT__wbRdId = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__58__Vfuncout;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__55__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__55__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__55__I 
-                    >> 7U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__54__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__57__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__54__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__57__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__57__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__56__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__54__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__56__Vfuncout 
-        = (0x23U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__56__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__54__Vfuncout 
-        = (1U & ((~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__56__Vfuncout)) 
-                 & (~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__57__Vfuncout))));
-    vlTOPp->SOC__DOT__CPU__DOT__wbEnable = ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__54__Vfuncout) 
-                                            & (0U != (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__55__Vfuncout)));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__49__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__49__Vfuncout 
-        = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__49__I 
-                 >> 0xcU));
-    vlTOPp->SOC__DOT__CPU__DOT__W_funct3 = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__49__Vfuncout;
-    vlTOPp->SOC__DOT__CPU__DOT__EM_instr = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->SOC__DOT__CPU__DOT__M_STORE_data = ((0xffffff00U 
-                                                 & vlTOPp->SOC__DOT__CPU__DOT__M_STORE_data) 
-                                                | (0xffU 
-                                                   & vlTOPp->SOC__DOT__CPU__DOT__EM_rs2));
+    vlTOPp->SOC__DOT__CPU__DOT__aluBusy = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__busy_r) 
+                                           | ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isDIV) 
+                                              & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__finished_r))));
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_nop = 0U;
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_nop = 1U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_instr = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop)
+                                                 ? 0x33U
+                                                 : vlTOPp->SOC__DOT__CPU__DOT__FD_instr);
+    }
+    if (vlTOPp->SOC__DOT__CPU__DOT__E_flush) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_instr = 0x33U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_rdId = (0x1fU 
+                                               & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                  >> 7U));
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_wbEnable = (8U 
+                                                   != 
+                                                   (0xfU 
+                                                    & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                       >> 2U)));
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_wbEnable = 0U;
+    }
     vlTOPp->SOC__DOT__CPU__DOT__M_STORE_data = ((0xffff00ffU 
                                                  & vlTOPp->SOC__DOT__CPU__DOT__M_STORE_data) 
                                                 | (0xff00U 
@@ -3087,121 +945,53 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
                                                         (vlTOPp->SOC__DOT__CPU__DOT__EM_rs2 
                                                          >> 0x18U))) 
                                                       << 0x18U)));
-    __Vfunc_SOC__DOT__CPU__DOT__rs1Id__0__I = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    __Vfunc_SOC__DOT__CPU__DOT__rs2Id__1__I = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    __Vfunc_SOC__DOT__CPU__DOT__rs1Id__0__Vfuncout 
-        = (0x1fU & (__Vfunc_SOC__DOT__CPU__DOT__rs1Id__0__I 
-                    >> 0xfU));
-    __Vfunc_SOC__DOT__CPU__DOT__rs2Id__1__Vfuncout 
-        = (0x1fU & (__Vfunc_SOC__DOT__CPU__DOT__rs2Id__1__I 
-                    >> 0x14U));
-    vlTOPp->SOC__DOT__CPU__DOT__DE_rs1 = vlTOPp->SOC__DOT__CPU__DOT__RegisterBank
-        [__Vfunc_SOC__DOT__CPU__DOT__rs1Id__0__Vfuncout];
-    vlTOPp->SOC__DOT__CPU__DOT__DE_rs2 = vlTOPp->SOC__DOT__CPU__DOT__RegisterBank
-        [__Vfunc_SOC__DOT__CPU__DOT__rs2Id__1__Vfuncout];
-    vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_sign = (1U & 
-                                               ((~ 
-                                                 ((IData)(vlTOPp->SOC__DOT__CPU__DOT__W_funct3) 
-                                                  >> 2U)) 
-                                                & ((0U 
-                                                    == 
-                                                    (3U 
-                                                     & (IData)(vlTOPp->SOC__DOT__CPU__DOT__W_funct3)))
-                                                    ? 
-                                                   ((IData)(vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_B) 
-                                                    >> 7U)
-                                                    : 
-                                                   ((IData)(vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_H) 
-                                                    >> 0xfU))));
-    if (__Vdlyvset__SOC__DOT__CPU__DOT__RegisterBank__v0) {
-        vlTOPp->SOC__DOT__CPU__DOT__RegisterBank[__Vdlyvdim0__SOC__DOT__CPU__DOT__RegisterBank__v0] 
-            = __Vdlyvval__SOC__DOT__CPU__DOT__RegisterBank__v0;
-    }
-    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__D_stall)))) {
-        vlTOPp->SOC__DOT__CPU__DOT__DE_PC = vlTOPp->SOC__DOT__CPU__DOT__FD_PC;
-    }
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isCSRRS__51__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__53__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isCSRRS__51__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__53__Vfuncout 
-        = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__53__I 
-                 >> 0xcU));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isSYSTEM__52__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isCSRRS__51__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isSYSTEM__52__Vfuncout 
-        = (0x73U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isSYSTEM__52__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isCSRRS__51__Vfuncout 
-        = ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isSYSTEM__52__Vfuncout) 
-           & (2U == (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__53__Vfuncout)));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLoad__50__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLoad__50__Vfuncout 
-        = (3U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLoad__50__I));
-    vlTOPp->SOC__DOT__CPU__DOT__wbData = ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLoad__50__Vfuncout)
-                                           ? ((0x400000U 
-                                               & vlTOPp->SOC__DOT__CPU__DOT__MW_addr)
-                                               ? vlTOPp->SOC__DOT__CPU__DOT__MW_IOresult
-                                               : ((0U 
-                                                   == 
-                                                   (3U 
-                                                    & (IData)(vlTOPp->SOC__DOT__CPU__DOT__W_funct3)))
-                                                   ? 
-                                                  ((0xffffff00U 
-                                                    & ((- (IData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_sign))) 
-                                                       << 8U)) 
-                                                   | (IData)(vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_B))
-                                                   : 
-                                                  ((1U 
-                                                    == 
-                                                    (3U 
-                                                     & (IData)(vlTOPp->SOC__DOT__CPU__DOT__W_funct3)))
-                                                    ? 
-                                                   ((0xffff0000U 
-                                                     & ((- (IData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_sign))) 
-                                                        << 0x10U)) 
-                                                    | (IData)(vlTOPp->SOC__DOT__CPU__DOT__W_LOAD_H))
-                                                    : vlTOPp->SOC__DOT__CPU__DOT__MW_Mdata)))
-                                           : ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isCSRRS__51__Vfuncout)
-                                               ? vlTOPp->SOC__DOT__CPU__DOT__MW_CSRresult
-                                               : vlTOPp->SOC__DOT__CPU__DOT__MW_Eresult));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__44__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__44__Vfuncout 
-        = (0x23U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__44__I));
-    vlTOPp->SOC__DOT__IO_mem_wr = ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__44__Vfuncout) 
+    vlTOPp->SOC__DOT__IO_mem_wr = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_isStore) 
                                    & (vlTOPp->SOC__DOT__CPU__DOT__EM_addr 
                                       >> 0x16U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__43__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__43__Vfuncout 
-        = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__43__I 
-                 >> 0xcU));
-    vlTOPp->SOC__DOT__CPU__DOT__M_funct3 = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__43__Vfuncout;
-    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__D_stall)))) {
-        vlTOPp->SOC__DOT__CPU__DOT__DE_instr = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
-                                                 | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))
-                                                 ? 0x33U
-                                                 : vlTOPp->SOC__DOT__CPU__DOT__FD_instr);
+    vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_h 
+        = (0xffffU & ((2U & vlTOPp->SOC__DOT__CPU__DOT__EM_addr)
+                       ? (vlTOPp->SOC__DOT__CPU__DOT__EM_Mdata 
+                          >> 0x10U) : vlTOPp->SOC__DOT__CPU__DOT__EM_Mdata));
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_csrId = ((2U 
+                                                 & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                    >> 0x1aU)) 
+                                                | (1U 
+                                                   & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                      >> 0x15U)));
     }
-    if (vlTOPp->SOC__DOT__CPU__DOT__E_flush) {
-        vlTOPp->SOC__DOT__CPU__DOT__DE_instr = 0x33U;
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isLoad = (0U 
+                                                 == 
+                                                 (0x1fU 
+                                                  & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                     >> 2U)));
     }
-    vlTOPp->SOC__DOT__uart_valid = ((IData)(vlTOPp->SOC__DOT__IO_mem_wr) 
-                                    & (vlTOPp->SOC__DOT__CPU__DOT__EM_addr 
-                                       >> 3U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__45__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__45__Vfuncout 
-        = (0x23U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__45__I));
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isLoad = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isCSRRS = ((0x1cU 
+                                                   == 
+                                                   (0x1fU 
+                                                    & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                       >> 2U))) 
+                                                  & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                     >> 0xdU));
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isCSRRS = 0U;
+    }
     vlTOPp->SOC__DOT__CPU__DOT__M_wmask = ((- (IData)(
-                                                      ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__45__Vfuncout) 
+                                                      ((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_isStore) 
                                                        & (~ 
                                                           (vlTOPp->SOC__DOT__CPU__DOT__EM_addr 
                                                            >> 0x16U))))) 
                                            & ((0U == 
                                                (3U 
-                                                & (IData)(vlTOPp->SOC__DOT__CPU__DOT__M_funct3)))
+                                                & (IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_funct3)))
                                                ? ((2U 
                                                    & vlTOPp->SOC__DOT__CPU__DOT__EM_addr)
                                                    ? 
@@ -3217,717 +1007,562 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
                                                : ((1U 
                                                    == 
                                                    (3U 
-                                                    & (IData)(vlTOPp->SOC__DOT__CPU__DOT__M_funct3)))
+                                                    & (IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_funct3)))
                                                    ? 
                                                   ((2U 
                                                     & vlTOPp->SOC__DOT__CPU__DOT__EM_addr)
                                                     ? 0xcU
                                                     : 3U)
                                                    : 0xfU)));
-    vlTOPp->SOC__DOT__CPU__DOT__FD_nop = (1U & ((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_JumpOrBranch) 
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_funct3 = (7U 
+                                                 & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                    >> 0xcU));
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_PCplus4orUimm 
+            = (((- (IData)((1U != (3U & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                         >> 5U))))) 
+                & vlTOPp->SOC__DOT__CPU__DOT__FD_PC) 
+               + ((1U & ((vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                          >> 2U) & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                    >> 6U))) ? 4U : 
+                  (0xfffff000U & vlTOPp->SOC__DOT__CPU__DOT__FD_instr)));
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isJALorJALRorLUIorAUIPC 
+            = (1U & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                     >> 2U));
+    }
+    if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
+         | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_isJALorJALRorLUIorAUIPC = 0U;
+    }
+    vlTOPp->SOC__DOT__CPU__DOT__E_rs1 = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_wbEnable) 
+                                          & ((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_rdId) 
+                                             == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rs1Id)))
+                                          ? vlTOPp->SOC__DOT__CPU__DOT__EM_Eresult
+                                          : (((IData)(vlTOPp->SOC__DOT__CPU__DOT__MW_wbEnable) 
+                                              & ((IData)(vlTOPp->SOC__DOT__CPU__DOT__MW_rdId) 
+                                                 == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rs1Id)))
+                                              ? vlTOPp->SOC__DOT__CPU__DOT__MW_wbData
+                                              : ((0U 
+                                                  == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rs1Id))
+                                                  ? 0U
+                                                  : 
+                                                 vlTOPp->SOC__DOT__CPU__DOT__RF__DOT__regs
+                                                 [vlTOPp->SOC__DOT__CPU__DOT__DE_rs1Id])));
+    vlTOPp->SOC__DOT__CPU__DOT__E_rs2 = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_wbEnable) 
+                                          & ((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_rdId) 
+                                             == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rs2Id)))
+                                          ? vlTOPp->SOC__DOT__CPU__DOT__EM_Eresult
+                                          : (((IData)(vlTOPp->SOC__DOT__CPU__DOT__MW_wbEnable) 
+                                              & ((IData)(vlTOPp->SOC__DOT__CPU__DOT__MW_rdId) 
+                                                 == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rs2Id)))
+                                              ? vlTOPp->SOC__DOT__CPU__DOT__MW_wbData
+                                              : ((0U 
+                                                  == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rs2Id))
+                                                  ? 0U
+                                                  : 
+                                                 vlTOPp->SOC__DOT__CPU__DOT__RF__DOT__regs
+                                                 [vlTOPp->SOC__DOT__CPU__DOT__DE_rs2Id])));
+    vlTOPp->SOC__DOT__uart_valid = ((IData)(vlTOPp->SOC__DOT__IO_mem_wr) 
+                                    & (vlTOPp->SOC__DOT__CPU__DOT__EM_addr 
+                                       >> 3U));
+    vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_b 
+        = (0xffU & ((1U & vlTOPp->SOC__DOT__CPU__DOT__EM_addr)
+                     ? ((IData)(vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_h) 
+                        >> 8U) : (IData)(vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_h)));
+    vlTOPp->SOC__DOT__CPU__DOT__E_addr = (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
+                                          + vlTOPp->SOC__DOT__CPU__DOT__DE_IorSimm);
+    vlTOPp->SOC__DOT__CPU__DOT__E_multiply = VL_MULS_QQQ(64,64,64, 
+                                                         VL_EXTENDS_QQ(64,33, 
+                                                                       (((QData)((IData)(
+                                                                                (1U 
+                                                                                & ((vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
+                                                                                >> 0x1fU) 
+                                                                                & ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is) 
+                                                                                >> 1U))))) 
+                                                                         << 0x20U) 
+                                                                        | (QData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_rs1)))), 
+                                                         VL_EXTENDS_QQ(64,33, 
+                                                                       (((QData)((IData)(
+                                                                                (1U 
+                                                                                & ((vlTOPp->SOC__DOT__CPU__DOT__E_rs2 
+                                                                                >> 0x1fU) 
+                                                                                & (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is) 
+                                                                                >> 1U) 
+                                                                                | ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is) 
+                                                                                >> 2U)))))) 
+                                                                         << 0x20U) 
+                                                                        | (QData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_rs2)))));
+    vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2 = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isALUreg) 
+                                             | (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isBranch))
+                                             ? vlTOPp->SOC__DOT__CPU__DOT__E_rs2
+                                             : vlTOPp->SOC__DOT__CPU__DOT__DE_IorSimm);
+    vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_sign 
+        = (1U & ((~ ((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_funct3) 
+                     >> 2U)) & ((0U == (3U & (IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_funct3)))
+                                 ? ((IData)(vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_b) 
+                                    >> 7U) : ((IData)(vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_h) 
+                                              >> 0xfU))));
+    vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divsel = 
+        (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isDIV) 
+          << 2U) | ((2U & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3)) 
+                    | (IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__sign_r)));
+    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+        = vlTOPp->SOC__DOT__CPU__DOT__E_rs1;
+    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__Vfuncout 
+        = ((0x80000000U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                           << 0x1fU)) | ((0x40000000U 
+                                          & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                             << 0x1dU)) 
+                                         | ((0x20000000U 
+                                             & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                << 0x1bU)) 
+                                            | ((0x10000000U 
+                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                   << 0x19U)) 
+                                               | ((0x8000000U 
+                                                   & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                      << 0x17U)) 
+                                                  | ((0x4000000U 
+                                                      & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                         << 0x15U)) 
+                                                     | ((0x2000000U 
+                                                         & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                            << 0x13U)) 
+                                                        | ((0x1000000U 
+                                                            & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                               << 0x11U)) 
+                                                           | ((0x800000U 
+                                                               & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                  << 0xfU)) 
+                                                              | ((0x400000U 
+                                                                  & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                     << 0xdU)) 
+                                                                 | ((0x200000U 
+                                                                     & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                        << 0xbU)) 
+                                                                    | ((0x100000U 
+                                                                        & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                           << 9U)) 
+                                                                       | ((0x80000U 
+                                                                           & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                              << 7U)) 
+                                                                          | ((0x40000U 
+                                                                              & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                << 5U)) 
+                                                                             | ((0x20000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                << 3U)) 
+                                                                                | ((0x10000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                << 1U)) 
+                                                                                | ((0x8000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 1U)) 
+                                                                                | ((0x4000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 3U)) 
+                                                                                | ((0x2000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 5U)) 
+                                                                                | ((0x1000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 7U)) 
+                                                                                | ((0x800U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 9U)) 
+                                                                                | ((0x400U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0xbU)) 
+                                                                                | ((0x200U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0xdU)) 
+                                                                                | ((0x100U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0xfU)) 
+                                                                                | ((0x80U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0x11U)) 
+                                                                                | ((0x40U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0x13U)) 
+                                                                                | ((0x20U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0x15U)) 
+                                                                                | ((0x10U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0x17U)) 
+                                                                                | ((8U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0x19U)) 
+                                                                                | ((4U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0x1bU)) 
+                                                                                | ((2U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0x1dU)) 
+                                                                                | (1U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__x 
+                                                                                >> 0x1fU)))))))))))))))))))))))))))))))));
+    vlTOPp->SOC__DOT__CPU__DOT__E_shifter_in = ((1U 
+                                                 == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3))
+                                                 ? vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__2__Vfuncout
+                                                 : vlTOPp->SOC__DOT__CPU__DOT__E_rs1);
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__FD_PC = vlTOPp->SOC__DOT__CPU__DOT__F_PC;
+    }
+    vlTOPp->SOC__DOT__CPU__DOT__FD_nop = (1U & ((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_correctPC) 
                                                 | (~ (IData)(
                                                              (0xffffU 
                                                               == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt))))));
-    if ((1U & (~ ((IData)(vlTOPp->SOC__DOT__CPU__DOT__dataHazard) 
-                  | (IData)(vlTOPp->SOC__DOT__CPU__DOT__halt))))) {
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
         vlTOPp->SOC__DOT__CPU__DOT__FD_instr = vlTOPp->SOC__DOT__CPU__DOT__PROGROM
             [(0x3fffU & (vlTOPp->SOC__DOT__CPU__DOT__F_PC 
                          >> 2U))];
-        vlTOPp->SOC__DOT__CPU__DOT__FD_PC = vlTOPp->SOC__DOT__CPU__DOT__F_PC;
-        vlTOPp->SOC__DOT__CPU__DOT__F_PC = ((IData)(4U) 
-                                            + vlTOPp->SOC__DOT__CPU__DOT__F_PC);
     }
-    if (vlTOPp->SOC__DOT__CPU__DOT__E_JumpOrBranch) {
-        vlTOPp->SOC__DOT__CPU__DOT__F_PC = vlTOPp->SOC__DOT__CPU__DOT__E_JumpOrBranchAddr;
-    }
-    if ((1U & (~ (IData)((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)))))) {
-        vlTOPp->SOC__DOT__CPU__DOT__F_PC = 0U;
-    }
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__7__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__7__Vfuncout 
-        = (0x33U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__7__I));
-    vlTOPp->SOC__DOT__CPU__DOT__E_minus = ((vlTOPp->SOC__DOT__CPU__DOT__DE_instr 
-                                            >> 0x1eU) 
-                                           & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__7__Vfuncout));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_rs1;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__Vfuncout 
-        = ((0x80000000U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                           << 0x1fU)) | ((0x40000000U 
-                                          & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                             << 0x1dU)) 
-                                         | ((0x20000000U 
-                                             & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                << 0x1bU)) 
-                                            | ((0x10000000U 
-                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                   << 0x19U)) 
-                                               | ((0x8000000U 
-                                                   & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                      << 0x17U)) 
-                                                  | ((0x4000000U 
-                                                      & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                         << 0x15U)) 
-                                                     | ((0x2000000U 
-                                                         & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                            << 0x13U)) 
-                                                        | ((0x1000000U 
-                                                            & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                               << 0x11U)) 
-                                                           | ((0x800000U 
-                                                               & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                  << 0xfU)) 
-                                                              | ((0x400000U 
-                                                                  & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                     << 0xdU)) 
-                                                                 | ((0x200000U 
-                                                                     & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                        << 0xbU)) 
-                                                                    | ((0x100000U 
-                                                                        & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                           << 9U)) 
-                                                                       | ((0x80000U 
-                                                                           & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                              << 7U)) 
-                                                                          | ((0x40000U 
-                                                                              & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                << 5U)) 
-                                                                             | ((0x20000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                << 3U)) 
-                                                                                | ((0x10000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                << 1U)) 
-                                                                                | ((0x8000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 1U)) 
-                                                                                | ((0x4000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 3U)) 
-                                                                                | ((0x2000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 5U)) 
-                                                                                | ((0x1000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 7U)) 
-                                                                                | ((0x800U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 9U)) 
-                                                                                | ((0x400U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0xbU)) 
-                                                                                | ((0x200U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0xdU)) 
-                                                                                | ((0x100U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0xfU)) 
-                                                                                | ((0x80U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0x11U)) 
-                                                                                | ((0x40U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0x13U)) 
-                                                                                | ((0x20U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0x15U)) 
-                                                                                | ((0x10U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0x17U)) 
-                                                                                | ((8U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0x19U)) 
-                                                                                | ((4U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0x1bU)) 
-                                                                                | ((2U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0x1dU)) 
-                                                                                | (1U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__x 
-                                                                                >> 0x1fU)))))))))))))))))))))))))))))))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__8__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__8__Vfuncout 
-        = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__8__I 
-                 >> 0xcU));
-    vlTOPp->SOC__DOT__CPU__DOT__E_shifter_in = ((1U 
-                                                 == (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__8__Vfuncout))
-                                                 ? vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__9__Vfuncout
-                                                 : vlTOPp->SOC__DOT__CPU__DOT__DE_rs1);
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Iimm__4__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Iimm__4__Vfuncout 
-        = ((0xfffff800U & ((- (IData)((1U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Iimm__4__I 
-                                             >> 0x1fU)))) 
-                           << 0xbU)) | (0x7ffU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Iimm__4__I 
-                                                  >> 0x14U)));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__3__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__3__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__3__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__2__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__2__Vfuncout 
-        = (0x33U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__2__I));
-    vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2 = (((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__2__Vfuncout) 
-                                             | (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__3__Vfuncout))
-                                             ? vlTOPp->SOC__DOT__CPU__DOT__DE_rs2
-                                             : vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Iimm__4__Vfuncout);
-    vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus = (vlTOPp->SOC__DOT__CPU__DOT__DE_rs1 
+    vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus = (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
                                              + vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2);
-    vlTOPp->SOC__DOT__CPU__DOT__E_shifter = (IData)(
-                                                    (0x1ffffffffULL 
-                                                     & VL_SHIFTRS_QQI(33,33,5, 
-                                                                      (((QData)((IData)(
-                                                                                (1U 
-                                                                                & ((vlTOPp->SOC__DOT__CPU__DOT__DE_instr 
-                                                                                >> 0x1eU) 
-                                                                                & (vlTOPp->SOC__DOT__CPU__DOT__DE_rs1 
-                                                                                >> 0x1fU))))) 
-                                                                        << 0x20U) 
-                                                                       | (QData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_shifter_in))), 
-                                                                      (0x1fU 
-                                                                       & vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2))));
     vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus = (0x1ffffffffULL 
                                               & (1ULL 
                                                  + 
                                                  ((0x100000000ULL 
                                                    | (QData)((IData)(
                                                                      (~ vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2)))) 
-                                                  + (QData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rs1)))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__69__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__69__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__69__I 
-                    >> 7U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__68__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__68__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__68__I 
-                    >> 0xfU));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__67__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__71__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__67__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__71__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__71__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__70__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__67__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__70__Vfuncout 
-        = (0x23U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__70__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__67__Vfuncout 
-        = (1U & ((~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__70__Vfuncout)) 
-                 & (~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__71__Vfuncout))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__66__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__66__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__66__I 
-                    >> 7U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__65__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__65__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__65__I 
-                    >> 0xfU));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__64__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__73__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__64__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__73__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__73__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__72__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__64__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__72__Vfuncout 
-        = (0x23U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__72__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__64__Vfuncout 
-        = (1U & ((~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__72__Vfuncout)) 
-                 & (~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__73__Vfuncout))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__63__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__63__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__63__I 
-                    >> 7U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__62__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__62__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__62__I 
-                    >> 0xfU));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__61__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__75__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__61__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__75__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__75__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__74__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__61__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__74__Vfuncout 
-        = (0x23U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__74__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__61__Vfuncout 
-        = (1U & ((~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__74__Vfuncout)) 
-                 & (~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__75__Vfuncout))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__60__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__60__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__60__I 
-                    >> 0xfU));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs1__59__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLUI__78__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs1__59__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLUI__78__Vfuncout 
-        = (0x37U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLUI__78__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isAUIPC__77__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs1__59__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isAUIPC__77__Vfuncout 
-        = (0x17U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isAUIPC__77__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__76__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs1__59__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__76__Vfuncout 
-        = (0x6fU == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__76__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs1__59__Vfuncout 
-        = (1U & (~ (((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__76__Vfuncout) 
-                     | (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isAUIPC__77__Vfuncout)) 
-                    | (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLUI__78__Vfuncout))));
-    vlTOPp->SOC__DOT__CPU__DOT__rs1Hazard = ((((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop)) 
-                                               & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs1__59__Vfuncout)) 
-                                              & (0U 
-                                                 != (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__60__Vfuncout))) 
-                                             & ((((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__61__Vfuncout) 
-                                                  & ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__62__Vfuncout) 
-                                                     == (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__63__Vfuncout))) 
-                                                 | ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__64__Vfuncout) 
-                                                    & ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__65__Vfuncout) 
-                                                       == (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__66__Vfuncout)))) 
-                                                | ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__67__Vfuncout) 
-                                                   & ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs1Id__68__Vfuncout) 
-                                                      == (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__69__Vfuncout)))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__89__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__89__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__89__I 
-                    >> 7U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__88__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__88__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__88__I 
-                    >> 0x14U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__87__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__MW_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__91__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__87__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__91__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__91__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__90__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__87__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__90__Vfuncout 
-        = (0x23U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__90__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__87__Vfuncout 
-        = (1U & ((~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__90__Vfuncout)) 
-                 & (~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__91__Vfuncout))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__86__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__86__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__86__I 
-                    >> 7U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__85__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__85__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__85__I 
-                    >> 0x14U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__84__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__93__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__84__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__93__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__93__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__92__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__84__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__92__Vfuncout 
-        = (0x23U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__92__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__84__Vfuncout 
-        = (1U & ((~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__92__Vfuncout)) 
-                 & (~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__93__Vfuncout))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__83__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__83__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__83__I 
-                    >> 7U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__82__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__82__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__82__I 
-                    >> 0x14U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__81__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__95__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__81__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__95__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__95__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__94__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__81__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__94__Vfuncout 
-        = (0x23U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__94__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__81__Vfuncout 
-        = (1U & ((~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__94__Vfuncout)) 
-                 & (~ (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__95__Vfuncout))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__80__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__80__Vfuncout 
-        = (0x1fU & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__80__I 
-                    >> 0x14U));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs2__79__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__FD_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__98__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs2__79__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__98__Vfuncout 
-        = (0x23U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__98__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__97__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs2__79__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__97__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__97__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__96__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs2__79__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__96__Vfuncout 
-        = (0x33U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__96__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs2__79__Vfuncout 
-        = (((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isALUreg__96__Vfuncout) 
-            | (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__97__Vfuncout)) 
-           | (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isStore__98__Vfuncout));
-    vlTOPp->SOC__DOT__CPU__DOT__rs2Hazard = ((((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop)) 
-                                               & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__readsRs2__79__Vfuncout)) 
-                                              & (0U 
-                                                 != (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__80__Vfuncout))) 
-                                             & ((((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__81__Vfuncout) 
-                                                  & ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__82__Vfuncout) 
-                                                     == (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__83__Vfuncout))) 
-                                                 | ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__84__Vfuncout) 
-                                                    & ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__85__Vfuncout) 
-                                                       == (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__86__Vfuncout)))) 
-                                                | ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__writesRd__87__Vfuncout) 
-                                                   & ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rs2Id__88__Vfuncout) 
-                                                      == (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__rdId__89__Vfuncout)))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Jimm__30__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Jimm__30__Vfuncout 
-        = ((0xfff00000U & ((- (IData)((1U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Jimm__30__I 
-                                             >> 0x1fU)))) 
-                           << 0x14U)) | ((0xff000U 
-                                          & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Jimm__30__I) 
-                                         | ((0x800U 
-                                             & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Jimm__30__I 
-                                                >> 9U)) 
-                                            | (0x7feU 
-                                               & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Jimm__30__I 
-                                                  >> 0x14U)))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__29__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__29__Vfuncout 
-        = (0x6fU == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__29__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Bimm__28__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Bimm__28__Vfuncout 
-        = ((0xfffff000U & ((- (IData)((1U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Bimm__28__I 
-                                             >> 0x1fU)))) 
-                           << 0xcU)) | ((0x800U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Bimm__28__I 
-                                                   << 4U)) 
-                                        | ((0x7e0U 
-                                            & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Bimm__28__I 
-                                               >> 0x14U)) 
-                                           | (0x1eU 
-                                              & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Bimm__28__I 
-                                                 >> 7U)))));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__27__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__27__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__27__I));
-    vlTOPp->SOC__DOT__CPU__DOT__E_JumpOrBranchAddr 
-        = ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__27__Vfuncout)
-            ? (vlTOPp->SOC__DOT__CPU__DOT__DE_PC + vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Bimm__28__Vfuncout)
-            : ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__29__Vfuncout)
-                ? (vlTOPp->SOC__DOT__CPU__DOT__DE_PC 
-                   + vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Jimm__30__Vfuncout)
-                : (0xfffffffeU & vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus)));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-        = vlTOPp->SOC__DOT__CPU__DOT__E_shifter;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__Vfuncout 
-        = ((0x80000000U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                           << 0x1fU)) | ((0x40000000U 
-                                          & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                             << 0x1dU)) 
-                                         | ((0x20000000U 
-                                             & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                << 0x1bU)) 
-                                            | ((0x10000000U 
-                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                   << 0x19U)) 
-                                               | ((0x8000000U 
-                                                   & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                      << 0x17U)) 
-                                                  | ((0x4000000U 
-                                                      & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                         << 0x15U)) 
-                                                     | ((0x2000000U 
-                                                         & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                            << 0x13U)) 
-                                                        | ((0x1000000U 
-                                                            & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                               << 0x11U)) 
-                                                           | ((0x800000U 
-                                                               & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                  << 0xfU)) 
-                                                              | ((0x400000U 
-                                                                  & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                     << 0xdU)) 
-                                                                 | ((0x200000U 
-                                                                     & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                        << 0xbU)) 
-                                                                    | ((0x100000U 
-                                                                        & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                           << 9U)) 
-                                                                       | ((0x80000U 
-                                                                           & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                              << 7U)) 
-                                                                          | ((0x40000U 
-                                                                              & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                << 5U)) 
-                                                                             | ((0x20000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                << 3U)) 
-                                                                                | ((0x10000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                << 1U)) 
-                                                                                | ((0x8000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 1U)) 
-                                                                                | ((0x4000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 3U)) 
-                                                                                | ((0x2000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 5U)) 
-                                                                                | ((0x1000U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 7U)) 
-                                                                                | ((0x800U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 9U)) 
-                                                                                | ((0x400U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0xbU)) 
-                                                                                | ((0x200U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0xdU)) 
-                                                                                | ((0x100U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0xfU)) 
-                                                                                | ((0x80U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0x11U)) 
-                                                                                | ((0x40U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0x13U)) 
-                                                                                | ((0x20U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0x15U)) 
-                                                                                | ((0x10U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0x17U)) 
-                                                                                | ((8U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0x19U)) 
-                                                                                | ((4U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0x1bU)) 
-                                                                                | ((2U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0x1dU)) 
-                                                                                | (1U 
-                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__x 
-                                                                                >> 0x1fU)))))))))))))))))))))))))))))))));
-    vlTOPp->SOC__DOT__CPU__DOT__E_leftshift = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__10__Vfuncout;
+                                                  + (QData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_rs1)))));
+    vlTOPp->SOC__DOT__CPU__DOT__E_shifter = (IData)(
+                                                    (0x1ffffffffULL 
+                                                     & VL_SHIFTRS_QQI(33,33,5, 
+                                                                      (((QData)((IData)(
+                                                                                ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct7) 
+                                                                                & (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
+                                                                                >> 0x1fU)))) 
+                                                                        << 0x20U) 
+                                                                       | (QData)((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_shifter_in))), 
+                                                                      (0x1fU 
+                                                                       & vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2))));
     vlTOPp->SOC__DOT__CPU__DOT__E_LT = (1U & ((0x80000000U 
-                                               & (vlTOPp->SOC__DOT__CPU__DOT__DE_rs1 
+                                               & (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
                                                   ^ vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2))
-                                               ? (vlTOPp->SOC__DOT__CPU__DOT__DE_rs1 
+                                               ? (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
                                                   >> 0x1fU)
                                                : (IData)(
                                                          (vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus 
                                                           >> 0x20U))));
-    vlTOPp->SOC__DOT__CPU__DOT__dataHazard = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__rs1Hazard) 
-                                              | (IData)(vlTOPp->SOC__DOT__CPU__DOT__rs2Hazard));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__18__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__18__Vfuncout 
-        = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__18__I 
-                 >> 0xcU));
-    if ((4U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__18__Vfuncout))) {
-        vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__19__I 
-            = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-        vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__19__Vfuncout 
-            = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__19__I 
-                     >> 0xcU));
-        if ((2U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__19__Vfuncout))) {
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__20__I 
-                = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__20__Vfuncout 
-                = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__20__I 
-                         >> 0xcU));
-            vlTOPp->SOC__DOT__CPU__DOT__E_takeBranch 
-                = (1U & ((1U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__20__Vfuncout))
-                          ? (~ (IData)((vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus 
-                                        >> 0x20U)))
-                          : (IData)((vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus 
-                                     >> 0x20U))));
-        } else {
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__21__I 
-                = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__21__Vfuncout 
-                = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__21__I 
-                         >> 0xcU));
-            vlTOPp->SOC__DOT__CPU__DOT__E_takeBranch 
-                = (1U & ((1U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__21__Vfuncout))
-                          ? (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_LT))
-                          : (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_LT)));
-        }
-    } else {
-        vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__22__I 
-            = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-        vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__22__Vfuncout 
-            = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__22__I 
-                     >> 0xcU));
-        if ((2U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__22__Vfuncout))) {
-            vlTOPp->SOC__DOT__CPU__DOT__E_takeBranch = 0U;
-        } else {
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__23__I 
-                = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__23__Vfuncout 
-                = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__23__I 
-                         >> 0xcU));
-            vlTOPp->SOC__DOT__CPU__DOT__E_takeBranch 
-                = ((1U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__23__Vfuncout))
-                    ? (0U != (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus))
-                    : (0U == (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus)));
-        }
-    }
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__11__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__11__Vfuncout 
-        = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__11__I 
-                 >> 0xcU));
-    if ((4U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__11__Vfuncout))) {
-        vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__12__I 
-            = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-        vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__12__Vfuncout 
-            = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__12__I 
-                     >> 0xcU));
-        if ((2U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__12__Vfuncout))) {
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__13__I 
-                = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__13__Vfuncout 
-                = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__13__I 
-                         >> 0xcU));
-            vlTOPp->SOC__DOT__CPU__DOT__E_aluOut = 
-                ((1U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__13__Vfuncout))
-                  ? (vlTOPp->SOC__DOT__CPU__DOT__DE_rs1 
-                     & vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2)
-                  : (vlTOPp->SOC__DOT__CPU__DOT__DE_rs1 
-                     | vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2));
-        } else {
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__14__I 
-                = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__14__Vfuncout 
-                = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__14__I 
-                         >> 0xcU));
-            vlTOPp->SOC__DOT__CPU__DOT__E_aluOut = 
-                ((1U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__14__Vfuncout))
-                  ? vlTOPp->SOC__DOT__CPU__DOT__E_shifter
-                  : (vlTOPp->SOC__DOT__CPU__DOT__DE_rs1 
-                     ^ vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2));
-        }
-    } else {
-        vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__15__I 
-            = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-        vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__15__Vfuncout 
-            = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__15__I 
-                     >> 0xcU));
-        if ((2U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__15__Vfuncout))) {
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__16__I 
-                = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__16__Vfuncout 
-                = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__16__I 
-                         >> 0xcU));
-            vlTOPp->SOC__DOT__CPU__DOT__E_aluOut = 
-                ((1U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__16__Vfuncout))
-                  ? (1U & (IData)((vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus 
-                                   >> 0x20U))) : (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_LT));
-        } else {
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__17__I 
-                = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-            vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__17__Vfuncout 
-                = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__17__I 
-                         >> 0xcU));
-            vlTOPp->SOC__DOT__CPU__DOT__E_aluOut = 
-                ((1U & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__17__Vfuncout))
-                  ? vlTOPp->SOC__DOT__CPU__DOT__E_leftshift
-                  : ((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_minus)
-                      ? (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus)
-                      : vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus));
-        }
-    }
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__26__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__26__Vfuncout 
-        = (0x63U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__26__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJALR__25__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJALR__25__Vfuncout 
-        = (0x67U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJALR__25__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__24__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__24__Vfuncout 
-        = (0x6fU == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__24__I));
-    vlTOPp->SOC__DOT__CPU__DOT__E_JumpOrBranch = (((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__24__Vfuncout) 
-                                                   | (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJALR__25__Vfuncout)) 
-                                                  | ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isBranch__26__Vfuncout) 
-                                                     & (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_takeBranch)));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Uimm__36__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Uimm__36__Vfuncout 
-        = (0xfffff000U & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Uimm__36__I);
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isAUIPC__35__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isAUIPC__35__Vfuncout 
-        = (0x17U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isAUIPC__35__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Uimm__34__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Uimm__34__Vfuncout 
-        = (0xfffff000U & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Uimm__34__I);
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLUI__33__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLUI__33__Vfuncout 
-        = (0x37U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLUI__33__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJALR__32__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJALR__32__Vfuncout 
-        = (0x67U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJALR__32__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__31__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__31__Vfuncout 
-        = (0x6fU == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__31__I));
-    vlTOPp->SOC__DOT__CPU__DOT__E_result = (((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJAL__31__Vfuncout) 
-                                             | (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isJALR__32__Vfuncout))
-                                             ? ((IData)(4U) 
-                                                + vlTOPp->SOC__DOT__CPU__DOT__DE_PC)
-                                             : ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isLUI__33__Vfuncout)
-                                                 ? vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Uimm__34__Vfuncout
-                                                 : 
-                                                ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isAUIPC__35__Vfuncout)
-                                                  ? 
-                                                 (vlTOPp->SOC__DOT__CPU__DOT__DE_PC 
-                                                  + vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__Uimm__36__Vfuncout)
-                                                  : vlTOPp->SOC__DOT__CPU__DOT__E_aluOut)));
-    vlTOPp->SOC__DOT__CPU__DOT__E_flush = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_JumpOrBranch) 
+    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+        = vlTOPp->SOC__DOT__CPU__DOT__E_shifter;
+    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__Vfuncout 
+        = ((0x80000000U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                           << 0x1fU)) | ((0x40000000U 
+                                          & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                             << 0x1dU)) 
+                                         | ((0x20000000U 
+                                             & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                << 0x1bU)) 
+                                            | ((0x10000000U 
+                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                   << 0x19U)) 
+                                               | ((0x8000000U 
+                                                   & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                      << 0x17U)) 
+                                                  | ((0x4000000U 
+                                                      & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                         << 0x15U)) 
+                                                     | ((0x2000000U 
+                                                         & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                            << 0x13U)) 
+                                                        | ((0x1000000U 
+                                                            & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                               << 0x11U)) 
+                                                           | ((0x800000U 
+                                                               & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                  << 0xfU)) 
+                                                              | ((0x400000U 
+                                                                  & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                     << 0xdU)) 
+                                                                 | ((0x200000U 
+                                                                     & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                        << 0xbU)) 
+                                                                    | ((0x100000U 
+                                                                        & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                           << 9U)) 
+                                                                       | ((0x80000U 
+                                                                           & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                              << 7U)) 
+                                                                          | ((0x40000U 
+                                                                              & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                << 5U)) 
+                                                                             | ((0x20000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                << 3U)) 
+                                                                                | ((0x10000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                << 1U)) 
+                                                                                | ((0x8000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 1U)) 
+                                                                                | ((0x4000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 3U)) 
+                                                                                | ((0x2000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 5U)) 
+                                                                                | ((0x1000U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 7U)) 
+                                                                                | ((0x800U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 9U)) 
+                                                                                | ((0x400U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0xbU)) 
+                                                                                | ((0x200U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0xdU)) 
+                                                                                | ((0x100U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0xfU)) 
+                                                                                | ((0x80U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0x11U)) 
+                                                                                | ((0x40U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0x13U)) 
+                                                                                | ((0x20U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0x15U)) 
+                                                                                | ((0x10U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0x17U)) 
+                                                                                | ((8U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0x19U)) 
+                                                                                | ((4U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0x1bU)) 
+                                                                                | ((2U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0x1dU)) 
+                                                                                | (1U 
+                                                                                & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__x 
+                                                                                >> 0x1fU)))))))))))))))))))))))))))))))));
+    vlTOPp->SOC__DOT__CPU__DOT__E_leftshift = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__flip32__3__Vfuncout;
+    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__BHT_index__0__PC 
+        = vlTOPp->SOC__DOT__CPU__DOT__FD_PC;
+    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__BHT_index__0__Vfuncout 
+        = (0xfffU & ((vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__BHT_index__0__PC 
+                      >> 2U) ^ ((IData)(vlTOPp->SOC__DOT__CPU__DOT__branch_history) 
+                                << 3U)));
+    vlTOPp->SOC__DOT__CPU__DOT__D_predictBranch = (1U 
+                                                   & (vlTOPp->SOC__DOT__CPU__DOT__BHT
+                                                      [vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__BHT_index__0__Vfuncout] 
+                                                      >> 1U));
+    vlTOPp->SOC__DOT__CPU__DOT__D_isJALR = (5U == (
+                                                   (4U 
+                                                    & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                       >> 4U)) 
+                                                   | (3U 
+                                                      & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                         >> 2U))));
+    vlTOPp->SOC__DOT__CPU__DOT__D_Bimm = ((0xfffff000U 
+                                           & ((- (IData)(
+                                                         (1U 
+                                                          & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                             >> 0x1fU)))) 
+                                              << 0xcU)) 
+                                          | ((0x800U 
+                                              & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                 << 4U)) 
+                                             | ((0x7e0U 
+                                                 & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                    >> 0x14U)) 
+                                                | (0x1eU 
+                                                   & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                      >> 7U)))));
+    vlTOPp->SOC__DOT__CPU__DOT__dataHazard = ((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop)) 
+                                              & ((((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isLoad) 
+                                                   | (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isCSRRS)) 
+                                                  & (((~ 
+                                                       ((vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                         >> 3U) 
+                                                        | ((vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                            >> 4U) 
+                                                           & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                              >> 6U)))) 
+                                                      & ((0x1fU 
+                                                          & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                             >> 0xfU)) 
+                                                         == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId))) 
+                                                     | (((vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                          >> 5U) 
+                                                         & (0U 
+                                                            == 
+                                                            (3U 
+                                                             & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                                >> 2U)))) 
+                                                        & ((0x1fU 
+                                                            & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                               >> 0x14U)) 
+                                                           == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId))))) 
+                                                 | ((0U 
+                                                     == 
+                                                     (0x1fU 
+                                                      & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                         >> 2U))) 
+                                                    & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isStore))));
+    vlTOPp->SOC__DOT__CPU__DOT__E_takeBranch = (1U 
+                                                & (((((((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is) 
+                                                        & (0U 
+                                                           == (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus))) 
+                                                       | (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is) 
+                                                           >> 1U) 
+                                                          & (0U 
+                                                             != (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus)))) 
+                                                      | (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is) 
+                                                          >> 4U) 
+                                                         & (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_LT))) 
+                                                     | (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is) 
+                                                         >> 5U) 
+                                                        & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_LT)))) 
+                                                    | (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is) 
+                                                        >> 6U) 
+                                                       & (IData)(
+                                                                 (vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus 
+                                                                  >> 0x20U)))) 
+                                                   | (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is) 
+                                                       >> 7U) 
+                                                      & (~ (IData)(
+                                                                   (vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus 
+                                                                    >> 0x20U))))));
+    vlTOPp->SOC__DOT__CPU__DOT__E_aluOut = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isRV32M)
+                                             ? ((((1U 
+                                                   & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is))
+                                                   ? (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_multiply)
+                                                   : 0U) 
+                                                 | ((0U 
+                                                     != 
+                                                     (7U 
+                                                      & ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is) 
+                                                         >> 1U)))
+                                                     ? (IData)(
+                                                               (vlTOPp->SOC__DOT__CPU__DOT__E_multiply 
+                                                                >> 0x20U))
+                                                     : 0U)) 
+                                                | ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isDIV)
+                                                    ? 
+                                                   ((4U 
+                                                     == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divsel))
+                                                     ? vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r
+                                                     : 
+                                                    ((5U 
+                                                      == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divsel))
+                                                      ? 
+                                                     (- vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r)
+                                                      : 
+                                                     ((6U 
+                                                       == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__divsel))
+                                                       ? vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r
+                                                       : 
+                                                      (- vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r))))
+                                                    : 0U))
+                                             : ((((
+                                                   (((((1U 
+                                                        & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is))
+                                                        ? 
+                                                       (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct7) 
+                                                         & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isALUreg))
+                                                         ? (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus)
+                                                         : vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus)
+                                                        : 0U) 
+                                                      | ((2U 
+                                                          & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is))
+                                                          ? vlTOPp->SOC__DOT__CPU__DOT__E_leftshift
+                                                          : 0U)) 
+                                                     | ((4U 
+                                                         & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is))
+                                                         ? (IData)(vlTOPp->SOC__DOT__CPU__DOT__E_LT)
+                                                         : 0U)) 
+                                                    | ((8U 
+                                                        & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is))
+                                                        ? 
+                                                       (1U 
+                                                        & (IData)(
+                                                                  (vlTOPp->SOC__DOT__CPU__DOT__E_aluMinus 
+                                                                   >> 0x20U)))
+                                                        : 0U)) 
+                                                   | ((0x10U 
+                                                       & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is))
+                                                       ? 
+                                                      (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
+                                                       ^ vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2)
+                                                       : 0U)) 
+                                                  | ((0x20U 
+                                                      & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is))
+                                                      ? vlTOPp->SOC__DOT__CPU__DOT__E_shifter
+                                                      : 0U)) 
+                                                 | ((0x40U 
+                                                     & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is))
+                                                     ? 
+                                                    (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
+                                                     | vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2)
+                                                     : 0U)) 
+                                                | ((0x80U 
+                                                    & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_funct3_is))
+                                                    ? 
+                                                   (vlTOPp->SOC__DOT__CPU__DOT__E_rs1 
+                                                    & vlTOPp->SOC__DOT__CPU__DOT__E_aluIn2)
+                                                    : 0U)));
+    vlTOPp->SOC__DOT__CPU__DOT__F_PC = ((((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop)) 
+                                          & (6U == 
+                                             (7U & 
+                                              (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                               >> 4U)))) 
+                                         & ((vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                             >> 2U) 
+                                            | (IData)(vlTOPp->SOC__DOT__CPU__DOT__D_predictBranch)))
+                                         ? ((1U == 
+                                             (3U & 
+                                              (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                               >> 2U)))
+                                             ? vlTOPp->SOC__DOT__CPU__DOT__RAS_0
+                                             : (vlTOPp->SOC__DOT__CPU__DOT__FD_PC 
+                                                + (
+                                                   (8U 
+                                                    & vlTOPp->SOC__DOT__CPU__DOT__FD_instr)
+                                                    ? 
+                                                   ((0xfff00000U 
+                                                     & ((- (IData)(
+                                                                   (1U 
+                                                                    & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                                       >> 0x1fU)))) 
+                                                        << 0x14U)) 
+                                                    | ((0xff000U 
+                                                        & vlTOPp->SOC__DOT__CPU__DOT__FD_instr) 
+                                                       | ((0x800U 
+                                                           & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                              >> 9U)) 
+                                                          | (0x7feU 
+                                                             & (vlTOPp->SOC__DOT__CPU__DOT__FD_instr 
+                                                                >> 0x14U)))))
+                                                    : vlTOPp->SOC__DOT__CPU__DOT__D_Bimm)))
+                                         : ((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_correctPC)
+                                             ? vlTOPp->SOC__DOT__CPU__DOT__EM_PCcorrection
+                                             : vlTOPp->SOC__DOT__CPU__DOT__PC));
+    vlTOPp->SOC__DOT__CPU__DOT____Vcellinp__DIVU__start 
+        = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isDIV) 
+            & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__dataHazard))) 
+           & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__finished_r)));
+    vlTOPp->SOC__DOT__CPU__DOT__E_correctPC = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isJALR) 
+                                                & (vlTOPp->SOC__DOT__CPU__DOT__DE_predictRA 
+                                                   != 
+                                                   (0xfffffffeU 
+                                                    & vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus))) 
+                                               | ((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isBranch) 
+                                                  & ((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_takeBranch) 
+                                                     ^ (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_predictBranch))));
+    vlTOPp->SOC__DOT__CPU__DOT__E_flush = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_correctPC) 
                                            | (IData)(vlTOPp->SOC__DOT__CPU__DOT__dataHazard));
 }
 
@@ -3941,23 +1576,10 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__2(VSOC__Syms* __restrict vlSymsp) {
                                            + (1U & 
                                               (~ (IData)(vlTOPp->SOC__DOT__resetn))))));
     vlTOPp->SOC__DOT__resetn = (0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isEBREAK__40__I 
-        = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__42__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isEBREAK__40__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__42__Vfuncout 
-        = (7U & (vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__42__I 
-                 >> 0xcU));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isSYSTEM__41__I 
-        = vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isEBREAK__40__I;
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isSYSTEM__41__Vfuncout 
-        = (0x73U == (0x7fU & vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isSYSTEM__41__I));
-    vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isEBREAK__40__Vfuncout 
-        = ((IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isSYSTEM__41__Vfuncout) 
-           & (0U == (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__funct3__42__Vfuncout)));
     vlTOPp->SOC__DOT__CPU__DOT__halt = ((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)) 
-                                        & (IData)(vlTOPp->__Vfunc_SOC__DOT__CPU__DOT__isEBREAK__40__Vfuncout));
-    vlTOPp->SOC__DOT__CPU__DOT__D_stall = ((IData)(vlTOPp->SOC__DOT__CPU__DOT__dataHazard) 
+                                        & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isEBREAK));
+    vlTOPp->SOC__DOT__CPU__DOT__F_stall = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy) 
+                                            | (IData)(vlTOPp->SOC__DOT__CPU__DOT__dataHazard)) 
                                            | (IData)(vlTOPp->SOC__DOT__CPU__DOT__halt));
 }
 

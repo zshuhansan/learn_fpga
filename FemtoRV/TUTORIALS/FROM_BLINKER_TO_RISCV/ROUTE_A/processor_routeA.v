@@ -1,51 +1,10 @@
-/**
- * pipelineY_generic.v
- * femtorv32-tordboyau
- * Configurable 5-stages pipelined RV32IM
- * Bruno Levy, Sept 2022
- */
-
-/*
- * 中文导读
- *
- * pipeline10 在 pipeline9（RV32I）基础上加入 RV32M 扩展（整数乘除/取模）：
- * - 乘法（MUL/MULH/...）：通常可映射到 FPGA DSP，接近 1 周期得到结果
- * - 除法/取模（DIV/DIVU/REM/REMU）：需要多周期迭代算法，因此会引入“E 阶段内部的长操作”
- *
- * 因此本文件除了保持原有的流水线、前递、预测、RAS 外，还额外引入：
- * - 除法器内部状态寄存器（EE_* 前缀）：在 E 阶段跨多个周期保持 dividend/divisor/quotient 等
- * - aluBusy / E_stall / M_flush：当除法在跑时，需要冻结 F/D/E（不让新指令进入），并对 M 注入 bubble，
- *   直到除法完成再继续推进流水线
- *
- * 这体现了一个常见现实：并不是所有指令都能在 1-cycle 的 EX 阶段完成，流水线必须支持“可变延迟执行单元”。
- */
-
-`define CONFIG_PC_PREDICT // enables D -> F path (needed by RAS and GSHARE)
-`define CONFIG_RAS        // return address stack
-`define CONFIG_GSHARE     // gshare branch prediction (or BTFNT if not set)
-
-`define CONFIG_RV32M      // RV32M instruction set (MUL,DIV,REM)
-
-`ifndef CPU_FREQ
-`define CPU_FREQ 10
-`endif
-
-//`define CONFIG_INITIALIZE // initialize register file and BHT table
-                            // (required by Icarus/iverilog
-                            // and by some synth tools)
-
 `default_nettype none
-`include "clockworks.v"
-`include "emitter_uart.v"
 `include "ROUTE_A/decoder.v"
 `include "ROUTE_A/imm_gen.v"
 `include "ROUTE_A/regfile.v"
 `include "ROUTE_A/lsu_align.v"
 `include "ROUTE_A/div_unit.v"
-
-/******************************************************************************/
-
-module Processor (
+module Processor_routeA (
     input 	  clk,
     input 	  resetn,
     output [31:0] IO_mem_addr,  // IO memory address
@@ -1097,85 +1056,5 @@ module Processor (
 `endif // `BENCH
 
 /******************************************************************************/
-
-endmodule
-
-module SOC (
-    input 	     CLK, // system clock
-    input 	     RESET,// reset button
-    output reg [4:0] LEDS, // system LEDs
-    input 	     RXD, // UART receive
-    output 	     TXD  // UART transmit
-);
-
-   wire clk;
-   wire resetn;
-
-   wire [31:0] IO_mem_addr;
-   wire [31:0] IO_mem_rdata;
-   wire [31:0] IO_mem_wdata;
-   wire        IO_mem_wr;
-
-   Processor CPU(
-      .clk(clk),
-      .resetn(resetn),
-      .IO_mem_addr(IO_mem_addr),
-      .IO_mem_rdata(IO_mem_rdata),
-      .IO_mem_wdata(IO_mem_wdata),
-      .IO_mem_wr(IO_mem_wr)
-   );
-
-   wire [13:0] IO_wordaddr = IO_mem_addr[15:2];
-
-   // Memory-mapped IO in IO page, 1-hot addressing in word address.
-   localparam IO_LEDS_bit      = 0;  // W five leds
-   localparam IO_UART_DAT_bit  = 1;  // W data to send (8 bits)
-   localparam IO_UART_CNTL_bit = 2;  // R status. bit 9: busy sending
-
-   always @(posedge clk) begin
-      if(IO_mem_wr & IO_wordaddr[IO_LEDS_bit]) begin
-	 LEDS <= IO_mem_wdata[4:0];
-      end
-   end
-
-   wire uart_valid = IO_mem_wr & IO_wordaddr[IO_UART_DAT_bit];
-   wire uart_ready;
-
-
-   corescore_emitter_uart #(
-      .clk_freq_hz(`CPU_FREQ*1000000)
-   ) UART(
-      .i_clk(clk),
-      .i_rst(!resetn),
-      .i_data(IO_mem_wdata[7:0]),
-      .i_valid(uart_valid),
-      .o_ready(uart_ready),
-      .o_uart_tx(TXD)
-   );
-
-   assign IO_mem_rdata =
-		    IO_wordaddr[IO_UART_CNTL_bit] ? { 22'b0, !uart_ready, 9'b0}
-	                                          : 32'b0;
-
-`ifdef BENCH
-   always @(posedge clk) begin
-      if(uart_valid) begin
-`ifdef CONFIG_DEBUG
-	 $display("UART: %c", IO_mem_wdata[7:0]);
-`else
-	 $write("%c", IO_mem_wdata[7:0] );
-	 $fflush(32'h8000_0001);
-`endif
-      end
-   end
-`endif
-
-   // Gearbox and reset circuitry.
-   Clockworks CW(
-     .CLK(CLK),
-     .RESET(RESET),
-     .clk(clk),
-     .resetn(resetn)
-   );
 
 endmodule
