@@ -39,6 +39,10 @@ SECTIONS {
     .text : {
         . = ALIGN(4);
         start_spiflash1.o(.text)  /* c runtime initialization (code) */
+        *(.eh_frame)
+        *(.eh_frame_hdr)
+        *(.init_array)
+        *(.gcc_except_table*)
         *(.text*)                 /* .text* sections (code) */
         . = ALIGN(4);
         *(.rodata*)              /* .rodata* sections (constants, strings, etc.) */

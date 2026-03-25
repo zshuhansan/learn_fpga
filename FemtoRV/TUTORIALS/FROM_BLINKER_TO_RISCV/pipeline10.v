@@ -26,10 +26,6 @@
 
 `define CONFIG_RV32M      // RV32M instruction set (MUL,DIV,REM)
 
-`define CONFIG_DEBUG      // debug mode, displays execution
-                            // See "debugger" section in source
-                            // to define breakpoints
-
 //`define CONFIG_INITIALIZE // initialize register file and BHT table
                             // (required by Icarus/iverilog
                             // and by some synth tools)
@@ -978,7 +974,7 @@ module Processor (
    // wire breakpoint = (EM_addr == 32'h400008); // break on character output
    // wire breakpoint = (DE_PC   == 32'h000000); // break on address reached
    // wire breakpoint = DE_isRV32M && DE_isALUreg;
-   wire breakpoint = DE_isDIV;
+   wire breakpoint = 1'b0;
 
    reg step = 1'b1;
    reg [31:0] dbg_cmd = 0;

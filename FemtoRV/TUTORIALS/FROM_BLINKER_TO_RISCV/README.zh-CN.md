@@ -1991,7 +1991,11 @@ int main(int argc, char** argv, char** env) {
 ```
 
 另外，在 [sim_main.cpp](sim_main.cpp) 里还有一些代码：当 LED 改变时解码并打印它们的状态。
-
+![alt text](image.png)
+```
+verilator -DBENCH -DBOARD_FREQ=12 -DCPU_FREQ=12 -DPASSTHROUGH_PLL \
+  -Wno-fatal --top-module SOC -cc -exe sim_main.cpp step18.v
+```
 把设计转换成 C++：
 
 ```
