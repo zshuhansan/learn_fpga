@@ -1,0 +1,179 @@
+#! /usr/bin/vvp
+:ivl_version "11.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/system.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2005_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/va_math.vpi";
+S_0x564060f6d520 .scope module, "tb_csr" "tb_csr" 2 2;
+ .timescale -9 -12;
+v0x564060f8d5e0_0 .var "clk", 0 0;
+v0x564060f8d6a0_0 .var "csrId_is", 3 0;
+v0x564060f8d740_0 .net "csr_rdata", 31 0, L_0x564060f9eb90;  1 drivers
+v0x564060f8d810_0 .net "out_cycle", 63 0, L_0x564060f9ecf0;  1 drivers
+v0x564060f8d8e0_0 .net "out_instret", 63 0, L_0x564060f9edb0;  1 drivers
+v0x564060f8d980_0 .var "resetn", 0 0;
+v0x564060f8da50_0 .var "valid_inst_retired", 0 0;
+S_0x564060f6d6b0 .scope module, "dut" "csr_unit" 2 12, 3 1 0, S_0x564060f6d520;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "resetn";
+    .port_info 2 /INPUT 1 "valid_inst_retired";
+    .port_info 3 /INPUT 4 "csrId_is";
+    .port_info 4 /OUTPUT 32 "csr_rdata";
+    .port_info 5 /OUTPUT 64 "out_cycle";
+    .port_info 6 /OUTPUT 64 "out_instret";
+L_0x564060f9e2d0 .functor OR 32, L_0x564060f9dd80, L_0x564060f9e100, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>;
+L_0x564060f9e6e0 .functor OR 32, L_0x564060f9e2d0, L_0x564060f9e570, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>;
+L_0x564060f9eb90 .functor OR 32, L_0x564060f9e6e0, L_0x564060f9e990, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>;
+L_0x564060f9ecf0 .functor BUFZ 64, v0x564060f8d000_0, C4<0000000000000000000000000000000000000000000000000000000000000000>, C4<0000000000000000000000000000000000000000000000000000000000000000>, C4<0000000000000000000000000000000000000000000000000000000000000000>;
+L_0x564060f9edb0 .functor BUFZ 64, v0x564060f8d0e0_0, C4<0000000000000000000000000000000000000000000000000000000000000000>, C4<0000000000000000000000000000000000000000000000000000000000000000>, C4<0000000000000000000000000000000000000000000000000000000000000000>;
+v0x564060f61130_0 .net *"_ivl_1", 0 0, L_0x564060f8db20;  1 drivers
+v0x564060f8be70_0 .net *"_ivl_11", 31 0, L_0x564060f9e010;  1 drivers
+L_0x78773109f060 .functor BUFT 1, C4<00000000000000000000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x564060f8bf50_0 .net/2u *"_ivl_12", 31 0, L_0x78773109f060;  1 drivers
+v0x564060f8c010_0 .net *"_ivl_14", 31 0, L_0x564060f9e100;  1 drivers
+v0x564060f8c0f0_0 .net *"_ivl_16", 31 0, L_0x564060f9e2d0;  1 drivers
+v0x564060f8c220_0 .net *"_ivl_19", 0 0, L_0x564060f9e3e0;  1 drivers
+v0x564060f8c300_0 .net *"_ivl_21", 31 0, L_0x564060f9e480;  1 drivers
+L_0x78773109f0a8 .functor BUFT 1, C4<00000000000000000000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x564060f8c3e0_0 .net/2u *"_ivl_22", 31 0, L_0x78773109f0a8;  1 drivers
+v0x564060f8c4c0_0 .net *"_ivl_24", 31 0, L_0x564060f9e570;  1 drivers
+v0x564060f8c5a0_0 .net *"_ivl_26", 31 0, L_0x564060f9e6e0;  1 drivers
+v0x564060f8c680_0 .net *"_ivl_29", 0 0, L_0x564060f9e7f0;  1 drivers
+v0x564060f8c760_0 .net *"_ivl_3", 31 0, L_0x564060f8dc40;  1 drivers
+v0x564060f8c840_0 .net *"_ivl_31", 31 0, L_0x564060f9e8f0;  1 drivers
+L_0x78773109f0f0 .functor BUFT 1, C4<00000000000000000000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x564060f8c920_0 .net/2u *"_ivl_32", 31 0, L_0x78773109f0f0;  1 drivers
+v0x564060f8ca00_0 .net *"_ivl_34", 31 0, L_0x564060f9e990;  1 drivers
+L_0x78773109f018 .functor BUFT 1, C4<00000000000000000000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x564060f8cae0_0 .net/2u *"_ivl_4", 31 0, L_0x78773109f018;  1 drivers
+v0x564060f8cbc0_0 .net *"_ivl_6", 31 0, L_0x564060f9dd80;  1 drivers
+v0x564060f8cca0_0 .net *"_ivl_9", 0 0, L_0x564060f9df40;  1 drivers
+v0x564060f8cd80_0 .net "clk", 0 0, v0x564060f8d5e0_0;  1 drivers
+v0x564060f8ce40_0 .net "csrId_is", 3 0, v0x564060f8d6a0_0;  1 drivers
+v0x564060f8cf20_0 .net "csr_rdata", 31 0, L_0x564060f9eb90;  alias, 1 drivers
+v0x564060f8d000_0 .var "cycle", 63 0;
+v0x564060f8d0e0_0 .var "instret", 63 0;
+v0x564060f8d1c0_0 .net "out_cycle", 63 0, L_0x564060f9ecf0;  alias, 1 drivers
+v0x564060f8d2a0_0 .net "out_instret", 63 0, L_0x564060f9edb0;  alias, 1 drivers
+v0x564060f8d380_0 .net "resetn", 0 0, v0x564060f8d980_0;  1 drivers
+v0x564060f8d440_0 .net "valid_inst_retired", 0 0, v0x564060f8da50_0;  1 drivers
+E_0x564060f306d0 .event posedge, v0x564060f8cd80_0;
+L_0x564060f8db20 .part v0x564060f8d6a0_0, 0, 1;
+L_0x564060f8dc40 .part v0x564060f8d000_0, 0, 32;
+L_0x564060f9dd80 .functor MUXZ 32, L_0x78773109f018, L_0x564060f8dc40, L_0x564060f8db20, C4<>;
+L_0x564060f9df40 .part v0x564060f8d6a0_0, 2, 1;
+L_0x564060f9e010 .part v0x564060f8d000_0, 32, 32;
+L_0x564060f9e100 .functor MUXZ 32, L_0x78773109f060, L_0x564060f9e010, L_0x564060f9df40, C4<>;
+L_0x564060f9e3e0 .part v0x564060f8d6a0_0, 1, 1;
+L_0x564060f9e480 .part v0x564060f8d0e0_0, 0, 32;
+L_0x564060f9e570 .functor MUXZ 32, L_0x78773109f0a8, L_0x564060f9e480, L_0x564060f9e3e0, C4<>;
+L_0x564060f9e7f0 .part v0x564060f8d6a0_0, 3, 1;
+L_0x564060f9e8f0 .part v0x564060f8d0e0_0, 32, 32;
+L_0x564060f9e990 .functor MUXZ 32, L_0x78773109f0f0, L_0x564060f9e8f0, L_0x564060f9e7f0, C4<>;
+    .scope S_0x564060f6d6b0;
+T_0 ;
+    %wait E_0x564060f306d0;
+    %load/vec4 v0x564060f8d380_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 64;
+    %assign/vec4 v0x564060f8d000_0, 0;
+    %pushi/vec4 0, 0, 64;
+    %assign/vec4 v0x564060f8d0e0_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v0x564060f8d000_0;
+    %addi 1, 0, 64;
+    %assign/vec4 v0x564060f8d000_0, 0;
+    %load/vec4 v0x564060f8d440_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.2, 8;
+    %load/vec4 v0x564060f8d0e0_0;
+    %addi 1, 0, 64;
+    %assign/vec4 v0x564060f8d0e0_0, 0;
+T_0.2 ;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0x564060f6d520;
+T_1 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x564060f8d5e0_0, 0, 1;
+T_1.0 ;
+    %delay 5000, 0;
+    %load/vec4 v0x564060f8d5e0_0;
+    %inv;
+    %store/vec4 v0x564060f8d5e0_0, 0, 1;
+    %jmp T_1.0;
+    %end;
+    .thread T_1;
+    .scope S_0x564060f6d520;
+T_2 ;
+    %vpi_call 2 28 "$dumpfile", "csr.vcd" {0 0 0};
+    %vpi_call 2 29 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x564060f6d520 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x564060f8d980_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x564060f8da50_0, 0, 1;
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v0x564060f8d6a0_0, 0, 4;
+    %delay 15000, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x564060f8d980_0, 0, 1;
+    %delay 10000, 0;
+    %load/vec4 v0x564060f8d810_0;
+    %cmpi/ne 1, 0, 64;
+    %flag_mov 8, 6;
+    %load/vec4 v0x564060f8d8e0_0;
+    %cmpi/ne 0, 0, 64;
+    %flag_or 6, 8;
+    %jmp/0xz  T_2.0, 6;
+    %vpi_call 2 39 "$display", "FAIL: init cycle=%d instret=%d", v0x564060f8d810_0, v0x564060f8d8e0_0 {0 0 0};
+T_2.0 ;
+    %delay 10000, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x564060f8da50_0, 0, 1;
+    %delay 10000, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x564060f8da50_0, 0, 1;
+    %delay 10000, 0;
+    %load/vec4 v0x564060f8d810_0;
+    %cmpi/ne 4, 0, 64;
+    %flag_mov 8, 6;
+    %load/vec4 v0x564060f8d8e0_0;
+    %cmpi/ne 1, 0, 64;
+    %flag_or 6, 8;
+    %jmp/0xz  T_2.2, 6;
+    %vpi_call 2 47 "$display", "FAIL: inc cycle=%d instret=%d", v0x564060f8d810_0, v0x564060f8d8e0_0 {0 0 0};
+T_2.2 ;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v0x564060f8d6a0_0, 0, 4;
+    %delay 1000, 0;
+    %load/vec4 v0x564060f8d740_0;
+    %cmpi/ne 4, 0, 32;
+    %jmp/0xz  T_2.4, 6;
+    %vpi_call 2 52 "$display", "FAIL: read cycle[31:0] = %d", v0x564060f8d740_0 {0 0 0};
+T_2.4 ;
+    %pushi/vec4 2, 0, 4;
+    %store/vec4 v0x564060f8d6a0_0, 0, 4;
+    %delay 1000, 0;
+    %load/vec4 v0x564060f8d740_0;
+    %cmpi/ne 1, 0, 32;
+    %jmp/0xz  T_2.6, 6;
+    %vpi_call 2 56 "$display", "FAIL: read instret[31:0] = %d", v0x564060f8d740_0 {0 0 0};
+T_2.6 ;
+    %vpi_call 2 58 "$display", "ALL TESTS DONE." {0 0 0};
+    %vpi_call 2 59 "$finish" {0 0 0};
+    %end;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "ROUTE_A/tb_csr.v";
+    "ROUTE_A/csr_unit.v";

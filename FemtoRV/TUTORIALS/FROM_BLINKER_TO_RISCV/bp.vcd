@@ -1,0 +1,181 @@
+$date
+	Wed Mar 25 17:22:02 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_branch_predictor $end
+$var wire 32 ! d_predict_ra [31:0] $end
+$var wire 1 " d_predict_pc_valid $end
+$var wire 1 # d_predict_branch $end
+$var wire 32 $ d_pc_prediction [31:0] $end
+$var wire 12 % d_bht_index [11:0] $end
+$var reg 1 & clk $end
+$var reg 32 ' d_bimm [31:0] $end
+$var reg 1 ( d_flush $end
+$var reg 1 ) d_is_branch $end
+$var reg 1 * d_is_jal $end
+$var reg 1 + d_is_jalr $end
+$var reg 32 , d_jimm [31:0] $end
+$var reg 5 - d_rd_id [4:0] $end
+$var reg 5 . d_rs1_id [4:0] $end
+$var reg 12 / de_bht_index [11:0] $end
+$var reg 1 0 de_is_branch $end
+$var reg 1 1 e_stall $end
+$var reg 1 2 e_take_branch $end
+$var reg 32 3 fd_instr [31:0] $end
+$var reg 1 4 fd_nop $end
+$var reg 32 5 fd_pc [31:0] $end
+$var reg 1 6 resetn $end
+$scope module dut $end
+$var wire 12 7 bht_index [11:0] $end
+$var wire 1 & clk $end
+$var wire 12 8 d_bht_index [11:0] $end
+$var wire 32 9 d_bimm [31:0] $end
+$var wire 1 ( d_flush $end
+$var wire 1 ) d_is_branch $end
+$var wire 1 * d_is_jal $end
+$var wire 1 + d_is_jalr $end
+$var wire 32 : d_jimm [31:0] $end
+$var wire 5 ; d_rd_id [4:0] $end
+$var wire 5 < d_rs1_id [4:0] $end
+$var wire 12 = de_bht_index [11:0] $end
+$var wire 1 0 de_is_branch $end
+$var wire 1 1 e_stall $end
+$var wire 1 2 e_take_branch $end
+$var wire 32 > fd_instr [31:0] $end
+$var wire 1 4 fd_nop $end
+$var wire 32 ? fd_pc [31:0] $end
+$var wire 1 6 resetn $end
+$var wire 32 @ d_predict_ra [31:0] $end
+$var wire 1 " d_predict_pc_valid $end
+$var wire 1 # d_predict_branch $end
+$var wire 32 A d_pc_prediction [31:0] $end
+$var reg 9 B branch_history [8:0] $end
+$var reg 32 C ras_0 [31:0] $end
+$var reg 32 D ras_1 [31:0] $end
+$var reg 32 E ras_2 [31:0] $end
+$var reg 32 F ras_3 [31:0] $end
+$scope function incdec_sat $end
+$var reg 1 G dir $end
+$var reg 2 H prev [1:0] $end
+$upscope $end
+$scope begin genblk1 $end
+$upscope $end
+$scope begin genblk3 $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bx H
+xG
+bx F
+bx E
+bx D
+bx C
+bx B
+b0 A
+bx @
+b0 ?
+b0 >
+b0 =
+b0 <
+b0 ;
+b0 :
+b0 9
+bx000 8
+bx000 7
+06
+b0 5
+04
+b0 3
+02
+01
+00
+b0 /
+b0 .
+b0 -
+b0 ,
+0+
+0*
+0)
+0(
+b0 '
+0&
+bx000 %
+b0 $
+x#
+0"
+bx !
+$end
+#5000
+b0 %
+b0 8
+b0 7
+b0 F
+b0 E
+b0 D
+b0 !
+b0 @
+b0 C
+b0 B
+1&
+#10000
+0&
+#15000
+b1000000000100 !
+b1000000000100 @
+b1000000000100 C
+1"
+b10000000000 %
+b10000000000 8
+b10000000000 7
+b1000100000000 $
+b1000100000000 A
+1&
+b11101111 3
+b11101111 >
+b1 -
+b1 ;
+b100000000 ,
+b100000000 :
+1*
+b1000000000000 5
+b1000000000000 ?
+16
+#20000
+0&
+#25000
+b1000000000100 D
+1&
+#30000
+b1000000000000 $
+b1000000000000 A
+0&
+0*
+#35000
+b0 D
+b1000000000100 $
+b1000000000100 A
+1&
+b1000000001100111 3
+b1000000001100111 >
+b1 .
+b1 <
+b0 -
+b0 ;
+1+
+#40000
+0&
+#45000
+b0 $
+b0 A
+b0 !
+b0 @
+b0 C
+1&

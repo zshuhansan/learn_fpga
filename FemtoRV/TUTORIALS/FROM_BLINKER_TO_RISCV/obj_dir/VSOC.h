@@ -75,7 +75,6 @@ VL_MODULE(VSOC) {
         CData/*0:0*/ SOC__DOT__CPU__DOT__EM_isCSRRS;
         CData/*0:0*/ SOC__DOT__CPU__DOT__EM_wbEnable;
         CData/*0:0*/ SOC__DOT__CPU__DOT__EM_correctPC;
-        CData/*3:0*/ SOC__DOT__CPU__DOT__M_wmask;
         CData/*0:0*/ SOC__DOT__CPU__DOT__MW_nop;
         CData/*4:0*/ SOC__DOT__CPU__DOT__MW_rdId;
         CData/*0:0*/ SOC__DOT__CPU__DOT__MW_wbEnable;
@@ -88,39 +87,31 @@ VL_MODULE(VSOC) {
         CData/*7:0*/ SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_b;
         CData/*0:0*/ SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_sign;
         CData/*7:0*/ SOC__DOT__UART__DOT__cnt;
-        SData/*8:0*/ SOC__DOT__CPU__DOT__branch_history;
         SData/*11:0*/ SOC__DOT__CPU__DOT__DE_BHTindex;
+        SData/*8:0*/ SOC__DOT__CPU__DOT__BP__DOT__branch_history;
+        SData/*11:0*/ SOC__DOT__CPU__DOT__BP__DOT__bht_index;
         SData/*15:0*/ SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_h;
         SData/*9:0*/ SOC__DOT__UART__DOT__data;
         SData/*15:0*/ SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt;
+        IData/*31:0*/ SOC__DOT__inst_rdata;
+        IData/*31:0*/ SOC__DOT__data_rdata;
         IData/*31:0*/ SOC__DOT__CPU__DOT__PC;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__F_PC;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__FD_PC;
     };
     struct {
-        IData/*31:0*/ SOC__DOT__CPU__DOT__FD_instr;
+        IData/*31:0*/ SOC__DOT__CPU__DOT__F_PC;
+        IData/*31:0*/ SOC__DOT__CPU__DOT__FD_PC;
         IData/*31:0*/ SOC__DOT__CPU__DOT__D_Bimm;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__RAS_0;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__RAS_1;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__RAS_2;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__RAS_3;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DE_IorSimm;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DE_PCplus4orBimm;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__DE_predictRA;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DE_PCplus4orUimm;
         IData/*31:0*/ SOC__DOT__CPU__DOT__E_rs1;
         IData/*31:0*/ SOC__DOT__CPU__DOT__E_rs2;
         IData/*31:0*/ SOC__DOT__CPU__DOT__E_aluIn2;
         IData/*31:0*/ SOC__DOT__CPU__DOT__E_aluPlus;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__E_shifter_in;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__E_shifter;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__E_leftshift;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__E_aluOut;
         IData/*31:0*/ SOC__DOT__CPU__DOT__E_addr;
         IData/*31:0*/ SOC__DOT__CPU__DOT__EM_rs2;
         IData/*31:0*/ SOC__DOT__CPU__DOT__EM_Eresult;
         IData/*31:0*/ SOC__DOT__CPU__DOT__EM_addr;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__EM_Mdata;
         IData/*31:0*/ SOC__DOT__CPU__DOT__EM_PCcorrection;
         IData/*31:0*/ SOC__DOT__CPU__DOT__M_STORE_data;
         IData/*31:0*/ SOC__DOT__CPU__DOT__MW_wbData;
@@ -137,18 +128,25 @@ VL_MODULE(VSOC) {
         IData/*31:0*/ SOC__DOT__CPU__DOT__nbLoadHazard;
         IData/*31:0*/ SOC__DOT__CPU__DOT__nbMUL;
         IData/*31:0*/ SOC__DOT__CPU__DOT__nbDIV;
+        IData/*31:0*/ SOC__DOT__CPU__DOT__BP__DOT__ras_0;
+        IData/*31:0*/ SOC__DOT__CPU__DOT__BP__DOT__ras_1;
+        IData/*31:0*/ SOC__DOT__CPU__DOT__BP__DOT__ras_2;
+        IData/*31:0*/ SOC__DOT__CPU__DOT__BP__DOT__ras_3;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r;
-        QData/*63:0*/ SOC__DOT__CPU__DOT__cycle;
-        QData/*63:0*/ SOC__DOT__CPU__DOT__instret;
-        QData/*32:0*/ SOC__DOT__CPU__DOT__E_aluMinus;
-        QData/*63:0*/ SOC__DOT__CPU__DOT__E_multiply;
+        IData/*31:0*/ SOC__DOT__CPU__DOT__ALU__DOT__shifter_in;
+        IData/*31:0*/ SOC__DOT__CPU__DOT__ALU__DOT__shifter;
+        IData/*31:0*/ SOC__DOT__CPU__DOT__ALU__DOT__leftshift;
+        QData/*63:0*/ SOC__DOT__CPU__DOT__CSR__DOT__cycle;
+        QData/*63:0*/ SOC__DOT__CPU__DOT__CSR__DOT__instret;
         QData/*62:0*/ SOC__DOT__CPU__DOT__DIVU__DOT__divisor_r;
-        IData/*31:0*/ SOC__DOT__CPU__DOT__PROGROM[16384];
-        CData/*1:0*/ SOC__DOT__CPU__DOT__BHT[4096];
-        IData/*31:0*/ SOC__DOT__CPU__DOT__DATARAM[16384];
+        QData/*32:0*/ SOC__DOT__CPU__DOT__ALU__DOT__alu_minus;
+        QData/*63:0*/ SOC__DOT__CPU__DOT__ALU__DOT__genblk1__DOT__multiply;
+        CData/*1:0*/ SOC__DOT__CPU__DOT__BP__DOT__BHT[4096];
         IData/*31:0*/ SOC__DOT__CPU__DOT__RF__DOT__regs[32];
+        IData/*31:0*/ SOC__DOT__PROGROM__DOT__mem[16384];
+        IData/*31:0*/ SOC__DOT__DATARAM__DOT__mem[16384];
     };
     
     // LOCAL VARIABLES
@@ -156,12 +154,10 @@ VL_MODULE(VSOC) {
     CData/*0:0*/ SOC__DOT__CPU__DOT____Vcellinp__DIVU__start;
     CData/*0:0*/ __Vclklast__TOP__CLK;
     CData/*0:0*/ __Vclklast__TOP__RESET;
-    SData/*11:0*/ __Vfunc_SOC__DOT__CPU__DOT__BHT_index__0__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__BHT_index__0__PC;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__flip32__2__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__flip32__2__x;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__flip32__3__Vfuncout;
-    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__flip32__3__x;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__ALU__DOT__flip32__8__Vfuncout;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__ALU__DOT__flip32__8__x;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__ALU__DOT__flip32__9__Vfuncout;
+    IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__ALU__DOT__flip32__9__x;
     
     // INTERNAL VARIABLES
     // Internals; generally not touched by application code

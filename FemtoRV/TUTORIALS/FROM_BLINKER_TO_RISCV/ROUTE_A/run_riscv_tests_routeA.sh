@@ -105,7 +105,7 @@ for t in "${TESTS[@]}"; do
   cp "$OUTDIR/$name.PROGROM.hex" "$ROOT/PROGROM.hex"
   cp "$OUTDIR/$name.DATARAM.hex" "$ROOT/DATARAM.hex"
 
-  (cd "$ROOT" && ./run_verilator.sh pipeline10_routeA.v) >"$log" 2>&1 || true
+  (cd "$ROOT" && ./run_verilator.sh Soc.v) >"$log" 2>&1 || true
 
   if grep -q "P" "$log"; then
     echo "PASS $t"

@@ -1,0 +1,184 @@
+$date
+	Wed Mar 25 17:08:14 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_alu $end
+$var wire 1 ! ltu $end
+$var wire 1 " lt $end
+$var wire 1 # eq $end
+$var wire 32 $ alu_plus [31:0] $end
+$var wire 32 % alu_out [31:0] $end
+$var reg 32 & div_result [31:0] $end
+$var reg 3 ' funct3 [2:0] $end
+$var reg 32 ( in1 [31:0] $end
+$var reg 32 ) in2 [31:0] $end
+$var reg 1 * is_arith_shift $end
+$var reg 1 + is_div $end
+$var reg 1 , is_minus $end
+$var reg 1 - is_rv32m $end
+$scope module dut $end
+$var wire 32 . alu_out_base [31:0] $end
+$var wire 32 / div_result [31:0] $end
+$var wire 3 0 funct3 [2:0] $end
+$var wire 32 1 in1 [31:0] $end
+$var wire 32 2 in2 [31:0] $end
+$var wire 1 * is_arith_shift $end
+$var wire 1 + is_div $end
+$var wire 1 , is_minus $end
+$var wire 1 - is_rv32m $end
+$var wire 32 3 shifter_in [31:0] $end
+$var wire 32 4 shifter [31:0] $end
+$var wire 1 ! ltu $end
+$var wire 1 " lt $end
+$var wire 32 5 leftshift [31:0] $end
+$var wire 8 6 funct3_is [7:0] $end
+$var wire 1 # eq $end
+$var wire 32 7 alu_plus [31:0] $end
+$var wire 32 8 alu_out [31:0] $end
+$var wire 33 9 alu_minus [32:0] $end
+$scope function flip32 $end
+$var reg 32 : x [31:0] $end
+$upscope $end
+$scope begin genblk1 $end
+$var wire 32 ; alu_out_muldiv [31:0] $end
+$var wire 1 < is_mulh $end
+$var wire 1 = is_mulhsu $end
+$var wire 1 > mul_sign1 $end
+$var wire 1 ? mul_sign2 $end
+$var wire 64 @ multiply [63:0] $end
+$var wire 33 A mul_signed2 [32:0] $end
+$var wire 33 B mul_signed1 [32:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b1010 B
+b10100 A
+b11001000 @
+0?
+0>
+0=
+0<
+b11001000 ;
+b0 :
+b111111111111111111111111111110110 9
+b11110 8
+b11110 7
+b1 6
+b0 5
+b0 4
+b1010 3
+b10100 2
+b1010 1
+b0 0
+b0 /
+b11110 .
+0-
+0,
+0+
+0*
+b10100 )
+b1010 (
+b0 '
+b0 &
+b11110 %
+b11110 $
+0#
+1"
+1!
+$end
+#10000
+b1111101000 ;
+0"
+0!
+b110010 :
+b110010 3
+1,
+b1000110 $
+b1000110 7
+b11110 9
+b1111101000 @
+b110010 B
+b110010 (
+b110010 1
+#20000
+b11111111111111111111111111111111 %
+b11111111111111111111111111111111 8
+b11111111111111111111111111111111 .
+b0 ;
+1"
+b10000111100001111000000000000000 5
+b11110000111100001 4
+b11110000111100001 :
+b11110000111100001111000011110000 3
+0,
+b10000 6
+b100 '
+b100 0
+b1111000011110000111100001111 A
+b1111000011110000111100001111 )
+b1111000011110000111100001111 2
+b11111111111111111111111111111111 $
+b11111111111111111111111111111111 7
+b11100001111000011110000111100001 9
+b111000101100010010100110100001101010010011000010111000010000 @
+b11110000111100001111000011110000 B
+b11110000111100001111000011110000 (
+b11110000111100001111000011110000 1
+#30000
+b1 %
+b1 8
+b1 .
+b10011 ;
+b11111111111100000000000000000000 5
+b111111111111 4
+1=
+b111111111111 :
+b11111111111111111111111111110110 3
+b100 6
+b10 '
+b10 0
+b10100 A
+b10100 )
+b10100 2
+b1010 $
+b1010 7
+b11111111111111111111111111100010 9
+b1001111111111111111111111111100111000 @
+b11111111111111111111111111110110 B
+b11111111111111111111111111110110 (
+b11111111111111111111111111110110 1
+#40000
+b1011 .
+b11110 ;
+b0 5
+1"
+b0 4
+b11110 %
+b11110 8
+0=
+1!
+b0 :
+b101 3
+1-
+b1 6
+b0 '
+b0 0
+b110 A
+b110 )
+b110 2
+b1011 $
+b1011 7
+b111111111111111111111111111111111 9
+b11110 @
+b101 B
+b101 (
+b101 1
+#50000
