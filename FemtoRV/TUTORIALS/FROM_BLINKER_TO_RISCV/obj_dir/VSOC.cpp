@@ -30,7 +30,7 @@ void VSOC::eval_step() {
             Verilated::debug(1);
             __Vchange = _change_request(vlSymsp);
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Soc.v", 16, "",
+            VL_FATAL_MT("Soc/src/Soc.v", 15, "",
                 "Verilated model didn't converge\n"
                 "- See DIDNOTCONVERGE in the Verilator manual");
         } else {
@@ -55,7 +55,7 @@ void VSOC::_eval_initial_loop(VSOC__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = _change_request(vlSymsp);
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Soc.v", 16, "",
+            VL_FATAL_MT("Soc/src/Soc.v", 15, "",
                 "Verilated model didn't DC converge\n"
                 "- See DIDNOTCONVERGE in the Verilator manual");
         } else {
@@ -108,8 +108,8 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
     IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isStore__4__I;
     IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isRV32M__5__I;
     IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isALUreg__6__I;
-    IData/*31:0*/ __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_3;
-    IData/*31:0*/ __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_1;
+    IData/*31:0*/ __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_2;
+    IData/*31:0*/ __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_0;
     IData/*31:0*/ __Vdlyvval__SOC__DOT__CPU__DOT__RF__DOT__regs__v0;
     IData/*31:0*/ __Vdly__SOC__DOT__CPU__DOT__DIVU__DOT__dividend_r;
     IData/*31:0*/ __Vdly__SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r;
@@ -121,8 +121,8 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
     __Vdly__SOC__DOT__CPU__DOT__CSR__DOT__instret = vlTOPp->SOC__DOT__CPU__DOT__CSR__DOT__instret;
     __Vdly__SOC__DOT__uart_ready = vlTOPp->SOC__DOT__uart_ready;
     __Vdly__SOC__DOT__UART__DOT__cnt = vlTOPp->SOC__DOT__UART__DOT__cnt;
-    __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_1 = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_1;
-    __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_3 = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_3;
+    __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_2 = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_2;
+    __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_0 = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0;
     __Vdly__SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r 
         = vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r;
     __Vdly__SOC__DOT__CPU__DOT__DIVU__DOT__quotient_r 
@@ -136,7 +136,7 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
     __Vdlyvset__SOC__DOT__DATARAM__DOT__mem__v3 = 0U;
     __Vdlyvset__SOC__DOT__CPU__DOT__RF__DOT__regs__v0 = 0U;
     if (VL_UNLIKELY(vlTOPp->SOC__DOT__CPU__DOT__halt)) {
-        VL_FINISH_MT("processor.v", 728, "");
+        VL_FINISH_MT("processor.v", 719, "");
     }
     if (VL_UNLIKELY(vlTOPp->SOC__DOT__CPU__DOT__halt)) {
         VL_WRITEF("Simulated processor's report\n----------------------------\n");
@@ -171,7 +171,7 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
                                            VL_ITOR_D_I(vlTOPp->SOC__DOT__CPU__DOT__nbDIV)) 
                                           / VL_ITOR_D_I((IData)(vlTOPp->SOC__DOT__CPU__DOT__CSR__DOT__instret))));
         VL_WRITEF(")\n");
-        VL_FINISH_MT("processor.v", 956, "");
+        VL_FINISH_MT("processor.v", 947, "");
     }
     if (VL_UNLIKELY(vlTOPp->SOC__DOT__uart_valid)) {
         VL_WRITEF("%c",8,(0xffU & vlTOPp->SOC__DOT__CPU__DOT__EM_rs2));
@@ -284,6 +284,22 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
     }
     if (((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)) 
          & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__2__I 
+            = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
+        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__2__Vfuncout 
+            = (0x67U == (0x7fU & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__2__I));
+        if (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__2__Vfuncout) {
+            vlTOPp->SOC__DOT__CPU__DOT__nbJALR = ((IData)(1U) 
+                                                  + vlTOPp->SOC__DOT__CPU__DOT__nbJALR);
+            if ((vlTOPp->SOC__DOT__CPU__DOT__DE_predictRA 
+                 == (0xfffffffeU & vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus))) {
+                vlTOPp->SOC__DOT__CPU__DOT__nbJALRhit 
+                    = ((IData)(1U) + vlTOPp->SOC__DOT__CPU__DOT__nbJALRhit);
+            }
+        }
+    }
+    if (((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)) 
+         & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
         __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isBranch__0__I 
             = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
         __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isBranch__0__Vfuncout 
@@ -295,22 +311,6 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
                  == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_predictBranch))) {
                 vlTOPp->SOC__DOT__CPU__DOT__nbBranchHit 
                     = ((IData)(1U) + vlTOPp->SOC__DOT__CPU__DOT__nbBranchHit);
-            }
-        }
-    }
-    if (((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)) 
-         & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
-        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__2__I 
-            = vlTOPp->SOC__DOT__CPU__DOT__DE_instr;
-        __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__2__Vfuncout 
-            = (0x67U == (0x7fU & __Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__2__I));
-        if (__Vfunc_SOC__DOT__CPU__DOT__riscv_disasm_isJALR__2__Vfuncout) {
-            vlTOPp->SOC__DOT__CPU__DOT__nbJALR = ((IData)(1U) 
-                                                  + vlTOPp->SOC__DOT__CPU__DOT__nbJALR);
-            if ((vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0 
-                 == (0xfffffffeU & vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus))) {
-                vlTOPp->SOC__DOT__CPU__DOT__nbJALRhit 
-                    = ((IData)(1U) + vlTOPp->SOC__DOT__CPU__DOT__nbJALRhit);
             }
         }
     }
@@ -352,10 +352,10 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
             if (((vlTOPp->SOC__DOT__inst_rdata >> 3U) 
                  & (1U == (0x1fU & (vlTOPp->SOC__DOT__inst_rdata 
                                     >> 7U))))) {
-                __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_3 
-                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_2;
-                __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_1 
-                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0;
+                __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_2 
+                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_1;
+                __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_0 
+                    = ((IData)(4U) + vlTOPp->SOC__DOT__CPU__DOT__FD_PC);
             }
             if ((((IData)(vlTOPp->SOC__DOT__CPU__DOT__D_isJALR) 
                   & (0U == (0x1fU & (vlTOPp->SOC__DOT__inst_rdata 
@@ -369,13 +369,15 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
                                                      (0x1fU 
                                                       & (vlTOPp->SOC__DOT__inst_rdata 
                                                          >> 0xfU)))))) {
-                __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_1 
-                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_2;
+                __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_0 
+                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_1;
+                __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_2 
+                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_3;
             }
         }
     } else {
-        __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_1 = 0U;
-        __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_3 = 0U;
+        __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_0 = 0U;
+        __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_2 = 0U;
     }
     if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
         vlTOPp->SOC__DOT__CPU__DOT__DE_IorSimm = ((8U 
@@ -702,6 +704,9 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
     vlTOPp->SOC__DOT__CPU__DOT__MW_nop = vlTOPp->SOC__DOT__CPU__DOT__EM_nop;
     vlTOPp->SOC__DOT__CPU__DOT__MW_instr = vlTOPp->SOC__DOT__CPU__DOT__EM_instr;
     if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_predictRA = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
         vlTOPp->SOC__DOT__CPU__DOT__DE_predictBranch 
             = vlTOPp->SOC__DOT__CPU__DOT__D_predictBranch;
     }
@@ -716,10 +721,10 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
             if (((vlTOPp->SOC__DOT__inst_rdata >> 3U) 
                  & (1U == (0x1fU & (vlTOPp->SOC__DOT__inst_rdata 
                                     >> 7U))))) {
-                vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_2 
-                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_1;
-                vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0 
-                    = ((IData)(4U) + vlTOPp->SOC__DOT__CPU__DOT__FD_PC);
+                vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_3 
+                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_2;
+                vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_1 
+                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0;
             }
             if ((((IData)(vlTOPp->SOC__DOT__CPU__DOT__D_isJALR) 
                   & (0U == (0x1fU & (vlTOPp->SOC__DOT__inst_rdata 
@@ -733,15 +738,13 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
                                                      (0x1fU 
                                                       & (vlTOPp->SOC__DOT__inst_rdata 
                                                          >> 0xfU)))))) {
-                vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0 
-                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_1;
-                vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_2 
-                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_3;
+                vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_1 
+                    = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_2;
             }
         }
     } else {
-        vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0 = 0U;
-        vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_2 = 0U;
+        vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_1 = 0U;
+        vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_3 = 0U;
     }
     if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
         vlTOPp->SOC__DOT__CPU__DOT__DE_BHTindex = vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__bht_index;
@@ -832,8 +835,8 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
                                                                  >> 0x20U))
                                                       : 0U))
                                                   : vlTOPp->SOC__DOT__CPU__DOT__EM_Eresult));
-    vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_1 = __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_1;
-    vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_3 = __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_3;
+    vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_2 = __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_2;
+    vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0 = __Vdly__SOC__DOT__CPU__DOT__BP__DOT__ras_0;
     vlTOPp->SOC__DOT__uart_ready = __Vdly__SOC__DOT__uart_ready;
     vlTOPp->SOC__DOT__CPU__DOT__CSR__DOT__cycle = __Vdly__SOC__DOT__CPU__DOT__CSR__DOT__cycle;
     vlTOPp->SOC__DOT__CPU__DOT__CSR__DOT__instret = __Vdly__SOC__DOT__CPU__DOT__CSR__DOT__instret;
@@ -1159,16 +1162,6 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
         vlTOPp->SOC__DOT__CPU__DOT__DE_isJALorJALRorLUIorAUIPC = 0U;
     }
     if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
-        vlTOPp->SOC__DOT__CPU__DOT__DE_PCplus4orUimm 
-            = (((- (IData)((1U != (3U & (vlTOPp->SOC__DOT__inst_rdata 
-                                         >> 5U))))) 
-                & vlTOPp->SOC__DOT__CPU__DOT__FD_PC) 
-               + ((1U & ((vlTOPp->SOC__DOT__inst_rdata 
-                          >> 2U) & (vlTOPp->SOC__DOT__inst_rdata 
-                                    >> 6U))) ? 4U : 
-                  (0xfffff000U & vlTOPp->SOC__DOT__inst_rdata)));
-    }
-    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
         vlTOPp->SOC__DOT__CPU__DOT__DE_isRV32M = ((0xcU 
                                                    == 
                                                    (0x1fU 
@@ -1180,6 +1173,16 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
     if (((IData)(vlTOPp->SOC__DOT__CPU__DOT__E_flush) 
          | (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop))) {
         vlTOPp->SOC__DOT__CPU__DOT__DE_isRV32M = 0U;
+    }
+    if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
+        vlTOPp->SOC__DOT__CPU__DOT__DE_PCplus4orUimm 
+            = (((- (IData)((1U != (3U & (vlTOPp->SOC__DOT__inst_rdata 
+                                         >> 5U))))) 
+                & vlTOPp->SOC__DOT__CPU__DOT__FD_PC) 
+               + ((1U & ((vlTOPp->SOC__DOT__inst_rdata 
+                          >> 2U) & (vlTOPp->SOC__DOT__inst_rdata 
+                                    >> 6U))) ? 4U : 
+                  (0xfffff000U & vlTOPp->SOC__DOT__inst_rdata)));
     }
     if ((1U & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__F_stall)))) {
         vlTOPp->SOC__DOT__CPU__DOT__DE_isDIV = (((0xcU 
@@ -1446,28 +1449,38 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
     vlTOPp->SOC__DOT__CPU__DOT__dataHazard = ((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop)) 
                                               & ((((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isLoad) 
                                                    | (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isCSRRS)) 
-                                                  & (((~ 
-                                                       ((vlTOPp->SOC__DOT__inst_rdata 
-                                                         >> 3U) 
-                                                        | ((vlTOPp->SOC__DOT__inst_rdata 
-                                                            >> 4U) 
-                                                           & (vlTOPp->SOC__DOT__inst_rdata 
-                                                              >> 6U)))) 
-                                                      & ((0x1fU 
-                                                          & (vlTOPp->SOC__DOT__inst_rdata 
-                                                             >> 0xfU)) 
-                                                         == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId))) 
-                                                     | (((vlTOPp->SOC__DOT__inst_rdata 
-                                                          >> 5U) 
-                                                         & (0U 
-                                                            == 
-                                                            (3U 
-                                                             & (vlTOPp->SOC__DOT__inst_rdata 
-                                                                >> 2U)))) 
-                                                        & ((0x1fU 
+                                                  & ((((~ 
+                                                        ((vlTOPp->SOC__DOT__inst_rdata 
+                                                          >> 3U) 
+                                                         | ((vlTOPp->SOC__DOT__inst_rdata 
+                                                             >> 4U) 
                                                             & (vlTOPp->SOC__DOT__inst_rdata 
-                                                               >> 0x14U)) 
-                                                           == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId))))) 
+                                                               >> 6U)))) 
+                                                       & ((0x1fU 
+                                                           & (vlTOPp->SOC__DOT__inst_rdata 
+                                                              >> 0xfU)) 
+                                                          == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId))) 
+                                                      & (0U 
+                                                         != 
+                                                         (0x1fU 
+                                                          & (vlTOPp->SOC__DOT__inst_rdata 
+                                                             >> 0xfU)))) 
+                                                     | ((((vlTOPp->SOC__DOT__inst_rdata 
+                                                           >> 5U) 
+                                                          & (0U 
+                                                             == 
+                                                             (3U 
+                                                              & (vlTOPp->SOC__DOT__inst_rdata 
+                                                                 >> 2U)))) 
+                                                         & ((0x1fU 
+                                                             & (vlTOPp->SOC__DOT__inst_rdata 
+                                                                >> 0x14U)) 
+                                                            == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId))) 
+                                                        & (0U 
+                                                           != 
+                                                           (0x1fU 
+                                                            & (vlTOPp->SOC__DOT__inst_rdata 
+                                                               >> 0x14U)))))) 
                                                  | ((0U 
                                                      == 
                                                      (0x1fU 
@@ -1653,7 +1666,7 @@ VL_INLINE_OPT void VSOC::_sequent__TOP__1(VSOC__Syms* __restrict vlSymsp) {
                                              ? vlTOPp->SOC__DOT__CPU__DOT__EM_PCcorrection
                                              : vlTOPp->SOC__DOT__CPU__DOT__PC));
     vlTOPp->SOC__DOT__CPU__DOT__E_correctPC = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isJALR) 
-                                                & (vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0 
+                                                & (vlTOPp->SOC__DOT__CPU__DOT__DE_predictRA 
                                                    != 
                                                    (0xfffffffeU 
                                                     & vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus))) 

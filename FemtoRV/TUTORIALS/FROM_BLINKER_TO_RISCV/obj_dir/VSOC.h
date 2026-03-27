@@ -38,6 +38,7 @@ VL_MODULE(VSOC) {
         CData/*0:0*/ SOC__DOT__uart_ready;
         CData/*0:0*/ SOC__DOT__CPU__DOT__F_stall;
         CData/*0:0*/ SOC__DOT__CPU__DOT__E_flush;
+        CData/*0:0*/ SOC__DOT__CPU__DOT__dataHazard;
         CData/*0:0*/ SOC__DOT__CPU__DOT__halt;
         CData/*0:0*/ SOC__DOT__CPU__DOT__FD_nop;
         CData/*0:0*/ SOC__DOT__CPU__DOT__D_isJALR;
@@ -78,7 +79,6 @@ VL_MODULE(VSOC) {
         CData/*0:0*/ SOC__DOT__CPU__DOT__MW_nop;
         CData/*4:0*/ SOC__DOT__CPU__DOT__MW_rdId;
         CData/*0:0*/ SOC__DOT__CPU__DOT__MW_wbEnable;
-        CData/*0:0*/ SOC__DOT__CPU__DOT__dataHazard;
         CData/*0:0*/ SOC__DOT__CPU__DOT__DIVU__DOT__sign_r;
         CData/*0:0*/ SOC__DOT__CPU__DOT__DIVU__DOT__busy_r;
         CData/*0:0*/ SOC__DOT__CPU__DOT__DIVU__DOT__finished_r;
@@ -103,6 +103,7 @@ VL_MODULE(VSOC) {
         IData/*31:0*/ SOC__DOT__CPU__DOT__D_Bimm;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DE_IorSimm;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DE_PCplus4orBimm;
+        IData/*31:0*/ SOC__DOT__CPU__DOT__DE_predictRA;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DE_PCplus4orUimm;
         IData/*31:0*/ SOC__DOT__CPU__DOT__E_rs1;
         IData/*31:0*/ SOC__DOT__CPU__DOT__E_rs2;

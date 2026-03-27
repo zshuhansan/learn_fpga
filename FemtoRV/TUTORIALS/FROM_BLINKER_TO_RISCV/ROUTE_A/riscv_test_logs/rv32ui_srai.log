@@ -3,7 +3,9 @@
    22 |         if (INIT_FILE != "") begin
       |                       ^~
                 progrom_ip_model.v:27:1: ... note: In file included from progrom_ip_model.v
-                processor.v:1034:1: ... note: In file included from processor.v
+                processor.v:955:1: ... note: In file included from processor.v
+                ROUTE_A/csr_unit.v:41:1: ... note: In file included from csr_unit.v
+                ROUTE_A/alu.v:82:1: ... note: In file included from alu.v
                 ROUTE_A/div_unit.v:79:1: ... note: In file included from div_unit.v
                 ROUTE_A/lsu_align.v:44:1: ... note: In file included from lsu_align.v
                 ROUTE_A/regfile.v:31:1: ... note: In file included from regfile.v
@@ -17,7 +19,9 @@
                                         : ... In instance SOC.PROGROM
    16 |         if (INIT_FILE != "") begin
       |                       ^~
-                processor.v:1034:1: ... note: In file included from processor.v
+                processor.v:955:1: ... note: In file included from processor.v
+                ROUTE_A/csr_unit.v:41:1: ... note: In file included from csr_unit.v
+                ROUTE_A/alu.v:82:1: ... note: In file included from alu.v
                 ROUTE_A/div_unit.v:79:1: ... note: In file included from div_unit.v
                 ROUTE_A/lsu_align.v:44:1: ... note: In file included from lsu_align.v
                 ROUTE_A/regfile.v:31:1: ... note: In file included from regfile.v
@@ -34,13 +38,3 @@ g++  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vlt
 ar -cr VSOC__ALL.a VSOC__ALL.o
 ranlib VSOC__ALL.a
 g++    femto_elf.o sim_main.o verilated.o VSOC__ALL.a      -o VSOC
-- processor.v:797: Verilog $finish
-Simulated processor's report
-----------------------------
-Branch hit = 81.081%
-JALR   hit = -nan%
-Load hzrds = -nan%
-CPI        = 1.072
-Instr. mix = (Branch:14.741% JAL:0.000% JALR:0.000% Load:0.000% Store:0.000% MUL(HSU):0.000%  DIV/REM:0.000% )
-- processor.v:1025: Verilog $finish
-- processor.v:1025: Second verilog $finish, exiting

@@ -1,0 +1,35 @@
+g++  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow     -I../../../FIRMWARE/LIBFEMTORV32 -DSTANDALONE_FEMTOELF  -Os -c -o femto_elf.o ../../../FIRMWARE/LIBFEMTORV32/femto_elf.c
+g++  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow     -I../../../FIRMWARE/LIBFEMTORV32 -DSTANDALONE_FEMTOELF  -Os -c -o sim_main.o ../sim_main.cpp
+g++  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow     -I../../../FIRMWARE/LIBFEMTORV32 -DSTANDALONE_FEMTOELF  -Os -c -o verilated.o /usr/share/verilator/include/verilated.cpp
+/usr/bin/perl /usr/share/verilator/bin/verilator_includer -DVL_INCLUDE_OPT=include VSOC.cpp VSOC__Slow.cpp VSOC__Syms.cpp > VSOC__ALL.cpp
+g++  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow     -I../../../FIRMWARE/LIBFEMTORV32 -DSTANDALONE_FEMTOELF  -Os -c -o VSOC__ALL.o VSOC__ALL.cpp
+ar -cr VSOC__ALL.a VSOC__ALL.o
+ranlib VSOC__ALL.a
+g++    femto_elf.o sim_main.o verilated.o VSOC__ALL.a      -o VSOC
+build: testbench for petituyau
+
+
+
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 103624824
+*** Ticks        : 103624824
+*** Coremark/MHz : 2.895
+*** CPI (2)      : 1.128
+Memory location  : STACK
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x5275
+Correct operation validated. See README.md for run and reporting rules.
+- pipeline10.v:864: Verilog $finish
+Simulated processor's report
+----------------------------
+Branch hit = 89.887%
+JALR   hit = 73.266%
+Load hzrds = 45.362%
+CPI        = 1.129
+Instr. mix = (Branch:20.451% JAL:1.671% JALR:0.784% Load:18.280% Store:5.107% MUL(HSU):3.056%  DIV/REM:0.000% )
+- pipeline10.v:1092: Verilog $finish
+- pipeline10.v:1092: Second verilog $finish, exiting

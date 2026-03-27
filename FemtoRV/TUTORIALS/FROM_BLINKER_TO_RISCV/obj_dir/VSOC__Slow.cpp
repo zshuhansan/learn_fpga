@@ -177,28 +177,38 @@ void VSOC::_settle__TOP__4(VSOC__Syms* __restrict vlSymsp) {
     vlTOPp->SOC__DOT__CPU__DOT__dataHazard = ((~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__FD_nop)) 
                                               & ((((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isLoad) 
                                                    | (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isCSRRS)) 
-                                                  & (((~ 
-                                                       ((vlTOPp->SOC__DOT__inst_rdata 
-                                                         >> 3U) 
-                                                        | ((vlTOPp->SOC__DOT__inst_rdata 
-                                                            >> 4U) 
-                                                           & (vlTOPp->SOC__DOT__inst_rdata 
-                                                              >> 6U)))) 
-                                                      & ((0x1fU 
-                                                          & (vlTOPp->SOC__DOT__inst_rdata 
-                                                             >> 0xfU)) 
-                                                         == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId))) 
-                                                     | (((vlTOPp->SOC__DOT__inst_rdata 
-                                                          >> 5U) 
-                                                         & (0U 
-                                                            == 
-                                                            (3U 
-                                                             & (vlTOPp->SOC__DOT__inst_rdata 
-                                                                >> 2U)))) 
-                                                        & ((0x1fU 
+                                                  & ((((~ 
+                                                        ((vlTOPp->SOC__DOT__inst_rdata 
+                                                          >> 3U) 
+                                                         | ((vlTOPp->SOC__DOT__inst_rdata 
+                                                             >> 4U) 
                                                             & (vlTOPp->SOC__DOT__inst_rdata 
-                                                               >> 0x14U)) 
-                                                           == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId))))) 
+                                                               >> 6U)))) 
+                                                       & ((0x1fU 
+                                                           & (vlTOPp->SOC__DOT__inst_rdata 
+                                                              >> 0xfU)) 
+                                                          == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId))) 
+                                                      & (0U 
+                                                         != 
+                                                         (0x1fU 
+                                                          & (vlTOPp->SOC__DOT__inst_rdata 
+                                                             >> 0xfU)))) 
+                                                     | ((((vlTOPp->SOC__DOT__inst_rdata 
+                                                           >> 5U) 
+                                                          & (0U 
+                                                             == 
+                                                             (3U 
+                                                              & (vlTOPp->SOC__DOT__inst_rdata 
+                                                                 >> 2U)))) 
+                                                         & ((0x1fU 
+                                                             & (vlTOPp->SOC__DOT__inst_rdata 
+                                                                >> 0x14U)) 
+                                                            == (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_rdId))) 
+                                                        & (0U 
+                                                           != 
+                                                           (0x1fU 
+                                                            & (vlTOPp->SOC__DOT__inst_rdata 
+                                                               >> 0x14U)))))) 
                                                  | ((0U 
                                                      == 
                                                      (0x1fU 
@@ -557,7 +567,7 @@ void VSOC::_settle__TOP__4(VSOC__Syms* __restrict vlSymsp) {
                                                                    (vlTOPp->SOC__DOT__CPU__DOT__ALU__DOT__alu_minus 
                                                                     >> 0x20U))))));
     vlTOPp->SOC__DOT__CPU__DOT__E_correctPC = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isJALR) 
-                                                & (vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__ras_0 
+                                                & (vlTOPp->SOC__DOT__CPU__DOT__DE_predictRA 
                                                    != 
                                                    (0xfffffffeU 
                                                     & vlTOPp->SOC__DOT__CPU__DOT__E_aluPlus))) 
@@ -607,6 +617,7 @@ void VSOC::_ctor_var_reset() {
     SOC__DOT__uart_ready = VL_RAND_RESET_I(1);
     SOC__DOT__CPU__DOT__F_stall = VL_RAND_RESET_I(1);
     SOC__DOT__CPU__DOT__E_flush = VL_RAND_RESET_I(1);
+    SOC__DOT__CPU__DOT__dataHazard = VL_RAND_RESET_I(1);
     SOC__DOT__CPU__DOT__halt = VL_RAND_RESET_I(1);
     SOC__DOT__CPU__DOT__PC = VL_RAND_RESET_I(32);
     SOC__DOT__CPU__DOT__F_PC = VL_RAND_RESET_I(32);
@@ -638,6 +649,7 @@ void VSOC::_ctor_var_reset() {
     SOC__DOT__CPU__DOT__DE_isJALorJALRorLUIorAUIPC = VL_RAND_RESET_I(1);
     SOC__DOT__CPU__DOT__DE_PCplus4orBimm = VL_RAND_RESET_I(32);
     SOC__DOT__CPU__DOT__DE_predictBranch = VL_RAND_RESET_I(1);
+    SOC__DOT__CPU__DOT__DE_predictRA = VL_RAND_RESET_I(32);
     SOC__DOT__CPU__DOT__DE_PCplus4orUimm = VL_RAND_RESET_I(32);
     SOC__DOT__CPU__DOT__E_rs1 = VL_RAND_RESET_I(32);
     SOC__DOT__CPU__DOT__E_rs2 = VL_RAND_RESET_I(32);
@@ -667,7 +679,6 @@ void VSOC::_ctor_var_reset() {
     SOC__DOT__CPU__DOT__MW_rdId = VL_RAND_RESET_I(5);
     SOC__DOT__CPU__DOT__MW_wbData = VL_RAND_RESET_I(32);
     SOC__DOT__CPU__DOT__MW_wbEnable = VL_RAND_RESET_I(1);
-    SOC__DOT__CPU__DOT__dataHazard = VL_RAND_RESET_I(1);
     SOC__DOT__CPU__DOT__DE_instr = VL_RAND_RESET_I(32);
     SOC__DOT__CPU__DOT__EM_instr = VL_RAND_RESET_I(32);
     SOC__DOT__CPU__DOT__MW_instr = VL_RAND_RESET_I(32);

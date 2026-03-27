@@ -1,1 +1,1 @@
-raystones.pipeline.hex
+coremark.pipeline.hex

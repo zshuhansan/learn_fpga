@@ -1,0 +1,143 @@
+$date
+	Thu Mar 26 09:18:20 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_hazard_unit $end
+$var wire 1 ! rs2_hazard $end
+$var wire 1 " rs1_hazard $end
+$var wire 1 # m_flush $end
+$var wire 1 $ f_stall $end
+$var wire 1 % e_stall $end
+$var wire 1 & e_flush $end
+$var wire 1 ' data_hazard $end
+$var wire 1 ( d_stall $end
+$var wire 1 ) d_flush $end
+$var reg 1 * alu_busy $end
+$var reg 1 + d_is_alu_reg $end
+$var reg 1 , d_is_branch $end
+$var reg 1 - d_is_jalr $end
+$var reg 1 . d_is_load $end
+$var reg 1 / d_is_store $end
+$var reg 5 0 d_rs1_id [4:0] $end
+$var reg 5 1 d_rs2_id [4:0] $end
+$var reg 1 2 de_is_csrrs $end
+$var reg 1 3 de_is_load $end
+$var reg 1 4 de_is_store $end
+$var reg 5 5 de_rd_id [4:0] $end
+$var reg 1 6 e_correct_pc $end
+$var reg 1 7 fd_nop $end
+$var reg 1 8 halt $end
+$scope module dut $end
+$var wire 1 * alu_busy $end
+$var wire 1 ) d_flush $end
+$var wire 1 + d_is_alu_reg $end
+$var wire 1 , d_is_branch $end
+$var wire 1 - d_is_jalr $end
+$var wire 1 . d_is_load $end
+$var wire 1 / d_is_store $end
+$var wire 1 9 d_reads_rs1 $end
+$var wire 1 : d_reads_rs2 $end
+$var wire 5 ; d_rs1_id [4:0] $end
+$var wire 5 < d_rs2_id [4:0] $end
+$var wire 1 ( d_stall $end
+$var wire 1 ' data_hazard $end
+$var wire 1 2 de_is_csrrs $end
+$var wire 1 3 de_is_load $end
+$var wire 1 4 de_is_store $end
+$var wire 5 = de_rd_id [4:0] $end
+$var wire 1 6 e_correct_pc $end
+$var wire 1 & e_flush $end
+$var wire 1 % e_stall $end
+$var wire 1 $ f_stall $end
+$var wire 1 7 fd_nop $end
+$var wire 1 8 halt $end
+$var wire 1 # m_flush $end
+$var wire 1 " rs1_hazard $end
+$var wire 1 ! rs2_hazard $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 =
+b0 <
+b0 ;
+0:
+09
+08
+07
+06
+b0 5
+04
+03
+02
+b0 1
+b0 0
+0/
+0.
+0-
+0,
+0+
+0*
+0)
+0(
+0'
+0&
+0%
+0$
+0#
+0"
+0!
+$end
+#10000
+1$
+1(
+1&
+1'
+1"
+19
+1:
+b110 1
+b110 <
+b101 0
+b101 ;
+1+
+b101 5
+b101 =
+13
+#20000
+0$
+0(
+0&
+09
+0'
+0:
+0"
+b0 5
+b0 =
+b0 1
+b0 <
+b0 0
+b0 ;
+0+
+03
+#30000
+1&
+1)
+16
+#40000
+0&
+0)
+06
+#50000
+1$
+1(
+1%
+1#
+1*
+#60000

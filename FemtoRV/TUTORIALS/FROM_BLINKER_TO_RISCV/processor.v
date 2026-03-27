@@ -7,6 +7,7 @@
 `include "ROUTE_A/alu.v"
 `include "ROUTE_A/csr_unit.v"
 `include "ROUTE_A/branch_predictor.v"
+`include "ROUTE_A/hazard_unit.v"
 module processor (
     input         clk,
     input         resetn,
@@ -81,14 +82,40 @@ module processor (
    // (multicycle ALU).
 
    wire F_stall;
-
    wire D_stall;
    wire D_flush;
-
    wire E_stall;
    wire E_flush;
-
    wire M_flush;
+   wire dataHazard;
+   wire rs1Hazard;
+   wire rs2Hazard;
+
+   hazard_unit HZ (
+      .d_is_load(D_isLoad),
+      .d_is_store(D_isStore),
+      .d_reads_rs1(D_readsRs1),
+      .d_reads_rs2(D_readsRs2),
+      .d_rs1_id(D_rs1Id),
+      .d_rs2_id(D_rs2Id),
+      .fd_nop(FD_nop),
+      .de_rd_id(DE_rdId),
+      .de_is_load(DE_isLoad),
+      .de_is_csrrs(DE_isCSRRS),
+      .de_is_store(DE_isStore),
+      .e_correct_pc(E_correctPC),
+      .alu_busy(aluBusy),
+      .halt(halt),
+      .f_stall(F_stall),
+      .d_stall(D_stall),
+      .e_stall(E_stall),
+      .d_flush(D_flush),
+      .e_flush(E_flush),
+      .m_flush(M_flush),
+      .data_hazard(dataHazard),
+      .rs1_hazard(rs1Hazard),
+      .rs2_hazard(rs2Hazard)
+   );
 
    wire halt; // Halt execution (on ebreak)
 
@@ -229,7 +256,7 @@ module processor (
    wire D_predictPC;
    wire [31:0] D_PCprediction;
    wire D_predictBranch;
-   wire [31:0] DE_predictRA;
+   wire [31:0] D_predictRA;
    wire [11:0] DE_BHTindex;
    wire [11:0] D_BHTindex;
 
@@ -264,7 +291,7 @@ module processor (
       .d_predict_branch(D_predictBranch),
       .d_predict_pc_valid(D_predictPC),
       .d_pc_prediction(D_PCprediction),
-      .d_predict_ra(DE_predictRA),
+      .d_predict_ra(D_predictRA),
       .d_bht_index(D_BHTindex),
       .de_is_branch(DE_isBranch),
       .e_take_branch(E_takeBranch),
@@ -329,10 +356,11 @@ module processor (
 	 DE_IorSimm <= D_IorSimm;
 
 `ifdef CONFIG_PC_PREDICT
-	 // Used in case of misprediction:
-	 //    PC+Bimm if predict not taken, PC+4 if predict taken
-	 DE_PCplus4orBimm <= FD_PC + (D_predictBranch ? 4 : D_Bimm);
+     // Used in case of misprediction:
+     //    PC+Bimm if predict not taken, PC+4 if predict taken
+     DE_PCplus4orBimm <= FD_PC + (D_predictBranch ? 4 : D_Bimm);
      DE_predictBranch <= D_predictBranch;
+     DE_predictRA     <= D_predictRA;
  `ifdef CONFIG_GSHARE
      DE_BHTindex  <= D_BHTindex;
  `endif
@@ -414,6 +442,7 @@ module processor (
 `ifdef CONFIG_PC_PREDICT
    reg [31:0] DE_PCplus4orBimm;
    reg DE_predictBranch;
+   reg [31:0] DE_predictRA;
  `ifdef CONFIG_GSHARE
    reg [11:0] DE_BHTindex;
  `endif
@@ -678,46 +707,8 @@ module processor (
 
    // we do not test rdId == 0 because in general, one loads data to
    // a register, not to zero !
-   wire rs1Hazard = D_readsRs1 && (D_rs1Id == DE_rdId);
-   wire rs2Hazard = D_readsRs2 && (D_rs2Id == DE_rdId);
 
-   // we could generate slightly more bubble with
-   // simpler test (to be used if critical path is here)
-   // -> keeping this one (seems it has no influence on CPI,
-   //   and results in slightly better timings)
-   // wire  rs1Hazard = (D_rs1Id == DE_rdId);
-   // wire  rs2Hazard = (D_rs2Id == DE_rdId);
-
-   // we are not obliged to compare all bits !
-   // wire rs1Hazard = (D_rs1Id[3:0] == DE_rdId[3:0]);
-   // wire rs2Hazard = (D_rs2Id[3:0] == DE_rdId[3:0]);
-
-   // Add bubble if next instr uses result of latency-2 instr
-   // Or load right after store (problem only if same address,
-   // we could also test but D does not know address yet)
-   //  (we need here load after store test because mem read access is done
-   //   in E. It was not the case in the non-optimized version)
-   wire dataHazard = !FD_nop && (
-        ((DE_isLoad || DE_isCSRRS) && (rs1Hazard || rs2Hazard)) ||
-        ( D_isLoad && DE_isStore)
-   );
-
-   // (other option: always add bubble after latency-2 instr
-   // like Samsoniuk's DarkRiscV). Increases CPI and may reduce critical path.
-   // wire dataHazard = !FD_nop &&  (
-   //   (DE_isLoad || DE_isCSRRS) || (D_isLoad && DE_isStore)
-   // );
-
-   assign F_stall = aluBusy | dataHazard | halt;
-   assign D_stall = aluBusy | dataHazard | halt;
-   assign E_stall = aluBusy;
-
-   // Here we need to use E_correctPC (the registered version
-   // DE_correctPC is not ready on time).
-   assign D_flush = E_correctPC;
-   assign E_flush = E_correctPC | dataHazard;
-   assign M_flush = aluBusy;
-
+   // Hazard unit controls F_stall, D_stall, E_stall, D_flush, E_flush, M_flush, and dataHazard.
    // Note: E_stall and M_flush are only used with the
    // multi-cycle ALU (RV32M)
 

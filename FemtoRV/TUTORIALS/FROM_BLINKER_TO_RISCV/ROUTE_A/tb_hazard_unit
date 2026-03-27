@@ -1,0 +1,271 @@
+#! /usr/bin/vvp
+:ivl_version "11.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/system.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2005_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/va_math.vpi";
+S_0x56bd222e97d0 .scope module, "tb_hazard_unit" "tb_hazard_unit" 2 2;
+ .timescale -9 -12;
+v0x56bd2231fe40_0 .var "alu_busy", 0 0;
+v0x56bd2231ff00_0 .net "d_flush", 0 0, L_0x56bd22332ff0;  1 drivers
+v0x56bd2231ffa0_0 .var "d_is_alu_reg", 0 0;
+v0x56bd22320040_0 .var "d_is_branch", 0 0;
+v0x56bd223200e0_0 .var "d_is_jalr", 0 0;
+v0x56bd22320180_0 .var "d_is_load", 0 0;
+v0x56bd22320250_0 .var "d_is_store", 0 0;
+v0x56bd22320320_0 .var "d_rs1_id", 4 0;
+v0x56bd223203f0_0 .var "d_rs2_id", 4 0;
+v0x56bd223204c0_0 .net "d_stall", 0 0, L_0x56bd22332dc0;  1 drivers
+v0x56bd22320590_0 .net "data_hazard", 0 0, L_0x56bd223328a0;  1 drivers
+v0x56bd22320660_0 .var "de_is_csrrs", 0 0;
+v0x56bd22320730_0 .var "de_is_load", 0 0;
+v0x56bd22320800_0 .var "de_is_store", 0 0;
+v0x56bd223208d0_0 .var "de_rd_id", 4 0;
+v0x56bd223209a0_0 .var "e_correct_pc", 0 0;
+v0x56bd22320a70_0 .net "e_flush", 0 0, L_0x56bd22333170;  1 drivers
+v0x56bd22320b40_0 .net "e_stall", 0 0, L_0x56bd22332f30;  1 drivers
+v0x56bd22320c10_0 .net "f_stall", 0 0, L_0x56bd22332b50;  1 drivers
+v0x56bd22320ce0_0 .var "fd_nop", 0 0;
+v0x56bd22320db0_0 .var "halt", 0 0;
+v0x56bd22320e80_0 .net "m_flush", 0 0, L_0x56bd22333230;  1 drivers
+v0x56bd22320f50_0 .net "rs1_hazard", 0 0, L_0x56bd22331b40;  1 drivers
+v0x56bd22321020_0 .net "rs2_hazard", 0 0, L_0x56bd22332160;  1 drivers
+S_0x56bd222e8c60 .scope module, "dut" "hazard_unit" 2 15, 3 1 0, S_0x56bd222e97d0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "d_is_load";
+    .port_info 1 /INPUT 1 "d_is_store";
+    .port_info 2 /INPUT 1 "d_is_alu_reg";
+    .port_info 3 /INPUT 1 "d_is_branch";
+    .port_info 4 /INPUT 1 "d_is_jalr";
+    .port_info 5 /INPUT 5 "d_rs1_id";
+    .port_info 6 /INPUT 5 "d_rs2_id";
+    .port_info 7 /INPUT 1 "fd_nop";
+    .port_info 8 /INPUT 5 "de_rd_id";
+    .port_info 9 /INPUT 1 "de_is_load";
+    .port_info 10 /INPUT 1 "de_is_csrrs";
+    .port_info 11 /INPUT 1 "de_is_store";
+    .port_info 12 /INPUT 1 "e_correct_pc";
+    .port_info 13 /INPUT 1 "alu_busy";
+    .port_info 14 /INPUT 1 "halt";
+    .port_info 15 /OUTPUT 1 "f_stall";
+    .port_info 16 /OUTPUT 1 "d_stall";
+    .port_info 17 /OUTPUT 1 "e_stall";
+    .port_info 18 /OUTPUT 1 "d_flush";
+    .port_info 19 /OUTPUT 1 "e_flush";
+    .port_info 20 /OUTPUT 1 "m_flush";
+    .port_info 21 /OUTPUT 1 "data_hazard";
+    .port_info 22 /OUTPUT 1 "rs1_hazard";
+    .port_info 23 /OUTPUT 1 "rs2_hazard";
+L_0x56bd223210f0 .functor OR 1, v0x56bd2231ffa0_0, v0x56bd22320040_0, C4<0>, C4<0>;
+L_0x56bd223211e0 .functor OR 1, L_0x56bd223210f0, v0x56bd223200e0_0, C4<0>, C4<0>;
+L_0x56bd223212f0 .functor OR 1, L_0x56bd223211e0, v0x56bd22320180_0, C4<0>, C4<0>;
+L_0x56bd22321400 .functor OR 1, L_0x56bd223212f0, v0x56bd22320250_0, C4<0>, C4<0>;
+L_0x56bd22321540 .functor OR 1, v0x56bd2231ffa0_0, v0x56bd22320040_0, C4<0>, C4<0>;
+L_0x56bd223215b0 .functor OR 1, L_0x56bd22321540, v0x56bd22320250_0, C4<0>, C4<0>;
+L_0x56bd223217f0 .functor AND 1, L_0x56bd22321400, L_0x56bd223216b0, C4<1>, C4<1>;
+L_0x56bd22331b40 .functor AND 1, L_0x56bd223217f0, L_0x56bd22331a00, C4<1>, C4<1>;
+L_0x56bd22331de0 .functor AND 1, L_0x56bd223215b0, L_0x56bd22331cf0, C4<1>, C4<1>;
+L_0x56bd22332160 .functor AND 1, L_0x56bd22331de0, L_0x56bd22331fe0, C4<1>, C4<1>;
+L_0x56bd223323c0 .functor OR 1, v0x56bd22320730_0, v0x56bd22320660_0, C4<0>, C4<0>;
+L_0x56bd223324d0 .functor OR 1, L_0x56bd22331b40, L_0x56bd22332160, C4<0>, C4<0>;
+L_0x56bd223325b0 .functor AND 1, L_0x56bd223323c0, L_0x56bd223324d0, C4<1>, C4<1>;
+L_0x56bd223326c0 .functor AND 1, v0x56bd22320180_0, v0x56bd22320800_0, C4<1>, C4<1>;
+L_0x56bd22332540 .functor OR 1, L_0x56bd223325b0, L_0x56bd223326c0, C4<0>, C4<0>;
+L_0x56bd223328a0 .functor AND 1, L_0x56bd22332320, L_0x56bd22332540, C4<1>, C4<1>;
+L_0x56bd22332a90 .functor OR 1, v0x56bd2231fe40_0, L_0x56bd223328a0, C4<0>, C4<0>;
+L_0x56bd22332b50 .functor OR 1, L_0x56bd22332a90, v0x56bd22320db0_0, C4<0>, C4<0>;
+L_0x56bd22332d50 .functor OR 1, v0x56bd2231fe40_0, L_0x56bd223328a0, C4<0>, C4<0>;
+L_0x56bd22332dc0 .functor OR 1, L_0x56bd22332d50, v0x56bd22320db0_0, C4<0>, C4<0>;
+L_0x56bd22332f30 .functor BUFZ 1, v0x56bd2231fe40_0, C4<0>, C4<0>, C4<0>;
+L_0x56bd22332ff0 .functor BUFZ 1, v0x56bd223209a0_0, C4<0>, C4<0>, C4<0>;
+L_0x56bd22333170 .functor OR 1, v0x56bd223209a0_0, L_0x56bd223328a0, C4<0>, C4<0>;
+L_0x56bd22333230 .functor BUFZ 1, v0x56bd2231fe40_0, C4<0>, C4<0>, C4<0>;
+v0x56bd222f79f0_0 .net *"_ivl_0", 0 0, L_0x56bd223210f0;  1 drivers
+v0x56bd2231d490_0 .net *"_ivl_12", 0 0, L_0x56bd223216b0;  1 drivers
+v0x56bd2231d550_0 .net *"_ivl_15", 0 0, L_0x56bd223217f0;  1 drivers
+v0x56bd2231d5f0_0 .net *"_ivl_16", 31 0, L_0x56bd22321900;  1 drivers
+L_0x7f68a3234018 .functor BUFT 1, C4<000000000000000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x56bd2231d6d0_0 .net *"_ivl_19", 26 0, L_0x7f68a3234018;  1 drivers
+v0x56bd2231d800_0 .net *"_ivl_2", 0 0, L_0x56bd223211e0;  1 drivers
+L_0x7f68a3234060 .functor BUFT 1, C4<00000000000000000000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x56bd2231d8e0_0 .net/2u *"_ivl_20", 31 0, L_0x7f68a3234060;  1 drivers
+v0x56bd2231d9c0_0 .net *"_ivl_22", 0 0, L_0x56bd22331a00;  1 drivers
+v0x56bd2231da80_0 .net *"_ivl_26", 0 0, L_0x56bd22331cf0;  1 drivers
+v0x56bd2231db40_0 .net *"_ivl_29", 0 0, L_0x56bd22331de0;  1 drivers
+v0x56bd2231dc00_0 .net *"_ivl_30", 31 0, L_0x56bd22331ef0;  1 drivers
+L_0x7f68a32340a8 .functor BUFT 1, C4<000000000000000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x56bd2231dce0_0 .net *"_ivl_33", 26 0, L_0x7f68a32340a8;  1 drivers
+L_0x7f68a32340f0 .functor BUFT 1, C4<00000000000000000000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x56bd2231ddc0_0 .net/2u *"_ivl_34", 31 0, L_0x7f68a32340f0;  1 drivers
+v0x56bd2231dea0_0 .net *"_ivl_36", 0 0, L_0x56bd22331fe0;  1 drivers
+v0x56bd2231df60_0 .net *"_ivl_4", 0 0, L_0x56bd223212f0;  1 drivers
+v0x56bd2231e040_0 .net *"_ivl_41", 0 0, L_0x56bd22332320;  1 drivers
+v0x56bd2231e100_0 .net *"_ivl_43", 0 0, L_0x56bd223323c0;  1 drivers
+v0x56bd2231e1c0_0 .net *"_ivl_45", 0 0, L_0x56bd223324d0;  1 drivers
+v0x56bd2231e280_0 .net *"_ivl_47", 0 0, L_0x56bd223325b0;  1 drivers
+v0x56bd2231e340_0 .net *"_ivl_49", 0 0, L_0x56bd223326c0;  1 drivers
+v0x56bd2231e400_0 .net *"_ivl_51", 0 0, L_0x56bd22332540;  1 drivers
+v0x56bd2231e4c0_0 .net *"_ivl_54", 0 0, L_0x56bd22332a90;  1 drivers
+v0x56bd2231e5a0_0 .net *"_ivl_58", 0 0, L_0x56bd22332d50;  1 drivers
+v0x56bd2231e680_0 .net *"_ivl_8", 0 0, L_0x56bd22321540;  1 drivers
+v0x56bd2231e760_0 .net "alu_busy", 0 0, v0x56bd2231fe40_0;  1 drivers
+v0x56bd2231e820_0 .net "d_flush", 0 0, L_0x56bd22332ff0;  alias, 1 drivers
+v0x56bd2231e8e0_0 .net "d_is_alu_reg", 0 0, v0x56bd2231ffa0_0;  1 drivers
+v0x56bd2231e9a0_0 .net "d_is_branch", 0 0, v0x56bd22320040_0;  1 drivers
+v0x56bd2231ea60_0 .net "d_is_jalr", 0 0, v0x56bd223200e0_0;  1 drivers
+v0x56bd2231eb20_0 .net "d_is_load", 0 0, v0x56bd22320180_0;  1 drivers
+v0x56bd2231ebe0_0 .net "d_is_store", 0 0, v0x56bd22320250_0;  1 drivers
+v0x56bd2231eca0_0 .net "d_reads_rs1", 0 0, L_0x56bd22321400;  1 drivers
+v0x56bd2231ed60_0 .net "d_reads_rs2", 0 0, L_0x56bd223215b0;  1 drivers
+v0x56bd2231ee20_0 .net "d_rs1_id", 4 0, v0x56bd22320320_0;  1 drivers
+v0x56bd2231ef00_0 .net "d_rs2_id", 4 0, v0x56bd223203f0_0;  1 drivers
+v0x56bd2231efe0_0 .net "d_stall", 0 0, L_0x56bd22332dc0;  alias, 1 drivers
+v0x56bd2231f0a0_0 .net "data_hazard", 0 0, L_0x56bd223328a0;  alias, 1 drivers
+v0x56bd2231f160_0 .net "de_is_csrrs", 0 0, v0x56bd22320660_0;  1 drivers
+v0x56bd2231f220_0 .net "de_is_load", 0 0, v0x56bd22320730_0;  1 drivers
+v0x56bd2231f2e0_0 .net "de_is_store", 0 0, v0x56bd22320800_0;  1 drivers
+v0x56bd2231f3a0_0 .net "de_rd_id", 4 0, v0x56bd223208d0_0;  1 drivers
+v0x56bd2231f480_0 .net "e_correct_pc", 0 0, v0x56bd223209a0_0;  1 drivers
+v0x56bd2231f540_0 .net "e_flush", 0 0, L_0x56bd22333170;  alias, 1 drivers
+v0x56bd2231f600_0 .net "e_stall", 0 0, L_0x56bd22332f30;  alias, 1 drivers
+v0x56bd2231f6c0_0 .net "f_stall", 0 0, L_0x56bd22332b50;  alias, 1 drivers
+v0x56bd2231f780_0 .net "fd_nop", 0 0, v0x56bd22320ce0_0;  1 drivers
+v0x56bd2231f840_0 .net "halt", 0 0, v0x56bd22320db0_0;  1 drivers
+v0x56bd2231f900_0 .net "m_flush", 0 0, L_0x56bd22333230;  alias, 1 drivers
+v0x56bd2231f9c0_0 .net "rs1_hazard", 0 0, L_0x56bd22331b40;  alias, 1 drivers
+v0x56bd2231fa80_0 .net "rs2_hazard", 0 0, L_0x56bd22332160;  alias, 1 drivers
+L_0x56bd223216b0 .cmp/eq 5, v0x56bd22320320_0, v0x56bd223208d0_0;
+L_0x56bd22321900 .concat [ 5 27 0 0], v0x56bd22320320_0, L_0x7f68a3234018;
+L_0x56bd22331a00 .cmp/ne 32, L_0x56bd22321900, L_0x7f68a3234060;
+L_0x56bd22331cf0 .cmp/eq 5, v0x56bd223203f0_0, v0x56bd223208d0_0;
+L_0x56bd22331ef0 .concat [ 5 27 0 0], v0x56bd223203f0_0, L_0x7f68a32340a8;
+L_0x56bd22331fe0 .cmp/ne 32, L_0x56bd22331ef0, L_0x7f68a32340f0;
+L_0x56bd22332320 .reduce/nor v0x56bd22320ce0_0;
+    .scope S_0x56bd222e97d0;
+T_0 ;
+    %vpi_call 2 43 "$dumpfile", "hazard.vcd" {0 0 0};
+    %vpi_call 2 44 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x56bd222e97d0 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd22320180_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd22320250_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd2231ffa0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd22320040_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd223200e0_0, 0, 1;
+    %pushi/vec4 0, 0, 5;
+    %store/vec4 v0x56bd22320320_0, 0, 5;
+    %pushi/vec4 0, 0, 5;
+    %store/vec4 v0x56bd223203f0_0, 0, 5;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd22320ce0_0, 0, 1;
+    %pushi/vec4 0, 0, 5;
+    %store/vec4 v0x56bd223208d0_0, 0, 5;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd22320730_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd22320660_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd22320800_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd223209a0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd2231fe40_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd22320db0_0, 0, 1;
+    %delay 10000, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56bd22320730_0, 0, 1;
+    %pushi/vec4 5, 0, 5;
+    %store/vec4 v0x56bd223208d0_0, 0, 5;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56bd2231ffa0_0, 0, 1;
+    %pushi/vec4 5, 0, 5;
+    %store/vec4 v0x56bd22320320_0, 0, 5;
+    %pushi/vec4 6, 0, 5;
+    %store/vec4 v0x56bd223203f0_0, 0, 5;
+    %delay 10000, 0;
+    %load/vec4 v0x56bd22320590_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %load/vec4 v0x56bd22320c10_0;
+    %nor/r;
+    %flag_set/vec4 9;
+    %flag_or 9, 8;
+    %load/vec4 v0x56bd223204c0_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %flag_or 8, 9;
+    %load/vec4 v0x56bd22320a70_0;
+    %nor/r;
+    %flag_set/vec4 9;
+    %flag_or 9, 8;
+    %jmp/0xz  T_0.0, 9;
+    %vpi_call 2 60 "$display", "FAIL: Load-use hazard not detected" {0 0 0};
+T_0.0 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd22320730_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd2231ffa0_0, 0, 1;
+    %pushi/vec4 0, 0, 5;
+    %store/vec4 v0x56bd22320320_0, 0, 5;
+    %pushi/vec4 0, 0, 5;
+    %store/vec4 v0x56bd223203f0_0, 0, 5;
+    %pushi/vec4 0, 0, 5;
+    %store/vec4 v0x56bd223208d0_0, 0, 5;
+    %delay 10000, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56bd223209a0_0, 0, 1;
+    %delay 10000, 0;
+    %load/vec4 v0x56bd2231ff00_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %load/vec4 v0x56bd22320a70_0;
+    %nor/r;
+    %flag_set/vec4 9;
+    %flag_or 9, 8;
+    %load/vec4 v0x56bd22320c10_0;
+    %flag_set/vec4 8;
+    %flag_or 8, 9;
+    %jmp/0xz  T_0.2, 8;
+    %vpi_call 2 73 "$display", "FAIL: Branch mispredict flush not working" {0 0 0};
+T_0.2 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x56bd223209a0_0, 0, 1;
+    %delay 10000, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x56bd2231fe40_0, 0, 1;
+    %delay 10000, 0;
+    %load/vec4 v0x56bd22320c10_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %load/vec4 v0x56bd223204c0_0;
+    %nor/r;
+    %flag_set/vec4 9;
+    %flag_or 9, 8;
+    %load/vec4 v0x56bd22320b40_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %flag_or 8, 9;
+    %load/vec4 v0x56bd22320e80_0;
+    %nor/r;
+    %flag_set/vec4 9;
+    %flag_or 9, 8;
+    %jmp/0xz  T_0.4, 9;
+    %vpi_call 2 81 "$display", "FAIL: ALU busy stalls not working" {0 0 0};
+T_0.4 ;
+    %vpi_call 2 83 "$display", "ALL TESTS DONE." {0 0 0};
+    %vpi_call 2 84 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "ROUTE_A/tb_hazard_unit.v";
+    "ROUTE_A/hazard_unit.v";
