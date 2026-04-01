@@ -43,17 +43,23 @@ int main(int argc, char** argv, char** env) {
    */
 
    // Main simulation loop.
+   top.RESET = 0;
+   int ticks = 0;
    while(!Verilated::gotFinish()) {
       top.CLK = !top.CLK;
+      
+      if(ticks > 4) top.RESET = 1;
+      
       top.eval();
       if(prev_LEDS != top.LEDS) {
-	 std::cout << "LEDS: ";
-	 for(int i=0; i<5; ++i) {
-	    std::cout << ((top.LEDS >> (4-i)) & 1);
-	 }
-	 std::cout << std::endl;
+         std::cout << "LEDS: ";
+         for(int i=0; i<5; ++i) {
+            std::cout << ((top.LEDS >> (4-i)) & 1);
+         }
+         std::cout << std::endl;
       }
       prev_LEDS = top.LEDS;
+      ticks++;
    }
    return 0;
 }

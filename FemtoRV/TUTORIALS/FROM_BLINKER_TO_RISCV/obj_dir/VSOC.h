@@ -32,7 +32,6 @@ VL_MODULE(VSOC) {
     // Internals; generally not touched by application code
     // Anonymous structures to workaround compiler member-count bugs
     struct {
-        CData/*0:0*/ SOC__DOT__resetn;
         CData/*0:0*/ SOC__DOT__IO_mem_wr;
         CData/*0:0*/ SOC__DOT__uart_valid;
         CData/*0:0*/ SOC__DOT__uart_ready;
@@ -92,14 +91,13 @@ VL_MODULE(VSOC) {
         SData/*11:0*/ SOC__DOT__CPU__DOT__BP__DOT__bht_index;
         SData/*15:0*/ SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_h;
         SData/*9:0*/ SOC__DOT__UART__DOT__data;
-        SData/*15:0*/ SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt;
         IData/*31:0*/ SOC__DOT__inst_rdata;
         IData/*31:0*/ SOC__DOT__data_rdata;
         IData/*31:0*/ SOC__DOT__CPU__DOT__PC;
-    };
-    struct {
         IData/*31:0*/ SOC__DOT__CPU__DOT__F_PC;
         IData/*31:0*/ SOC__DOT__CPU__DOT__FD_PC;
+    };
+    struct {
         IData/*31:0*/ SOC__DOT__CPU__DOT__D_Bimm;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DE_IorSimm;
         IData/*31:0*/ SOC__DOT__CPU__DOT__DE_PCplus4orBimm;
@@ -154,7 +152,6 @@ VL_MODULE(VSOC) {
     // Internals; generally not touched by application code
     CData/*0:0*/ SOC__DOT__CPU__DOT____Vcellinp__DIVU__start;
     CData/*0:0*/ __Vclklast__TOP__CLK;
-    CData/*0:0*/ __Vclklast__TOP__RESET;
     IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__ALU__DOT__flip32__8__Vfuncout;
     IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__ALU__DOT__flip32__8__x;
     IData/*31:0*/ __Vfunc_SOC__DOT__CPU__DOT__ALU__DOT__flip32__9__Vfuncout;
@@ -194,6 +191,9 @@ VL_MODULE(VSOC) {
   private:
     static QData _change_request(VSOC__Syms* __restrict vlSymsp);
     static QData _change_request_1(VSOC__Syms* __restrict vlSymsp);
+  public:
+    static void _combo__TOP__4(VSOC__Syms* __restrict vlSymsp);
+  private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
     static void _eval(VSOC__Syms* __restrict vlSymsp);
@@ -204,10 +204,9 @@ VL_MODULE(VSOC) {
   public:
     static void _eval_initial(VSOC__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _eval_settle(VSOC__Syms* __restrict vlSymsp) VL_ATTR_COLD;
-    static void _initial__TOP__3(VSOC__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _initial__TOP__2(VSOC__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _sequent__TOP__1(VSOC__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__2(VSOC__Syms* __restrict vlSymsp);
-    static void _settle__TOP__4(VSOC__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _settle__TOP__3(VSOC__Syms* __restrict vlSymsp) VL_ATTR_COLD;
 } VL_ATTR_ALIGNED(VL_CACHE_LINE_BYTES);
 
 //----------

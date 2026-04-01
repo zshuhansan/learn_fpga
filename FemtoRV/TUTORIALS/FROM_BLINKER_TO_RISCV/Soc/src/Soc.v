@@ -13,15 +13,15 @@
 `include "dataram_ip_model.v"
 
 module SOC (
-    input            CLK, // system clock
-    input            RESET,// reset button
-    output reg [4:0] LEDS, // system LEDs
-    input            RXD, // UART receive
-    output           TXD  // UART transmit
+    input  wire          CLK, // system clock
+    input  wire          RESET,// reset button (active low)
+    output reg  [4:0]    LEDS, // system LEDs
+    input  wire          RXD, // UART receive
+    output wire          TXD  // UART transmit
 );
 
-   wire clk;
-   wire resetn;
+   wire clk = CLK;
+   wire resetn = RESET;
 
    // 处理器指令存储器接口
    wire [31:0] inst_addr;
@@ -87,7 +87,22 @@ module SOC (
       .waddr(data_waddr[15:2]),
       .wdata(data_wdata)
    );
-
+   //  program_ip uut_program(
+   //    .clka(clk),
+   //    .ena(inst_en),
+   //    .addra(inst_addr[15:2]),
+   //    .douta(inst_rdata)
+    
+   //  );
+   //  data_ip uut_data(
+   //    .clka(clk),
+   //    .clkb(clk),
+   //    .addrb(data_raddr[15:2]),
+   //    .doutb(data_rdata),
+   //    .wea(data_wmask),
+   //    .addra(data_waddr[15:2]),
+   //    .dina(data_wdata)
+   //  );
    // MMIO 映射逻辑
    wire [13:0] IO_wordaddr = IO_mem_addr[15:2];
 
@@ -133,12 +148,5 @@ module SOC (
    end
 `endif
 
-   // Gearbox and reset circuitry.
-   Clockworks CW(
-     .CLK(CLK),
-     .RESET(RESET),
-     .clk(clk),
-     .resetn(resetn)
-   );
-
+   // Gearbox and reset circuitry removed. Now directly driven by inputs.
 endmodule

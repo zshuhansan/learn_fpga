@@ -80,6 +80,9 @@ module processor (
    wire dataHazard;
    wire rs1Hazard;
    wire rs2Hazard;
+   wire aluBusy; // Declare before use in hazard_unit
+   wire E_correctPC; // Declare before use in hazard_unit
+   wire E_takeBranch; // Declare before use in branch_predictor
 
    hazard_unit HZ (
       .d_is_load(D_isLoad),
@@ -117,7 +120,7 @@ module processor (
 
    // 外部指令存储器接口连线
    assign inst_addr = F_PC;
-   assign inst_en   = !F_stall;
+   assign inst_en   = resetn ? !F_stall : 1'b0;
    wire [31:0] PROGROM_rdata = inst_rdata;
 
 `ifdef CONFIG_PC_PREDICT
@@ -134,17 +137,16 @@ module processor (
 
    always @(posedge clk) begin
 
-      if(!F_stall) begin
-         FD_PC    <= F_PC;
-         PC       <= F_PCplus4;
-      end
-
-      FD_nop <= D_flush | !resetn;
-
       if(!resetn) begin
          PC <= 0;
+         FD_nop <= 1'b1;
+      end else begin
+         if(!F_stall) begin
+            FD_PC    <= F_PC;
+            PC       <= F_PCplus4;
+         end
+         FD_nop <= D_flush;
       end
-
    end
 
 /******************************************************************************/
@@ -500,10 +502,10 @@ module processor (
       .sign_flag(EE_div_sign),
       .result(E_div_result)
    );
-   wire aluBusy = EE_divBusy | (DE_isDIV & !EE_divFinished);
+   assign aluBusy = EE_divBusy | (DE_isDIV & !EE_divFinished);
 `else
    assign E_div_result = 32'b0;
-   wire aluBusy = 1'b0;
+   assign aluBusy = 1'b0;
 `endif
 
 `ifdef CONFIG_RV32M
@@ -540,29 +542,30 @@ module processor (
 
    /*********** Branch, JAL, JALR ***********************************/
 
-   wire E_takeBranch =
-        (DE_funct3_is[0] &  E_EQ ) | // BEQ
-        (DE_funct3_is[1] & !E_EQ ) | // BNE
-        (DE_funct3_is[4] &  E_LT ) | // BLT
-        (DE_funct3_is[5] & !E_LT ) | // BGE
-        (DE_funct3_is[6] &  E_LTU) | // BLTU
-        (DE_funct3_is[7] & !E_LTU) ; // BGEU
+   assign E_takeBranch =
+     DE_isBranch &&
+     (DE_funct3_is[0] ? E_EQ  :
+      DE_funct3_is[1] ? !E_EQ :
+      DE_funct3_is[4] ? E_LT  :
+      DE_funct3_is[5] ? !E_LT :
+      DE_funct3_is[6] ? E_LTU :
+      DE_funct3_is[7] ? !E_LTU : 1'b0);
 
    wire [31:0] E_JALRaddr = {E_aluPlus[31:1],1'b0};
 
 `ifdef CONFIG_PC_PREDICT
  `ifdef CONFIG_RAS
-     wire E_correctPC = (
+     assign E_correctPC = (
 	   (DE_isJALR    && (DE_predictRA != E_JALRaddr)   ) ||
            (DE_isBranch  && (E_takeBranch^DE_predictBranch))
      );
  `else
-     wire E_correctPC = DE_isJALR ||
+     assign E_correctPC = DE_isJALR ||
 	(DE_isBranch  && (E_takeBranch^DE_predictBranch));
  `endif
    wire [31:0] E_PCcorrection = DE_isBranch ? DE_PCplus4orBimm : E_JALRaddr;
 `else
-   wire E_correctPC = (
+   assign E_correctPC = (
 			   DE_isJAL || DE_isJALR ||
 			  (DE_isBranch && E_takeBranch)
 			 );
@@ -578,30 +581,46 @@ module processor (
    /**************************************************************/
 
    always @(posedge clk) begin
-      if(!E_stall) begin
-	 EM_nop      <= DE_nop;
-	 EM_rdId     <= DE_rdId;
-	 EM_rs1Id    <= DE_rs1Id;
-	 EM_rs2Id    <= DE_rs2Id;
-	 EM_funct3   <= DE_funct3;
-	 EM_csrId_is <= 4'b0001 << DE_csrId;
-	 EM_rs2      <= E_rs2;
-	 EM_Eresult  <= E_result;
-	 EM_addr     <= E_addr;
-	 EM_isLoad   <= DE_isLoad;
-	 EM_isStore  <= DE_isStore;
-	 EM_isCSRRS  <= DE_isCSRRS;
-	 EM_wbEnable <= DE_wbEnable && (DE_rdId != 0);
-	 EM_correctPC  <= E_correctPC;
-     EM_PCcorrection <= E_PCcorrection;
-      end
-      if(M_flush) begin
-	 EM_nop       <= 1'b1;
-	 EM_isLoad    <= 1'b0;
-	 EM_isStore   <= 1'b0;
-	 EM_isCSRRS   <= 1'b0;
-	 EM_wbEnable  <= 1'b0;
-	 EM_correctPC <= 1'b0;
+
+      if(!resetn) begin
+         EM_nop      <= 1'b1;
+         EM_rdId     <= 5'b0;
+         EM_rs1Id    <= 5'b0;
+         EM_rs2Id    <= 5'b0;
+         EM_funct3   <= 3'b0;
+         EM_csrId_is <= 4'b0;
+         EM_rs2      <= 32'b0;
+         EM_Eresult  <= 32'b0;
+         EM_addr     <= 32'b0;
+         EM_isLoad   <= 1'b0;
+         EM_isStore  <= 1'b0;
+         EM_isCSRRS  <= 1'b0;
+         EM_wbEnable <= 1'b0;
+         EM_correctPC  <= 1'b0;
+         EM_PCcorrection <= 32'b0;
+      end else if(M_flush) begin
+         EM_nop       <= 1'b1;
+         EM_isLoad    <= 1'b0;
+         EM_isStore   <= 1'b0;
+         EM_isCSRRS   <= 1'b0;
+         EM_wbEnable  <= 1'b0;
+         EM_correctPC <= 1'b0;
+      end else if(!E_stall) begin
+         EM_nop      <= DE_nop;
+         EM_rdId     <= DE_rdId;
+         EM_rs1Id    <= DE_rs1Id;
+         EM_rs2Id    <= DE_rs2Id;
+         EM_funct3   <= DE_funct3;
+         EM_csrId_is <= 4'b0001 << DE_csrId;
+         EM_rs2      <= E_rs2;
+         EM_Eresult  <= E_result;
+         EM_addr     <= E_addr;
+         EM_isLoad   <= DE_isLoad;
+         EM_isStore  <= DE_isStore;
+         EM_isCSRRS  <= DE_isCSRRS;
+         EM_wbEnable <= DE_wbEnable && (DE_rdId != 0);
+         EM_correctPC  <= E_correctPC;
+         EM_PCcorrection <= E_PCcorrection;
       end
    end
 
@@ -650,7 +669,7 @@ module processor (
    wire  M_isRAM        = !M_isIO;
 
    assign IO_mem_addr  = EM_addr;
-   assign IO_mem_wr    = EM_isStore && M_isIO; // && M_STORE_wmask[0];
+   assign IO_mem_wr    = resetn ? (EM_isStore && M_isIO) : 1'b0; // && M_STORE_wmask[0];
    assign IO_mem_wdata = EM_rs2;
 
    wire [3:0] M_wmask = {4{EM_isStore & M_isRAM}} & M_STORE_wmask;
@@ -660,21 +679,28 @@ module processor (
    assign data_raddr = E_addr;
    // ren is !E_stall implicitly, but we can just use !E_stall or let memory read always.
    wire [31:0] M_raw_rdata = data_rdata;
-   assign data_wmask = M_wmask;
+   assign data_wmask = resetn ? M_wmask : 4'b0;
    assign data_waddr = EM_addr;
    assign data_wdata = M_STORE_data;
-   assign data_wen   = |M_wmask;
+   assign data_wen   = resetn ? |M_wmask : 1'b0;
 
    always @(posedge clk) begin
-      MW_nop       <= EM_nop;
-      MW_rdId      <= EM_rdId;
+      if(!resetn) begin
+         MW_nop       <= 1'b1;
+         MW_rdId      <= 5'b0;
+         MW_wbData    <= 32'b0;
+         MW_wbEnable  <= 1'b0;
+      end else begin
+         MW_nop       <= EM_nop;
+         MW_rdId      <= EM_rdId;
 
-      MW_wbData <=
-          EM_isLoad  ? (M_isIO ? IO_mem_rdata : M_Mdata) :
-          EM_isCSRRS ? M_CSR_data   :
-          EM_Eresult;
+         MW_wbData <=
+             EM_isLoad  ? (M_isIO ? IO_mem_rdata : M_Mdata) :
+             EM_isCSRRS ? M_CSR_data   :
+             EM_Eresult;
 
-      MW_wbEnable  <= EM_wbEnable;
+         MW_wbEnable  <= EM_wbEnable;
+      end
    end
 
 /******************************************************************************/
@@ -715,22 +741,31 @@ module processor (
    localparam NOP = 32'b0000000_00000_00000_000_00000_0110011;
 
    always @(posedge clk) begin
-      if(!D_stall) begin
-	 DE_instr <= FD_nop ? NOP : FD_instr;
-	 DE_PC    <= FD_PC;
+      if(!resetn) begin
+         DE_instr <= NOP;
+         DE_PC <= 32'b0;
+         EM_instr <= NOP;
+         EM_PC <= 32'b0;
+         MW_instr <= NOP;
+         MW_PC <= 32'b0;
+      end else begin
+         if(!D_stall) begin
+            DE_instr <= FD_nop ? NOP : FD_instr;
+            DE_PC    <= FD_PC;
+         end
+         if(E_flush) begin
+            DE_instr <= NOP;
+         end
+         if(!E_stall) begin
+            EM_instr <= DE_instr;
+            EM_PC    <= DE_PC;
+         end
+         if(M_flush) begin
+            EM_instr <= NOP;
+         end
+         MW_instr <= EM_instr;
+         MW_PC    <= EM_PC;
       end
-      if(E_flush) begin
-	 DE_instr <= NOP;
-      end
-      if(!E_stall) begin
-	 EM_instr <= DE_instr;
-	 EM_PC    <= DE_PC;
-      end
-      if(M_flush) begin
-	 EM_instr <= NOP;
-      end
-      MW_instr <= EM_instr;
-      MW_PC    <= EM_PC;
    end
 
 `ifdef CONFIG_DEBUG
