@@ -14,7 +14,9 @@
 
 #define TESTNUM gp
 
-#define ROUTEA_UART_ADDR 0x400004
+#define ROUTEA_UART_ADDR 0x400008
+#define ROUTEA_MBOX0_ADDR 0x400020
+#define ROUTEA_MBOXD_ADDR 0x400100
 
 #define RVTEST_CODE_BEGIN                       \
   .section .text.init;                          \
@@ -35,21 +37,27 @@ _start:                                         \
   ebreak
 
 #define RVTEST_PASS                             \
-  fence;                                        \
   li TESTNUM, 1;                                \
   li t0, ROUTEA_UART_ADDR;                      \
   li t1, 'P';                                   \
   sw t1, 0(t0);                                 \
+  li t0, ROUTEA_MBOX0_ADDR;                     \
+  sw t1, 0(t0);                                 \
+  li t0, ROUTEA_MBOXD_ADDR;                     \
+  sw zero, 0(t0);                               \
   ebreak
 
 #define RVTEST_FAIL                             \
-  fence;                                        \
 1: beqz TESTNUM, 1b;                            \
   sll TESTNUM, TESTNUM, 1;                      \
   or TESTNUM, TESTNUM, 1;                       \
   li t0, ROUTEA_UART_ADDR;                      \
   li t1, 'F';                                   \
   sw t1, 0(t0);                                 \
+  li t0, ROUTEA_MBOX0_ADDR;                     \
+  sw t1, 0(t0);                                 \
+  li t0, ROUTEA_MBOXD_ADDR;                     \
+  sw zero, 0(t0);                               \
   ebreak
 
 #define RVTEST_DATA_BEGIN                       \
@@ -66,4 +74,3 @@ end_signature:
 #define EXTRA_DATA
 
 #endif
-

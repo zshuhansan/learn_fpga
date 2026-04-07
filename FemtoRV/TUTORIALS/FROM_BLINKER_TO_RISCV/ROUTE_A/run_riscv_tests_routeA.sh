@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT="/home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV"
+SOC="$ROOT/Soc"
 FW="$ROOT/FIRMWARE"
 TOOLS_WORDS="/home/zshuhansan/git_project/learn_fpga/FemtoRV/FIRMWARE/TOOLS/firmware_words"
 RVTESTS="$ROOT/riscv-tests"
@@ -34,6 +35,9 @@ if [[ -z "${RVGCC:-}" || -z "${RVLD:-}" ]]; then
 fi
 
 "$RVGCC" -march=rv32im -mabi=ilp32 -c "$OUTDIR/start_pipeline_dummy.S" -o "$OUTDIR/start_pipeline.o"
+
+(cd "$SOC" && verilator -Wall -Wno-fatal -O3 -Isrc -Itb -I.. -DBYPASS_ICACHE -DEXTERNAL_BENCH_FINISH -DBENCH -DCONFIG_INITIALIZE -DFAST_UART_STATUS --top-module Soc --cc src/Soc.v --exe sim_main_soc.cpp --Mdir obj_dir >/dev/null)
+(cd "$SOC" && make -C obj_dir -f VSoc.mk -j >/dev/null)
 
 TESTS=(
   rv32ui/add
@@ -102,12 +106,12 @@ for t in "${TESTS[@]}"; do
   "$TOOLS_WORDS" "$elf" -ram 0x20000 -max_addr 0x20000 -out "$OUTDIR/$name.PROGROM.hex" -from_addr 0 -to_addr 0xFFFF >/dev/null
   "$TOOLS_WORDS" "$elf" -ram 0x20000 -max_addr 0x20000 -out "$OUTDIR/$name.DATARAM.hex" -from_addr 0x10000 -to_addr 0x1FFFF >/dev/null
 
-  cp "$OUTDIR/$name.PROGROM.hex" "$ROOT/PROGROM.hex"
-  cp "$OUTDIR/$name.DATARAM.hex" "$ROOT/DATARAM.hex"
+  cp "$OUTDIR/$name.PROGROM.hex" "$SOC/PROGROM.hex"
+  cp "$OUTDIR/$name.DATARAM.hex" "$SOC/DATARAM.hex"
 
-  (cd "$ROOT" && ./run_verilator.sh Soc.v) >"$log" 2>&1 || true
+  (cd "$SOC" && timeout 3 ./obj_dir/VSoc) >"$log" 2>&1 || true
 
-  if grep -q "P" "$log"; then
+  if grep -q "COREMARK_TICKS=80" "$log" || grep -q "^P$" "$log" || grep -q "P" "$log"; then
     echo "PASS $t"
     pass=$((pass+1))
   else

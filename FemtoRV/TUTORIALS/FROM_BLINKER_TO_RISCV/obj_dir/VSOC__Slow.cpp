@@ -28,12 +28,12 @@ VSOC::~VSOC() {
     VL_DO_CLEAR(delete __VlSymsp, __VlSymsp = NULL);
 }
 
-void VSOC::_initial__TOP__2(VSOC__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VSOC::_initial__TOP__2\n"); );
+void VSOC::_initial__TOP__3(VSOC__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VSOC::_initial__TOP__3\n"); );
     VSOC* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Variables
-    WData/*95:0*/ __Vtemp15[3];
     WData/*95:0*/ __Vtemp16[3];
+    WData/*95:0*/ __Vtemp17[3];
     // Body
     vlTOPp->SOC__DOT__CPU__DOT__nbBranch = 0U;
     vlTOPp->SOC__DOT__CPU__DOT__nbBranchHit = 0U;
@@ -46,28 +46,27 @@ void VSOC::_initial__TOP__2(VSOC__Syms* __restrict vlSymsp) {
     vlTOPp->SOC__DOT__CPU__DOT__nbMUL = 0U;
     vlTOPp->SOC__DOT__CPU__DOT__nbDIV = 0U;
     vlTOPp->SOC__DOT__UART__DOT__cnt = 0U;
-    __Vtemp15[0U] = 0x2e686578U;
-    __Vtemp15[1U] = 0x4152414dU;
-    __Vtemp15[2U] = 0x444154U;
-    VL_READMEM_N(true, 32, 16384, 0, VL_CVT_PACK_STR_NW(3, __Vtemp15)
+    __Vtemp16[0U] = 0x2e686578U;
+    __Vtemp16[1U] = 0x4152414dU;
+    __Vtemp16[2U] = 0x444154U;
+    VL_READMEM_N(true, 32, 16384, 0, VL_CVT_PACK_STR_NW(3, __Vtemp16)
                  , vlTOPp->SOC__DOT__DATARAM__DOT__mem
                  , 0, ~0ULL);
-    __Vtemp16[0U] = 0x2e686578U;
-    __Vtemp16[1U] = 0x47524f4dU;
-    __Vtemp16[2U] = 0x50524fU;
-    VL_READMEM_N(true, 32, 16384, 0, VL_CVT_PACK_STR_NW(3, __Vtemp16)
+    __Vtemp17[0U] = 0x2e686578U;
+    __Vtemp17[1U] = 0x47524f4dU;
+    __Vtemp17[2U] = 0x50524fU;
+    VL_READMEM_N(true, 32, 16384, 0, VL_CVT_PACK_STR_NW(3, __Vtemp17)
                  , vlTOPp->SOC__DOT__PROGROM__DOT__mem
                  , 0, ~0ULL);
+    vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt = 0U;
 }
 
-void VSOC::_settle__TOP__3(VSOC__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VSOC::_settle__TOP__3\n"); );
+void VSOC::_settle__TOP__4(VSOC__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VSOC::_settle__TOP__4\n"); );
     VSOC* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->TXD = (1U & ((IData)(vlTOPp->SOC__DOT__UART__DOT__data) 
                          | (~ (IData)((0U != (IData)(vlTOPp->SOC__DOT__UART__DOT__data))))));
-    vlTOPp->SOC__DOT__CPU__DOT__halt = ((IData)(vlTOPp->RESET) 
-                                        & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isEBREAK));
     vlTOPp->SOC__DOT__CPU__DOT__M_STORE_data = ((0xffffff00U 
                                                  & vlTOPp->SOC__DOT__CPU__DOT__M_STORE_data) 
                                                 | (0xffU 
@@ -220,6 +219,9 @@ void VSOC::_settle__TOP__3(VSOC__Syms* __restrict vlSymsp) {
         = (0xfffU & ((vlTOPp->SOC__DOT__CPU__DOT__FD_PC 
                       >> 2U) ^ ((IData)(vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__branch_history) 
                                 << 3U)));
+    vlTOPp->SOC__DOT__resetn = (0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt));
+    vlTOPp->SOC__DOT__CPU__DOT__halt = ((0xffffU == (IData)(vlTOPp->SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt)) 
+                                        & (IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isEBREAK));
     vlTOPp->SOC__DOT__uart_valid = ((IData)(vlTOPp->SOC__DOT__IO_mem_wr) 
                                     & (vlTOPp->SOC__DOT__CPU__DOT__EM_addr 
                                        >> 3U));
@@ -338,13 +340,13 @@ void VSOC::_settle__TOP__3(VSOC__Syms* __restrict vlSymsp) {
         = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__DE_isDIV) 
             & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__dataHazard))) 
            & (~ (IData)(vlTOPp->SOC__DOT__CPU__DOT__DIVU__DOT__finished_r)));
-    vlTOPp->SOC__DOT__CPU__DOT__F_stall = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy) 
-                                            | (IData)(vlTOPp->SOC__DOT__CPU__DOT__dataHazard)) 
-                                           | (IData)(vlTOPp->SOC__DOT__CPU__DOT__halt));
     vlTOPp->SOC__DOT__CPU__DOT__D_predictBranch = (1U 
                                                    & (vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__BHT
                                                       [vlTOPp->SOC__DOT__CPU__DOT__BP__DOT__bht_index] 
                                                       >> 1U));
+    vlTOPp->SOC__DOT__CPU__DOT__F_stall = (((IData)(vlTOPp->SOC__DOT__CPU__DOT__aluBusy) 
+                                            | (IData)(vlTOPp->SOC__DOT__CPU__DOT__dataHazard)) 
+                                           | (IData)(vlTOPp->SOC__DOT__CPU__DOT__halt));
     vlTOPp->SOC__DOT__CPU__DOT__LSU_ALIGN__DOT__load_sign 
         = (1U & ((~ ((IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_funct3) 
                      >> 2U)) & ((0U == (3U & (IData)(vlTOPp->SOC__DOT__CPU__DOT__EM_funct3)))
@@ -581,7 +583,8 @@ void VSOC::_eval_initial(VSOC__Syms* __restrict vlSymsp) {
     VSOC* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->__Vclklast__TOP__CLK = vlTOPp->CLK;
-    vlTOPp->_initial__TOP__2(vlSymsp);
+    vlTOPp->__Vclklast__TOP__RESET = vlTOPp->RESET;
+    vlTOPp->_initial__TOP__3(vlSymsp);
 }
 
 void VSOC::final() {
@@ -595,7 +598,7 @@ void VSOC::_eval_settle(VSOC__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VSOC::_eval_settle\n"); );
     VSOC* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->_settle__TOP__3(vlSymsp);
+    vlTOPp->_settle__TOP__4(vlSymsp);
 }
 
 void VSOC::_ctor_var_reset() {
@@ -606,6 +609,7 @@ void VSOC::_ctor_var_reset() {
     LEDS = VL_RAND_RESET_I(5);
     RXD = VL_RAND_RESET_I(1);
     TXD = VL_RAND_RESET_I(1);
+    SOC__DOT__resetn = VL_RAND_RESET_I(1);
     SOC__DOT__inst_rdata = VL_RAND_RESET_I(32);
     SOC__DOT__data_rdata = VL_RAND_RESET_I(32);
     SOC__DOT__IO_mem_wr = VL_RAND_RESET_I(1);
@@ -727,6 +731,7 @@ void VSOC::_ctor_var_reset() {
     }}
     SOC__DOT__UART__DOT__cnt = VL_RAND_RESET_I(8);
     SOC__DOT__UART__DOT__data = VL_RAND_RESET_I(10);
+    SOC__DOT__CW__DOT__genblk2__DOT__reset_cnt = VL_RAND_RESET_I(16);
     __Vfunc_SOC__DOT__CPU__DOT__ALU__DOT__flip32__8__Vfuncout = VL_RAND_RESET_I(32);
     __Vfunc_SOC__DOT__CPU__DOT__ALU__DOT__flip32__8__x = VL_RAND_RESET_I(32);
     __Vfunc_SOC__DOT__CPU__DOT__ALU__DOT__flip32__9__Vfuncout = VL_RAND_RESET_I(32);

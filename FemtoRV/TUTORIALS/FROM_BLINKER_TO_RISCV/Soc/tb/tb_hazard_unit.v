@@ -40,6 +40,7 @@ module tb_hazard_unit;
     );
 
     initial begin
+        // 保留波形导出，方便观察 stall/flush 是在哪一拍拉高。
         $dumpfile("hazard.vcd");
         $dumpvars(0, tb_hazard_unit);
 
@@ -50,7 +51,7 @@ module tb_hazard_unit;
 
         #10;
         
-        // Test load-use hazard
+        // 先构造最典型的 load-use 相关，确认 hazard_unit 会停前端并向 E 级插气泡。
         de_is_load = 1;
         de_rd_id = 5;
         d_is_alu_reg = 1;
@@ -59,7 +60,7 @@ module tb_hazard_unit;
         #10;
         if (!data_hazard || !f_stall || !d_stall || !e_flush) $display("FAIL: Load-use hazard not detected");
 
-        // Clear
+        // 清掉前一组刺激，避免影响后续场景。
         de_is_load = 0;
         d_is_alu_reg = 0;
         d_rs1_id = 0;
@@ -67,7 +68,7 @@ module tb_hazard_unit;
         de_rd_id = 0;
         #10;
 
-        // Test Branch Mispredict
+        // 再模拟一次分支纠正，检查 D/E 级 flush 是否同时生效。
         e_correct_pc = 1;
         #10;
         if (!d_flush || !e_flush || f_stall) $display("FAIL: Branch mispredict flush not working");
@@ -75,7 +76,7 @@ module tb_hazard_unit;
         e_correct_pc = 0;
         #10;
 
-        // Test ALU Busy (DIV)
+        // 最后验证多周期除法忙时，流水线会整体被正确冻结。
         alu_busy = 1;
         #10;
         if (!f_stall || !d_stall || !e_stall || !m_flush) $display("FAIL: ALU busy stalls not working");

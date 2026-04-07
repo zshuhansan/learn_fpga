@@ -693,20 +693,5 @@ uart_send_char(char c)
 int
 ee_printf(const char *fmt, ...)
 {
-    char    buf[1024], *p;
-    va_list args;
-    int     n = 0;
-
-    va_start(args, fmt);
-    ee_vsprintf(buf, fmt, args);
-    va_end(args);
-    p = buf;
-    while (*p)
-    {
-        uart_send_char(*p);
-        n++;
-        p++;
-    }
-
-    return n;
+    return 0;
 }

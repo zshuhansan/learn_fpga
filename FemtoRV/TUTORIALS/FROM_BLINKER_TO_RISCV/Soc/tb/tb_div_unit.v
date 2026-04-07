@@ -47,6 +47,7 @@ module tb_div_unit;
         input [31:0] b;
         input [31:0] expect_val;
         begin
+            // start 只拉高一拍，随后等待 finished 拉高并核对最终结果。
             @(negedge clk);
             funct3 = f3;
             rs1 = a;
@@ -64,15 +65,13 @@ module tb_div_unit;
     endtask
 
     initial begin
+        // 覆盖有符号除法和取余两条路径，确认串行除法器结束后结果正确。
         start = 0; is_div = 0; funct3 = 0; rs1 = 0; rs2 = 1;
         repeat(2) @(posedge clk);
         resetn = 1;
 
-        // DIV 100 / 7 = 14
         run_div_case(3'b100, 32'd100, 32'd7, 32'd14);
-        // REM 100 % 7 = 2
         run_div_case(3'b110, 32'd100, 32'd7, 32'd2);
-        // DIV -100 / 7 = -14
         run_div_case(3'b100, -32'sd100, 32'd7, -32'sd14);
 
         $display("tb_div_unit PASS");

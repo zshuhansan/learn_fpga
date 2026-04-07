@@ -26,31 +26,27 @@ module tb_imm_gen;
     endtask
 
     initial begin
-        // addi x1,x0,-1
+        // 这组用例覆盖 I/S/B/U/J 五种立即数格式，重点检查位拼接和符号扩展是否正确。
         instr = 32'hFFF00093;
         is_store = 1'b0;
         #1;
         check(imm_i == 32'hFFFF_FFFF, "Iimm 符号扩展错误");
         check(i_or_s_imm == 32'hFFFF_FFFF, "i_or_s_imm(I) 错误");
 
-        // sw x2,8(x3)
         instr = 32'h0021A423;
         is_store = 1'b1;
         #1;
         check(imm_s == 32'd8, "Simm 错误");
         check(i_or_s_imm == 32'd8, "i_or_s_imm(S) 错误");
 
-        // beq x1,x2,+8
         instr = 32'h00208463;
         #1;
         check(imm_b == 32'd8, "Bimm 错误");
 
-        // auipc x10,0x10
         instr = 32'h00010517;
         #1;
         check(imm_u == 32'h0001_0000, "Uimm 错误");
 
-        // jal x1, +8
         instr = 32'h008000EF;
         #1;
         check(imm_j == 32'd8, "Jimm 错误");

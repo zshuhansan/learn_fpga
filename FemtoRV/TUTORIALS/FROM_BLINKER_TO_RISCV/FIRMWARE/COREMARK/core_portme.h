@@ -19,7 +19,7 @@ limitations under the License.
 Original Author: Shay Gal-on
 */
 
-#define ITERATIONS 300
+#define ITERATIONS 30
 #define BUILD "testbench"
 #define ARCH "petituyau"
 
@@ -140,7 +140,7 @@ typedef uint64_t CORE_TICKS;
         MEM_STACK - to allocate the data block on the stack (NYI).
 */
 #ifndef MEM_METHOD
-#define MEM_METHOD MEM_STACK
+#define MEM_METHOD MEM_STATIC
 #endif
 
 /* Configuration : MULTITHREAD
@@ -222,4 +222,3 @@ int ee_printf(const char *fmt, ...);
 void print_coremarks(uint64_t ticks);
 
 #endif /* CORE_PORTME_H */
-

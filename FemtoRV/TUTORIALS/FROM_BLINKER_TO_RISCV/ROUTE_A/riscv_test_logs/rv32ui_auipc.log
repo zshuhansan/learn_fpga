@@ -1,40 +1,5 @@
-%Warning-WIDTH: dataram_ip_model.v:22:23: Operator NEQ expects 88 bits on the RHS, but RHS's CONST '?1?h0' generates 1 bits.
-                                        : ... In instance SOC.DATARAM
-   22 |         if (INIT_FILE != "") begin
-      |                       ^~
-                progrom_ip_model.v:27:1: ... note: In file included from progrom_ip_model.v
-                processor.v:955:1: ... note: In file included from processor.v
-                ROUTE_A/csr_unit.v:41:1: ... note: In file included from csr_unit.v
-                ROUTE_A/alu.v:82:1: ... note: In file included from alu.v
-                ROUTE_A/div_unit.v:79:1: ... note: In file included from div_unit.v
-                ROUTE_A/lsu_align.v:44:1: ... note: In file included from lsu_align.v
-                ROUTE_A/regfile.v:31:1: ... note: In file included from regfile.v
-                ROUTE_A/imm_gen.v:28:1: ... note: In file included from imm_gen.v
-                ROUTE_A/decoder.v:81:1: ... note: In file included from decoder.v
-                emitter_uart.v:42:1: ... note: In file included from emitter_uart.v
-                clockworks.v:136:1: ... note: In file included from clockworks.v
-                Soc.v:11:1: ... note: In file included from Soc.v
-                ... Use "/* verilator lint_off WIDTH */" and lint_on around source to disable this message.
-%Warning-WIDTH: progrom_ip_model.v:16:23: Operator NEQ expects 88 bits on the RHS, but RHS's CONST '?1?h0' generates 1 bits.
-                                        : ... In instance SOC.PROGROM
-   16 |         if (INIT_FILE != "") begin
-      |                       ^~
-                processor.v:955:1: ... note: In file included from processor.v
-                ROUTE_A/csr_unit.v:41:1: ... note: In file included from csr_unit.v
-                ROUTE_A/alu.v:82:1: ... note: In file included from alu.v
-                ROUTE_A/div_unit.v:79:1: ... note: In file included from div_unit.v
-                ROUTE_A/lsu_align.v:44:1: ... note: In file included from lsu_align.v
-                ROUTE_A/regfile.v:31:1: ... note: In file included from regfile.v
-                ROUTE_A/imm_gen.v:28:1: ... note: In file included from imm_gen.v
-                ROUTE_A/decoder.v:81:1: ... note: In file included from decoder.v
-                emitter_uart.v:42:1: ... note: In file included from emitter_uart.v
-                clockworks.v:136:1: ... note: In file included from clockworks.v
-                Soc.v:11:1: ... note: In file included from Soc.v
-g++  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow     -I../../../FIRMWARE/LIBFEMTORV32 -DSTANDALONE_FEMTOELF  -Os -c -o femto_elf.o ../../../FIRMWARE/LIBFEMTORV32/femto_elf.c
-g++  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow     -I../../../FIRMWARE/LIBFEMTORV32 -DSTANDALONE_FEMTOELF  -Os -c -o sim_main.o ../sim_main.cpp
-g++  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow     -I../../../FIRMWARE/LIBFEMTORV32 -DSTANDALONE_FEMTOELF  -Os -c -o verilated.o /usr/share/verilator/include/verilated.cpp
-/usr/bin/perl /usr/share/verilator/bin/verilator_includer -DVL_INCLUDE_OPT=include VSOC.cpp VSOC__Slow.cpp VSOC__Syms.cpp > VSOC__ALL.cpp
-g++  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow     -I../../../FIRMWARE/LIBFEMTORV32 -DSTANDALONE_FEMTOELF  -Os -c -o VSOC__ALL.o VSOC__ALL.cpp
-ar -cr VSOC__ALL.a VSOC__ALL.o
-ranlib VSOC__ALL.a
-g++    femto_elf.o sim_main.o verilated.o VSOC__ALL.a      -o VSOC
+FCOREMARK_TICKS=70
+COREMARK_MHZ_X1000=0
+COREMARK_CPI_X1000=0
+- src/Soc.v:265: Verilog $finish
+SIM_DONE finish=1 cycles=61

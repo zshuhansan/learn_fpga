@@ -34,30 +34,26 @@ module tb_alu;
     );
 
     initial begin
+        // 导出波形后，按“基本算术 → 比较 → RV32M 乘法”的顺序做烟雾测试。
         $dumpfile("alu.vcd");
         $dumpvars(0, tb_alu);
         
-        // Test ADD
         in1 = 10; in2 = 20; funct3 = 3'b000; is_minus = 0; is_arith_shift = 0; is_rv32m = 0; is_div = 0; div_result = 0;
         #10;
         if (alu_out !== 30 || alu_plus !== 30) $display("FAIL: ADD"); else $display("PASS: ADD");
 
-        // Test SUB
         in1 = 50; in2 = 20; funct3 = 3'b000; is_minus = 1;
         #10;
         if (alu_out !== 30) $display("FAIL: SUB"); else $display("PASS: SUB");
 
-        // Test XOR
         in1 = 32'hF0F0F0F0; in2 = 32'h0F0F0F0F; funct3 = 3'b100; is_minus = 0;
         #10;
         if (alu_out !== 32'hFFFFFFFF) $display("FAIL: XOR"); else $display("PASS: XOR");
 
-        // Test SLT
         in1 = -10; in2 = 20; funct3 = 3'b010;
         #10;
         if (alu_out !== 1 || lt !== 1) $display("FAIL: SLT"); else $display("PASS: SLT");
 
-        // Test MUL
         in1 = 5; in2 = 6; funct3 = 3'b000; is_rv32m = 1; is_div = 0;
         #10;
         if (alu_out !== 30) $display("FAIL: MUL"); else $display("PASS: MUL");

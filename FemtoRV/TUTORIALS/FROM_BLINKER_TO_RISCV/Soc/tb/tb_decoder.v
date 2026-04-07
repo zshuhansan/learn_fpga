@@ -38,6 +38,8 @@ module tb_decoder;
     endtask
 
     initial begin
+        // 依次覆盖立即数 ALU、Store、Branch、SYSTEM 和 RV32M 几类关键指令，
+        // 只要其中一类识别错误，就说明组合译码表存在缺口。
         instr = 32'h00100093; #1;
         check(is_alu_imm, "addi 应识别为 ALUimm");
         check(rd_id==5'd1, "addi rd 应为 x1");

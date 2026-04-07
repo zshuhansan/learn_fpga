@@ -3,7 +3,7 @@ module tb_branch_predictor;
     reg clk;
     reg resetn;
     
-    // IF/ID inputs
+    // 这组输入模拟前端发起预测请求。
     reg [31:0] fd_pc;
     reg [31:0] fd_instr;
     reg d_is_branch, d_is_jal, d_is_jalr;
@@ -11,12 +11,12 @@ module tb_branch_predictor;
     reg [31:0] d_bimm, d_jimm;
     reg d_flush, fd_nop;
     
-    // EX inputs
+    // 这组输入模拟执行级回写预测结果。
     reg de_is_branch, e_take_branch;
     reg [11:0] de_bht_index;
     reg e_stall;
 
-    // Outputs
+    // 观测预测方向、目标地址和 RAS 栈顶返回地址。
     wire d_predict_branch;
     wire d_predict_pc_valid;
     wire [31:0] d_pc_prediction;
@@ -59,6 +59,7 @@ module tb_branch_predictor;
     end
 
     initial begin
+        // 先验证 call 会压入返回地址，再验证 return 能从 RAS 中取回该地址。
         $dumpfile("bp.vcd");
         $dumpvars(0, tb_branch_predictor);
 
@@ -71,28 +72,25 @@ module tb_branch_predictor;
 
         #15 resetn = 1;
 
-        // Test JAL / RAS Call
         fd_pc = 32'h1000;
         d_is_jal = 1;
         d_jimm = 32'h100;
-        d_rd_id = 1; // Return address saved to ra
+        d_rd_id = 1;
         fd_nop = 0;
         d_flush = 0;
-        fd_instr = {12'b0, 5'd0, 3'b000, 5'd1, 7'b1101111}; // fake instr
+        fd_instr = {12'b0, 5'd0, 3'b000, 5'd1, 7'b1101111};
         #5;
         if (d_pc_prediction !== 32'h1100 || !d_predict_pc_valid) $display("FAIL: JAL predict");
-        #5; // cycle to allow posedge
+        #5;
         
-        // Let it clock so RAS pushes 1004
         #5;
         d_is_jal = 0;
         #5;
         
-        // Test JALR / RAS Return
         d_is_jalr = 1;
         d_rd_id = 0;
         d_rs1_id = 1;
-        fd_instr = {12'b0, 5'd1, 3'b000, 5'd0, 7'b1100111}; // JALR zero, ra, 0
+        fd_instr = {12'b0, 5'd1, 3'b000, 5'd0, 7'b1100111};
         #5;
         if (d_pc_prediction !== 32'h1004) $display("FAIL: JALR RAS return, expected 1004 got %h", d_pc_prediction); else $display("PASS: JALR RAS return");
         #5;

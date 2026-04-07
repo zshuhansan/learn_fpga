@@ -237,7 +237,6 @@ for (i = 0; i < MULTITHREAD; i++)
                 results[0].size, results[i].seed1, results[i].memblock[3]);
         }
     }
-
     /* automatically determine number of iterations if not set */
     if (results[0].iterations == 0)
     {

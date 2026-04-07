@@ -1,25 +1,3 @@
-
-/*
- * Clockworks includes
- *   - gearbox to divide clock frequency, used
- *     to let you observe how the design behaves
- *     one cycle at a time.
- *   - PLL to generate faster clock
- *   - reset mechanism that resets the design
- *     during the first microseconds because
- *     reading in Ice40 BRAM during the first
- *     few microseconds returns garbage !
- *     (made me bang my head against the wall).
- *
- * Parameters
- *     SLOW number of bits of gearbox. Clock divider
- *       is (1 << SLOW)
- *
- * Macros
- *     NEGATIVE_RESET if board's RESET pin goes low on reset
- *     ICE_STICK if board is an IceStick.
- */
-
 `include "../../RTL/PLL/femtopll.v"
 
 `ifdef ECP5_EVN
@@ -37,27 +15,21 @@
 
 module Clockworks
 (
-   input  CLK, // clock pin of the board
-   input  RESET, // reset pin of the board
-   output clk,   // (optionally divided) clock for the design.
-                 // divided if SLOW is different from zero.
-   output resetn // (optionally timed) negative reset for the design
+   input  CLK,
+   input  RESET,
+   output clk,
+   output resetn
 );
    parameter SLOW=0;
 
+   // 这个模块原本用于板级时钟与复位管理，包含两个职责：
+   // 1. 在调试模式下把外部时钟分频，方便肉眼观察流水线行为
+   // 2. 在高速模式下接 PLL，并在上电初期延长复位，避开 BRAM 尚未稳定的窗口
    generate
 
-/****************************************************
-
- Slow speed mode.
- - Create a clock divider to let observe what happens.
- - Nothing special to do for reset
-
- ****************************************************/
       if(SLOW != 0) begin
-	 // Factor is 1 << slow_bit.
-	 // Since simulation is approx. 16 times slower than
-	 // actual device we use different factor for bosh.
+	 // 慢速模式直接用计数器分频，仿真时因为整体运行比真实硬件慢很多，
+	 // 所以把分频位数再减 4，避免波形过于拖沓。
 `ifdef BENCH
    localparam slow_bit=SLOW-4;
 `else
@@ -75,21 +47,10 @@ module Clockworks
 	 assign resetn = !RESET;
 `endif
 
-
-/****************************************************
-
- High speed mode.
- - Nothing special to do for the clock
- - A timer that resets the design during the first
-   few microseconds, because reading in Ice40 BRAM
-   during the first few microseconds returns garbage !
-   (made me bang my head against the wall).
-
- ****************************************************/
-
       end else begin
 
 `ifdef CPU_FREQ
+        // 高速模式优先走 PLL，把板载时钟提升到期望 CPU 主频。
         femtoPLL #(
           .freq(`CPU_FREQ)
         ) pll(
@@ -101,9 +62,8 @@ module Clockworks
 `endif
 
 
-// Preserve resources on Ice40HX1K (IceStick) with
-// carefully tuned counter (12 bits suffice).
-// For other FPGAs, use larger counter.
+// 上电后先维持一段时间复位，让内部 RAM 和时钟网络进入稳定状态。
+// IceStick 资源更紧张，所以单独使用较小计数器。
 `ifdef ICE_STICK
 	 reg [11:0] 	    reset_cnt = 0;
 `else
@@ -124,6 +84,7 @@ module Clockworks
 	    if(RESET) begin
 	       reset_cnt <= 0;
 	    end else begin
+	       // 宽度由参数和板卡选择共同决定，这里保留 lint 抑制避免工具误报。
 	       /* verilator lint_off WIDTH */
 	       reset_cnt <= reset_cnt + !resetn;
 	       /* verilator lint_on WIDTH */

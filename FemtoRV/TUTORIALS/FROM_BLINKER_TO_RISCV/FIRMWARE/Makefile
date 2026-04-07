@@ -1,4 +1,39 @@
 include ../../../FIRMWARE/makefile.inc
+
+EXTERNAL_RV_PREFIX ?=
+ifneq ($(EXTERNAL_RV_PREFIX),)
+RVTOOLCHAIN_BIN_PREFIX=$(EXTERNAL_RV_PREFIX)
+RVAS=$(RVTOOLCHAIN_BIN_PREFIX)-as
+RVLD=$(RVTOOLCHAIN_BIN_PREFIX)-ld
+RVOBJCOPY=$(RVTOOLCHAIN_BIN_PREFIX)-objcopy
+RVOBJDUMP=$(RVTOOLCHAIN_BIN_PREFIX)-objdump
+RVGCC=$(RVTOOLCHAIN_BIN_PREFIX)-gcc
+RVGPP=$(RVTOOLCHAIN_BIN_PREFIX)-g++
+RVAR=$(RVTOOLCHAIN_BIN_PREFIX)-ar
+RVRANLIB=$(RVTOOLCHAIN_BIN_PREFIX)-ranlib
+RVTOOLCHAIN_LIB_DIR=$(dir $(shell $(RVGCC) -print-file-name=libc.a))
+RVTOOLCHAIN_GCC_LIB_DIR=$(dir $(shell $(RVGCC) -print-libgcc-file-name))
+RV_BINARIES=$(RVAS) $(RVLD) $(RVOBJCOPY) $(RVOBJDUMP) $(RVGCC) $(RVAR) $(RVRANLIB)
+endif
+
+ifeq ($(filter get_riscv_toolchain,$(MAKECMDGOALS)),get_riscv_toolchain)
+.PHONY: get_riscv_toolchain
+get_riscv_toolchain:
+	@mkdir -p $(FIRMWARE_DIR)/TOOLCHAIN
+	@if [ -x "$(RVGCC)" ]; then \
+		echo "Using existing toolchain $(RVGCC)"; \
+	else \
+		echo "Installing RISC-V toolchain for $(uname) $(uname_m) in $(FIRMWARE_DIR)/TOOLCHAIN"; \
+		cd $(FIRMWARE_DIR)/TOOLCHAIN; \
+		if [ ! -f "$(TOOLCHAIN_VER)$(TOOLCHAIN_DL_SUFFIX).tar.gz" ]; then \
+			wget $(TOOLCHAIN_WEB)/$(TOOLCHAIN_VER)$(TOOLCHAIN_DL_SUFFIX).tar.gz -O $(TOOLCHAIN_VER)$(TOOLCHAIN_DL_SUFFIX).tar.gz; \
+		fi; \
+		if [ ! -d "$(TOOLCHAIN_VER)$(TOOLCHAIN_DL_SUFFIX)" ]; then \
+			tar xfz $(TOOLCHAIN_VER)$(TOOLCHAIN_DL_SUFFIX).tar.gz; \
+			if [ -d $(TOOLCHAIN_VER) ]; then mv $(TOOLCHAIN_VER) $(TOOLCHAIN_VER)$(TOOLCHAIN_DL_SUFFIX); fi; \
+		fi; \
+	fi
+endif
 RVASFLAGS=-march=$(ARCH) -mabi=$(ABI) 
 RVCFLAGS=-I. -O2 -fno-pic -march=$(ARCH) -mabi=$(ABI) -fno-stack-protector -w -Wl,--no-relax
 

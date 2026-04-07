@@ -25,6 +25,7 @@ module tb_csr;
     end
 
     initial begin
+        // 通过复位、退休脉冲和 CSR 读出三步，检查计数器更新链路是否闭合。
         $dumpfile("csr.vcd");
         $dumpvars(0, tb_csr);
 
@@ -33,25 +34,24 @@ module tb_csr;
         csrId_is = 0;
 
         #15;
-        resetn = 1; // Unreset at t=15
+        resetn = 1;
         
         #10;
         if (out_cycle !== 1 || out_instret !== 0) $display("FAIL: init cycle=%d instret=%d", out_cycle, out_instret);
 
-        #10; // cycle 2
+        #10;
         valid_inst_retired = 1;
-        #10; // cycle 3, instret 1
+        #10;
         valid_inst_retired = 0;
-        #10; // cycle 4, instret 1
+        #10;
 
         if (out_cycle !== 4 || out_instret !== 1) $display("FAIL: inc cycle=%d instret=%d", out_cycle, out_instret);
 
-        // test reads
-        csrId_is = 4'b0001; // cycle[31:0]
+        csrId_is = 4'b0001;
         #1;
         if (csr_rdata !== 4) $display("FAIL: read cycle[31:0] = %d", csr_rdata);
 
-        csrId_is = 4'b0010; // instret[31:0]
+        csrId_is = 4'b0010;
         #1;
         if (csr_rdata !== 1) $display("FAIL: read instret[31:0] = %d", csr_rdata);
 

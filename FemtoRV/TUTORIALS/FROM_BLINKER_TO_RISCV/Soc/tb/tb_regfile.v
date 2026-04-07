@@ -31,9 +31,9 @@ module tb_regfile;
     endtask
 
     initial begin
+        // 依次验证普通写读、x0 写保护以及两个读端口可同时工作。
         wen = 0; waddr = 0; wdata = 0; raddr1 = 0; raddr2 = 0;
 
-        // 写 x1
         @(negedge clk);
         wen = 1; waddr = 5'd1; wdata = 32'h1234_5678;
         @(posedge clk);
@@ -42,7 +42,6 @@ module tb_regfile;
         #1;
         check(rdata1 == 32'h1234_5678, "x1 写后读错误");
 
-        // 写 x0 应被忽略
         @(negedge clk);
         wen = 1; waddr = 5'd0; wdata = 32'hFFFF_FFFF;
         @(posedge clk);
@@ -51,7 +50,6 @@ module tb_regfile;
         #1;
         check(rdata1 == 32'b0, "x0 必须恒为0");
 
-        // 双读检查
         @(negedge clk);
         wen = 1; waddr = 5'd2; wdata = 32'hCAFE_BABE;
         @(posedge clk);
@@ -67,4 +65,3 @@ module tb_regfile;
         $finish;
     end
 endmodule
-

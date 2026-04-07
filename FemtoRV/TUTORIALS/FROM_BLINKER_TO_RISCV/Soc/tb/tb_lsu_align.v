@@ -28,26 +28,22 @@ module tb_lsu_align;
     endtask
 
     initial begin
+        // 写路径主要检查字节掩码，读路径主要检查切片位置与符号扩展是否一致。
         store_rs2 = 32'hA1B2_C3D4;
         load_raw_word = 32'h1122_3344;
 
-        // SB at addr[1:0]=2 -> wmask=0100
         addr = 32'h0000_0002; funct3 = 3'b000; #1;
         check(store_wmask == 4'b0100, "SB wmask 错误");
 
-        // SH at addr[1]=1 -> wmask=1100
         addr = 32'h0000_0002; funct3 = 3'b001; #1;
         check(store_wmask == 4'b1100, "SH wmask 错误");
 
-        // SW -> wmask=1111
         addr = 32'h0000_0000; funct3 = 3'b010; #1;
         check(store_wmask == 4'b1111, "SW wmask 错误");
 
-        // LB with sign extension, select byte 0x22 from 0x11223344 at addr=1
         addr = 32'h0000_0001; funct3 = 3'b000; #1;
         check(load_data == 32'h0000_0033, "LB 提取错误");
 
-        // LH unsigned at addr[1]=1 -> 0x1122
         addr = 32'h0000_0002; funct3 = 3'b101; #1;
         check(load_data == 32'h0000_1122, "LHU 错误");
 
@@ -55,4 +51,3 @@ module tb_lsu_align;
         $finish;
     end
 endmodule
-

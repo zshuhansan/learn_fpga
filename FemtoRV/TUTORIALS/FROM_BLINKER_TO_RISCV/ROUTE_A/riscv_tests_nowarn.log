@@ -1,0 +1,489 @@
+%Warning-UNDRIVEN: src/Soc.v:81:16: Signal is not driven: 'axi_arready'
+                                  : ... In instance Soc
+   81 |    wire        axi_arready;
+      |                ^~~~~~~~~~~
+                   src/dataram_ip_model.v:41:1: ... note: In file included from dataram_ip_model.v
+                   src/progrom_ip_model.v:25:1: ... note: In file included from progrom_ip_model.v
+                   src/processor.v:1123:1: ... note: In file included from processor.v
+                   src/emitter_uart.v:54:1: ... note: In file included from emitter_uart.v
+                   src/Soc.v:12:1: ... note: In file included from Soc.v
+                   ... Use "/* verilator lint_off UNDRIVEN */" and lint_on around source to disable this message.
+%Warning-UNDRIVEN: src/Soc.v:82:16: Signal is not driven: 'axi_rdata'
+                                  : ... In instance Soc
+   82 |    wire [31:0] axi_rdata;
+      |                ^~~~~~~~~
+                   src/dataram_ip_model.v:41:1: ... note: In file included from dataram_ip_model.v
+                   src/progrom_ip_model.v:25:1: ... note: In file included from progrom_ip_model.v
+                   src/processor.v:1123:1: ... note: In file included from processor.v
+                   src/emitter_uart.v:54:1: ... note: In file included from emitter_uart.v
+                   src/Soc.v:12:1: ... note: In file included from Soc.v
+%Warning-UNDRIVEN: src/Soc.v:83:16: Signal is not driven: 'axi_rresp'
+                                  : ... In instance Soc
+   83 |    wire [1:0]  axi_rresp;
+      |                ^~~~~~~~~
+                   src/dataram_ip_model.v:41:1: ... note: In file included from dataram_ip_model.v
+                   src/progrom_ip_model.v:25:1: ... note: In file included from progrom_ip_model.v
+                   src/processor.v:1123:1: ... note: In file included from processor.v
+                   src/emitter_uart.v:54:1: ... note: In file included from emitter_uart.v
+                   src/Soc.v:12:1: ... note: In file included from Soc.v
+%Warning-UNDRIVEN: src/Soc.v:84:16: Signal is not driven: 'axi_rlast'
+                                  : ... In instance Soc
+   84 |    wire        axi_rlast;
+      |                ^~~~~~~~~
+                   src/dataram_ip_model.v:41:1: ... note: In file included from dataram_ip_model.v
+                   src/progrom_ip_model.v:25:1: ... note: In file included from progrom_ip_model.v
+                   src/processor.v:1123:1: ... note: In file included from processor.v
+                   src/emitter_uart.v:54:1: ... note: In file included from emitter_uart.v
+                   src/Soc.v:12:1: ... note: In file included from Soc.v
+%Warning-UNDRIVEN: src/Soc.v:85:16: Signal is not driven: 'axi_rvalid'
+                                  : ... In instance Soc
+   85 |    wire        axi_rvalid;
+      |                ^~~~~~~~~~
+                   src/dataram_ip_model.v:41:1: ... note: In file included from dataram_ip_model.v
+                   src/progrom_ip_model.v:25:1: ... note: In file included from progrom_ip_model.v
+                   src/processor.v:1123:1: ... note: In file included from processor.v
+                   src/emitter_uart.v:54:1: ... note: In file included from emitter_uart.v
+                   src/Soc.v:12:1: ... note: In file included from Soc.v
+==> rv32ui/add
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_add.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_add.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_add.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_add.DATARAM.hex
+PASS rv32ui/add
+==> rv32ui/addi
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_addi.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_addi.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_addi.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_addi.DATARAM.hex
+PASS rv32ui/addi
+==> rv32ui/and
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_and.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_and.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_and.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_and.DATARAM.hex
+PASS rv32ui/and
+==> rv32ui/andi
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_andi.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_andi.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_andi.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_andi.DATARAM.hex
+PASS rv32ui/andi
+==> rv32ui/or
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_or.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_or.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_or.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_or.DATARAM.hex
+PASS rv32ui/or
+==> rv32ui/ori
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_ori.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_ori.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_ori.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_ori.DATARAM.hex
+PASS rv32ui/ori
+==> rv32ui/xor
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_xor.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_xor.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_xor.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_xor.DATARAM.hex
+PASS rv32ui/xor
+==> rv32ui/xori
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_xori.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_xori.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_xori.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_xori.DATARAM.hex
+PASS rv32ui/xori
+==> rv32ui/sll
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sll.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sll.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sll.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sll.DATARAM.hex
+PASS rv32ui/sll
+==> rv32ui/slli
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slli.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slli.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slli.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slli.DATARAM.hex
+PASS rv32ui/slli
+==> rv32ui/srl
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srl.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srl.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srl.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srl.DATARAM.hex
+PASS rv32ui/srl
+==> rv32ui/srli
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srli.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srli.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srli.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srli.DATARAM.hex
+PASS rv32ui/srli
+==> rv32ui/sra
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sra.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sra.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sra.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sra.DATARAM.hex
+PASS rv32ui/sra
+==> rv32ui/srai
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srai.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srai.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srai.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_srai.DATARAM.hex
+PASS rv32ui/srai
+==> rv32ui/slt
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slt.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slt.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slt.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slt.DATARAM.hex
+PASS rv32ui/slt
+==> rv32ui/slti
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slti.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slti.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slti.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_slti.DATARAM.hex
+PASS rv32ui/slti
+==> rv32ui/sltiu
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sltiu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sltiu.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sltiu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sltiu.DATARAM.hex
+PASS rv32ui/sltiu
+==> rv32ui/sltu
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sltu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sltu.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sltu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sltu.DATARAM.hex
+PASS rv32ui/sltu
+==> rv32ui/lui
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lui.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lui.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lui.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lui.DATARAM.hex
+PASS rv32ui/lui
+==> rv32ui/auipc
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_auipc.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_auipc.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_auipc.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_auipc.DATARAM.hex
+PASS rv32ui/auipc
+==> rv32ui/beq
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_beq.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_beq.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_beq.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_beq.DATARAM.hex
+PASS rv32ui/beq
+==> rv32ui/bne
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bne.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bne.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bne.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bne.DATARAM.hex
+PASS rv32ui/bne
+==> rv32ui/blt
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_blt.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_blt.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_blt.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_blt.DATARAM.hex
+PASS rv32ui/blt
+==> rv32ui/bge
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bge.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bge.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bge.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bge.DATARAM.hex
+PASS rv32ui/bge
+==> rv32ui/bltu
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bltu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bltu.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bltu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bltu.DATARAM.hex
+PASS rv32ui/bltu
+==> rv32ui/bgeu
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bgeu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bgeu.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bgeu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_bgeu.DATARAM.hex
+PASS rv32ui/bgeu
+==> rv32ui/jal
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_jal.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_jal.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_jal.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_jal.DATARAM.hex
+PASS rv32ui/jal
+==> rv32ui/jalr
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_jalr.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_jalr.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_jalr.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_jalr.DATARAM.hex
+PASS rv32ui/jalr
+==> rv32ui/lb
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lb.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lb.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lb.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lb.DATARAM.hex
+PASS rv32ui/lb
+==> rv32ui/lh
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lh.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lh.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lh.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lh.DATARAM.hex
+PASS rv32ui/lh
+==> rv32ui/lw
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lw.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lw.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lw.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lw.DATARAM.hex
+PASS rv32ui/lw
+==> rv32ui/lbu
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lbu.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lbu.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lbu.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lbu.DATARAM.hex
+PASS rv32ui/lbu
+==> rv32ui/lhu
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lhu.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lhu.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lhu.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_lhu.DATARAM.hex
+PASS rv32ui/lhu
+==> rv32ui/sb
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sb.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sb.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sb.elf
+       max address=65552
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sb.DATARAM.hex
+PASS rv32ui/sb
+==> rv32ui/sh
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sh.elf
+       max address=65568
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sh.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sh.elf
+       max address=65568
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sh.DATARAM.hex
+PASS rv32ui/sh
+==> rv32ui/sw
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sw.elf
+       max address=65584
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sw.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sw.elf
+       max address=65584
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32ui_sw.DATARAM.hex
+PASS rv32ui/sw
+==> rv32um/mul
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mul.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mul.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mul.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mul.DATARAM.hex
+PASS rv32um/mul
+==> rv32um/mulh
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulh.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulh.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulh.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulh.DATARAM.hex
+PASS rv32um/mulh
+==> rv32um/mulhsu
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulhsu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulhsu.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulhsu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulhsu.DATARAM.hex
+PASS rv32um/mulhsu
+==> rv32um/mulhu
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulhu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulhu.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulhu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_mulhu.DATARAM.hex
+PASS rv32um/mulhu
+==> rv32um/div
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_div.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_div.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_div.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_div.DATARAM.hex
+PASS rv32um/div
+==> rv32um/divu
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_divu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_divu.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_divu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_divu.DATARAM.hex
+PASS rv32um/divu
+==> rv32um/rem
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_rem.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_rem.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_rem.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_rem.DATARAM.hex
+PASS rv32um/rem
+==> rv32um/remu
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_remu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_remu.PROGROM.hex
+   RAM SIZE=131072
+   LOAD ELF: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_remu.elf
+       max address=65536
+   SAVE HEX: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_build/rv32um_remu.DATARAM.hex
+PASS rv32um/remu
+==============================
+riscv-tests summary: PASS=44 FAIL=0
+logs: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/ROUTE_A/riscv_test_logs

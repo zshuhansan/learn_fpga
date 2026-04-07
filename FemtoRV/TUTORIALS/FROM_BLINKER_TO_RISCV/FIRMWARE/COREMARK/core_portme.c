@@ -204,12 +204,25 @@ portable_fini(core_portable *p)
  //io.led = 0;
  //ee_printf("CoreMark finish in %d us.\n\n",io.timeus);
     p->portable_id = 0;
-    
-    // makes no sense return here!
-
-    //while(1)
-    //{
-    //    usleep(500000);
-    //    io.led++;    
-    //}
+    {
+        uint64_t ticks = get_time();
+        uint64_t MHz = CLOCKS_PER_SEC/1000000;
+        if(MHz == 0) MHz = 1;
+        uint64_t ksecs = ticks/(CLOCKS_PER_SEC/1000);
+        if(ksecs == 0) ksecs = 1;
+        uint64_t kiter_per_sec = (uint64_t)(ITERATIONS*1000*1000)/ksecs;
+        uint64_t cm_milli = kiter_per_sec/MHz;
+        uint64_t kticks2 = rdcycle() * (uint64_t)1000;
+        uint64_t instret2 = rdinstret();
+        uint64_t cpi_milli = instret2 ? (kticks2/instret2) : 0;
+        volatile unsigned* m0 = (unsigned*)0x00400020;
+        volatile unsigned* m1 = (unsigned*)0x00400040;
+        volatile unsigned* m2 = (unsigned*)0x00400080;
+        volatile unsigned* md = (unsigned*)0x00400100;
+        *m0 = (unsigned)ticks;
+        *m1 = (unsigned)cm_milli;
+        *m2 = (unsigned)cpi_milli;
+        *md = 1u;
+    }
+    __asm__ __volatile__("ebreak");
 }

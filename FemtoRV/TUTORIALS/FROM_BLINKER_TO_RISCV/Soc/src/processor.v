@@ -2,57 +2,37 @@ module processor (
     input         clk,
     input         resetn,
     
-    // Instruction Memory Interface (1-cycle latency)
+    // 取指接口，外部通常接 ICache 或同步程序 ROM。
     output [31:0] inst_addr,
     input  [31:0] inst_rdata,
-    output        inst_en, // Used to stop fetching if F_stall
+    output        inst_en,
+    input         inst_valid,
+    input         inst_ready,
     
-    // Data Memory Interface (Dual-port: Port A for read, Port B for write)
-    // Port A: Read
+    // 数据存储器接口采用读写分离风格，方便映射到双口 RAM。
     output [31:0] data_raddr,
     input  [31:0] data_rdata,
-    // Port B: Write
     output [31:0] data_waddr,
     output [31:0] data_wdata,
     output [3:0]  data_wmask,
     output        data_wen,
 
-    // IO memory interface
-    output [31:0] IO_mem_addr,  // IO memory address
-    input [31:0]  IO_mem_rdata, // data read from IO memory
-    output [31:0] IO_mem_wdata, // data written to IO memory
-    output        IO_mem_wr     // IO write flag
+    // 地址命中 IO 空间时，通过这组信号和外设寄存器交互。
+    output [31:0] IO_mem_addr,
+    input [31:0]  IO_mem_rdata,
+    output [31:0] IO_mem_wdata,
+    output        IO_mem_wr,
+    output        halt
 );
 
 `ifdef BENCH
 `include "riscv_disassembly.v"
 `endif
 
-/******************************************************************************/
-
- /*
-   Reminder for the 10 RISC-V codeops
-   ----------------------------------
-   5'b01100 | ALUreg  | rd <- rs1 OP rs2
-   5'b00100 | ALUimm  | rd <- rs1 OP Iimm
-   5'b11000 | Branch  | if(rs1 OP rs2) PC<-PC+Bimm
-   5'b11001 | JALR    | rd <- PC+4; PC<-rs1+Iimm
-   5'b11011 | JAL     | rd <- PC+4; PC<-PC+Jimm
-   5'b00101 | AUIPC   | rd <- PC + Uimm
-   5'b01101 | LUI     | rd <- Uimm
-   5'b00000 | Load    | rd <- mem[rs1+Iimm]
-   5'b01000 | Store   | mem[rs1+Simm] <- rs2
-   5'b11100 | SYSTEM  | special
- */
-
-/******************************************************************************/
-
-`ifdef CONFIG_INITIALIZE
-   // Iteration variable for the "initial" blocks
-   integer i;
-`endif
-
-   // CSRs (cycle and retired instructions counters)
+   // 这颗处理器保持了清晰的 F/D/E/M/W 五段结构：
+   // F 负责发起取指并处理预测跳转，D 做译码与寄存器编号准备，
+   // E 完成旁路、ALU、分支决策，M 负责真正的存储访问，W 统一写回。
+   // CSR 目前只实现 cycle/instret 这两个最常用的统计计数器。
    wire [63:0] cycle;
    wire [63:0] instret;
    wire [31:0] M_CSR_data;
@@ -67,9 +47,8 @@ module processor (
       .out_instret(instret)
    );
 
-   // Pipeline control
-   // Note: E_stall and M_flush are only used if RV32M is configured
-   // (multicycle ALU).
+   // hazard_unit 统一给出各级 stall/flush 控制。除法是多周期操作时，
+   // E_stall 和 M_flush 会让后端保持一致状态直到结果准备好。
 
    wire F_stall;
    wire D_stall;
@@ -80,9 +59,11 @@ module processor (
    wire dataHazard;
    wire rs1Hazard;
    wire rs2Hazard;
-   wire aluBusy; // Declare before use in hazard_unit
-   wire E_correctPC; // Declare before use in hazard_unit
-   wire E_takeBranch; // Declare before use in branch_predictor
+   wire aluBusy;
+   wire E_correctPC;
+   wire E_takeBranch;
+   wire fetch_valid = inst_valid;
+   wire icache_miss = resetn ? (F_pendingValid && !inst_valid && !inst_ready) : 1'b0;
 
    hazard_unit HZ (
       .d_is_load(D_isLoad),
@@ -99,6 +80,7 @@ module processor (
       .e_correct_pc(E_correctPC),
       .alu_busy(aluBusy),
       .halt(halt),
+      .icache_miss(icache_miss),
       .f_stall(F_stall),
       .d_stall(D_stall),
       .e_stall(E_stall),
@@ -110,62 +92,154 @@ module processor (
       .rs2_hazard(rs2Hazard)
    );
 
-   wire halt; // Halt execution (on ebreak)
-
-/******************************************************************************/
-
-                      /***  F: Instruction fetch ***/
+   // ----------------------------
+   // F 级：取指与前端重定向
+   // ----------------------------
 
    reg  [31:0] PC;
-
-   // 外部指令存储器接口连线
-   assign inst_addr = F_PC;
-   assign inst_en   = resetn ? !F_stall : 1'b0;
-   wire [31:0] PROGROM_rdata = inst_rdata;
+   reg  [31:0] F_pendingPC;
+   reg  [1:0]  F_pendingEpoch;
+   reg         F_pendingValid;
+   reg  [1:0]  F_epoch;
+   reg  [31:0] FB_PC;
+   reg  [31:0] FB_instr;
+   reg  [1:0]  FB_epoch;
+   reg         FB_valid;
 
 `ifdef CONFIG_PC_PREDICT
-   wire [31:0] F_PC =
-	       D_predictPC  ? D_PCprediction  :
-	       EM_correctPC ? EM_PCcorrection :
-	                      PC;
+   wire [31:0] F_PC = E_correctPC ? E_PCcorrection :
+                      D_predictPC ? D_PCprediction :
+                                    PC;
 `else
-   wire [31:0] F_PC = EM_correctPC ? EM_PCcorrection :
-	              PC;
+   wire [31:0] F_PC = E_correctPC ? E_PCcorrection : PC;
 `endif
-
    wire [31:0] F_PCplus4 = F_PC + 4;
+   wire        F_reqFire = inst_en && inst_ready;
+   wire        F_redirect = E_correctPC ||
+                            (D_predictPC && (F_pendingPC != D_PCprediction));
+   wire [1:0]  F_epochNext = F_epoch + (F_redirect ? 2'd1 : 2'd0);
+   wire        processor_unused_ok = &{
+      1'b0,
+      cycle,
+      instret,
+      F_stall,
+      rs1Hazard,
+      rs2Hazard,
+      D_isSYSTEM,
+      D_isLUIorAUIPC,
+      D_Iimm,
+      D_Simm,
+      DE_funct3_is[3:2],
+      DE_isALUimm,
+      DE_isAUIPC,
+      DE_isLUI,
+      DE_isMUL,
+      E_shamt,
+      E_aluPlus[0],
+      EE_quotient,
+      EE_dividend,
+      EE_div_sign,
+      EM_rs1Id,
+      EM_rs2Id,
+      EM_correctPC,
+      EM_PCcorrection,
+      M_word_addr,
+      MW_PC,
+      nbRV32M
+   };
+
+   // F_PC 是当前真正送去取指的地址，可能来自顺序 PC、D 级预测或 E 级纠正。
+   assign inst_addr = F_PC;
+   assign inst_en   = resetn && !halt && !D_stall && !FB_valid;
+   wire [31:0] PROGROM_rdata = inst_rdata;
 
    always @(posedge clk) begin
 
       if(!resetn) begin
          PC <= 0;
+         F_pendingPC <= 32'b0;
+         F_pendingEpoch <= 2'b0;
+         F_pendingValid <= 1'b0;
+         F_epoch <= 2'b0;
+         FB_PC <= 32'b0;
+         FB_instr <= 32'b0000000_00000_00000_000_00000_0110011;
+         FB_epoch <= 2'b0;
+         FB_valid <= 1'b0;
+         FD_instr_reg <= 32'b0000000_00000_00000_000_00000_0110011;
+         FD_PC <= 32'b0;
          FD_nop <= 1'b1;
       end else begin
-         if(!F_stall) begin
-            FD_PC    <= F_PC;
-            PC       <= F_PCplus4;
+         if(D_predictPC && !D_stall) begin
+            PC <= D_PCprediction;
+            FD_nop <= 1'b1;
+            FB_valid <= 1'b0;
          end
-         FD_nop <= D_flush;
+         if(F_redirect) begin
+            F_epoch <= F_epochNext;
+            FB_valid <= 1'b0;
+         end
+         if(E_correctPC) begin
+            PC <= E_PCcorrection;
+            FD_nop <= 1'b1;
+            FB_valid <= 1'b0;
+         end
+
+         if(fetch_valid && F_pendingValid) begin
+            if((F_pendingEpoch != F_epochNext) || D_flush) begin
+               if(!D_stall) begin
+                  FD_nop <= 1'b1;
+               end
+            end else if(!D_stall || FD_nop) begin
+               FD_PC <= F_pendingPC;
+               FD_instr_reg <= PROGROM_rdata;
+               FD_nop <= 1'b0;
+            end else begin
+               FB_PC <= F_pendingPC;
+               FB_instr <= PROGROM_rdata;
+               FB_epoch <= F_pendingEpoch;
+               FB_valid <= 1'b1;
+            end
+         end else if(!D_stall) begin
+            if(FB_valid && (FB_epoch == F_epochNext)) begin
+               FD_PC <= FB_PC;
+               FD_instr_reg <= FB_instr;
+               FD_nop <= 1'b0;
+               FB_valid <= 1'b0;
+            end else if(FB_valid) begin
+               FB_valid <= 1'b0;
+               FD_nop <= 1'b1;
+            end else begin
+               FD_nop <= 1'b1;
+            end
+         end
+
+         if(fetch_valid && !F_reqFire) begin
+            F_pendingValid <= 1'b0;
+         end
+
+         if(F_reqFire) begin
+            F_pendingPC <= F_PC;
+            F_pendingEpoch <= F_epochNext;
+            F_pendingValid <= 1'b1;
+            PC <= F_PCplus4;
+         end
       end
    end
 
-/******************************************************************************/
-/******************************************************************************/
    reg [31:0] FD_PC;
-   wire [31:0] FD_instr = PROGROM_rdata;
-   reg        FD_nop; // Needed because I cannot directly write NOP to FD_instr
-                      // because FD_instr is plugged to PROGROM's output port.
-/******************************************************************************/
-/******************************************************************************/
+   reg [31:0] FD_instr_reg;
+   wire [31:0] FD_instr = FD_instr_reg;
+   reg        FD_nop;
+   // ----------------------------
+   // D 级：译码与分支预测
+   // ----------------------------
 
-                     /*** D: Instruction decode ***/
-
-   /** These three signals come from the Writeback stage **/
+   // 写回级结果会回送到寄存器堆，供下一拍译码/执行读取。
    wire        wbEnable;
    wire [31:0] wbData;
    wire [4:0]  wbRdId;
 
-   // 路线A拆分：把译码与立即数拼接从主核心剥离到独立模块
+   // 指令字段译码与立即数生成已经拆到独立子模块，便于单测和复用。
    wire [4:0] D_rdId;
    wire [4:0] D_rs1Id;
    wire [4:0] D_rs2Id;
@@ -277,6 +351,7 @@ module processor (
       .d_rs1_id(D_rs1Id),
       .d_bimm(D_Bimm),
       .d_jimm(D_Jimm),
+      .d_stall(D_stall),
       .d_flush(D_flush),
       .fd_nop(FD_nop),
       .d_predict_branch(D_predictBranch),
@@ -284,12 +359,24 @@ module processor (
       .d_pc_prediction(D_PCprediction),
       .d_predict_ra(D_predictRA),
       .d_bht_index(D_BHTindex),
+      .de_is_jal(DE_isJAL),
+      .de_is_jalr(DE_isJALR),
+      .de_rd_id(DE_rdId),
+      .de_rs1_id(DE_rs1Id),
+      .de_pcplus4(DE_PCplus4orUimm),
       .de_is_branch(DE_isBranch),
       .e_take_branch(E_takeBranch),
+      .e_correct_pc(E_correctPC),
       .de_bht_index(DE_BHTindex),
       .e_stall(E_stall)
    );
-`endif // `CONFIG_PC_PREDICT
+`else
+   assign D_predictPC = 1'b0;
+   assign D_PCprediction = 32'b0;
+   assign D_predictBranch = 1'b0;
+   assign D_predictRA = 32'b0;
+   assign D_BHTindex = 12'b0;
+`endif
 
    wire [31:0] RF_rs1_data;
    wire [31:0] RF_rs2_data;
@@ -340,15 +427,13 @@ module processor (
 	 DE_isCSRRS  <= D_isCSRRS;
 	 DE_isEBREAK <= D_isEBREAK;
 
-	 // wbEnable = !isBranch & !isStore
-	 // Note: EM_wbEnable = DE_wbEnable && (rdId != 0)
+	 // 这里只记录“这类指令具备写回资格”，真正写回还要到后面再排除 rd=x0。
 	 DE_wbEnable <= D_wbEnable_raw;
 
 	 DE_IorSimm <= D_IorSimm;
 
 `ifdef CONFIG_PC_PREDICT
-     // Used in case of misprediction:
-     //    PC+Bimm if predict not taken, PC+4 if predict taken
+     // 分支预测失误时，纠正地址需要在“落空”和“多跳”之间二选一。
      DE_PCplus4orBimm <= FD_PC + (D_predictBranch ? 4 : D_Bimm);
      DE_predictBranch <= D_predictBranch;
      DE_predictRA     <= D_predictRA;
@@ -359,10 +444,7 @@ module processor (
 	 DE_PCplusBorJimm <= FD_PC + (D_isJAL ? D_Jimm : D_Bimm);
 `endif
 
-	 // Code below is equivalent to:
-	 // DE_PCplus4orUimm =
-	 //    ((isLUI ? 0 : FD_PC)) + ((isJAL | isJALR) ? 4 : Uimm)
-	 // (knowing that isLUI | isAUIPC | isJAL | isJALR)
+	 // 这条式子把 JAL/JALR/LUI/AUIPC 共用的“写回结果”统一成一套加法表达式。
 	 DE_PCplus4orUimm <= ({32{FD_instr[6:5]!=2'b01}} & FD_PC) +
                              (D_isJALorJALR ? 4 : D_Uimm);
 
@@ -394,9 +476,7 @@ module processor (
 
    end
 
-/******************************************************************************/
-/******************************************************************************/
-   reg        DE_nop; // Needed by instret in W stage
+   reg        DE_nop;
    reg [4:0]  DE_rdId;
    reg [4:0]  DE_rs1Id;
    reg [4:0]  DE_rs2Id;
@@ -426,7 +506,7 @@ module processor (
    reg DE_isDIV;
 `endif
 
-   reg DE_wbEnable; // !isBranch && !isStore && rdId != 0
+   reg DE_wbEnable;
 
    reg DE_isJALorJALRorLUIorAUIPC;
 
@@ -443,11 +523,11 @@ module processor (
 
    reg [31:0] DE_PCplus4orUimm;
 
-/******************************************************************************/
-/******************************************************************************/
-                     /*** E: Execute ***/
+   // ----------------------------
+   // E 级：旁路、运算、分支决策
+   // ----------------------------
 
-   /*********** Registrer forwarding ************************************/
+   // 旁路优先级是 M 级优先于 W 级，这样能最快消费刚产生的新结果。
 
    wire E_M_fwd_rs1 = EM_wbEnable && (EM_rdId == DE_rs1Id);
    wire E_W_fwd_rs1 = MW_wbEnable && (MW_rdId == DE_rs1Id);
@@ -463,8 +543,6 @@ module processor (
 	               E_W_fwd_rs2 ? wbData     :
 	                             RF_rs2_data;
 
-   /*********** the ALU *************************************************/
-
    wire [31:0] E_aluIn1 = E_rs1;
    wire [31:0] E_aluIn2 = (DE_isALUreg | DE_isBranch) ? E_rs2 : DE_IorSimm;
    wire [4:0]  E_shamt  = DE_isALUreg ? E_rs2[4:0] : DE_rs2Id;
@@ -472,7 +550,7 @@ module processor (
    wire E_minus = DE_funct7[5] & DE_isALUreg;
    wire E_arith_shift = DE_funct7[5];
 
-   // The adder is used by both arithmetic instructions and JALR.
+   // 加法结果既给普通算术，也给 JALR 目标地址复用。
    wire [31:0] E_aluPlus;
    wire        E_LT;
    wire        E_LTU;
@@ -540,8 +618,7 @@ module processor (
        .ltu(E_LTU)
    );
 
-   /*********** Branch, JAL, JALR ***********************************/
-
+   // 条件分支在 E 级真正决定 taken/not-taken，并与前端预测结果比较。
    assign E_takeBranch =
      DE_isBranch &&
      (DE_funct3_is[0] ? E_EQ  :
@@ -577,8 +654,6 @@ module processor (
 	       DE_isJALorJALRorLUIorAUIPC ? DE_PCplus4orUimm : E_aluOut;
 
    wire [31:0] E_addr = E_rs1 + DE_IorSimm;
-
-   /**************************************************************/
 
    always @(posedge clk) begin
 
@@ -626,9 +701,7 @@ module processor (
 
    assign halt = resetn & DE_isEBREAK;
 
-/******************************************************************************/
-/******************************************************************************/
-   reg        EM_nop; // Needed by instret in W stage
+   reg        EM_nop;
    reg [4:0]  EM_rdId;
    reg [4:0]  EM_rs1Id;
    reg [4:0]  EM_rs2Id;
@@ -644,12 +717,11 @@ module processor (
    reg        EM_correctPC;
    reg [31:0] EM_PCcorrection;
 
-/******************************************************************************/
-/******************************************************************************/
+   // ----------------------------
+   // M 级：地址分类与访存对齐
+   // ----------------------------
 
-                     /*** M: Memory ***/
-
-   // 路线A拆分：Load/Store 的对齐和字节掩码交给独立模块
+   // 负责任何非字访问的重排和符号扩展细节，主流水线只处理 32 位总线。
    wire [31:0] M_STORE_data;
    wire [3:0]  M_STORE_wmask;
    wire [31:0] M_Mdata;
@@ -669,15 +741,14 @@ module processor (
    wire  M_isRAM        = !M_isIO;
 
    assign IO_mem_addr  = EM_addr;
-   assign IO_mem_wr    = resetn ? (EM_isStore && M_isIO) : 1'b0; // && M_STORE_wmask[0];
+   assign IO_mem_wr    = resetn ? (EM_isStore && M_isIO) : 1'b0;
    assign IO_mem_wdata = EM_rs2;
 
    wire [3:0] M_wmask = {4{EM_isStore & M_isRAM}} & M_STORE_wmask;
    wire [13:0] M_word_addr = EM_addr[15:2];
 
-   // 外部数据存储器接口连线
+   // 数据 RAM 读地址在当前实现里直接取执行级算出的地址，匹配同步读 RAM 的一拍延迟。
    assign data_raddr = E_addr;
-   // ren is !E_stall implicitly, but we can just use !E_stall or let memory read always.
    wire [31:0] M_raw_rdata = data_rdata;
    assign data_wmask = resetn ? M_wmask : 4'b0;
    assign data_waddr = EM_addr;
@@ -703,36 +774,24 @@ module processor (
       end
    end
 
-/******************************************************************************/
-/******************************************************************************/
-   reg        MW_nop; // Needed by instret in W stage
+   reg        MW_nop;
    reg [4:0]  MW_rdId;
    reg [31:0] MW_wbData;
    reg 	      MW_wbEnable;
-/******************************************************************************/
-/******************************************************************************/
-
-                     /*** W: WriteBack ***/
+   // ----------------------------
+   // W 级：统一写回
+   // ----------------------------
 
    assign wbData   = MW_wbData;
    assign wbEnable = MW_wbEnable;
    assign wbRdId   = MW_rdId;
 
-/******************************************************************************/
-
-   // we do not test rdId == 0 because in general, one loads data to
-   // a register, not to zero !
-
-   // Hazard unit controls F_stall, D_stall, E_stall, D_flush, E_flush, M_flush, and dataHazard.
-   // Note: E_stall and M_flush are only used with the
-   // multi-cycle ALU (RV32M)
-
-/******************************************************************************/
-
 `ifdef BENCH
+`ifndef EXTERNAL_BENCH_FINISH
    always @(posedge clk) begin
       if(halt) $finish();
    end
+`endif
 
    reg [31:0] DE_instr; reg [31:0] DE_PC;
    reg [31:0] EM_instr; reg [31:0] EM_PC;
@@ -770,8 +829,15 @@ module processor (
 
 `ifdef CONFIG_DEBUG
 
+   wire pi_trace_window =
+      (F_PC  >= 32'h0000022c && F_PC  <= 32'h00000920) ||
+      (FD_PC >= 32'h0000022c && FD_PC <= 32'h00000920) ||
+      (DE_PC >= 32'h0000022c && DE_PC <= 32'h00000920) ||
+      (EM_PC >= 32'h0000022c && EM_PC <= 32'h00000920) ||
+      (MW_PC >= 32'h0000022c && MW_PC <= 32'h00000920);
+
    always @(posedge clk) begin
-      if(resetn & !halt) begin
+      if(resetn & !halt & pi_trace_window) begin
 
          $write("     ");
 	 $write("[W] PC=%h ", MW_PC);
@@ -792,7 +858,7 @@ module processor (
          $write("(%c%c) ", E_stall ? "s" : " ", E_flush ? "f":" ");
 	 $write("[E] PC=%h ", DE_PC);
 
-	 // Register forwarding
+	 // 调试输出里用 M/W 标记展示 rs1、rs2 分别来自哪一级旁路。
 	 if(DE_nop) $write("[  ] ");
 	 else $write("[%s%s] ",
 	         riscv_disasm_readsRs1(DE_instr) ?
@@ -842,24 +908,27 @@ module processor (
 	 if(EM_correctPC) begin
 	    $write(" PC <- [E] 0x%0h (correction)",EM_PCcorrection);
 	 end
+         $write(" pending=%0d ppc=%h pep=%0d fb=%0d fbe=%0d epoch=%0d ready=%0d valid=%0d", F_pendingValid, F_pendingPC, F_pendingEpoch, FB_valid, FB_epoch, F_epoch, inst_ready, fetch_valid);
 	 $write("\n");
+         if(D_predictPC && !FD_nop) begin
+            $display("PI_PRED dpc=%h instr=%h pred=%h branch=%0d ra=%h", FD_PC, FD_instr, D_PCprediction, D_predictBranch, D_predictRA);
+         end
+         if(DE_isJALR) begin
+            $display("PI_JALR epc=%h instr=%h rs1=%h rf=%h pred=%h actual=%h mfw=%0d wfw=%0d",
+                     DE_PC, DE_instr, E_rs1, RF_rs1_data, D_predictRA, E_JALRaddr, E_M_fwd_rs1, E_W_fwd_rs1);
+         end
 
 	 $display("");
       end
    end
 
-/* "debugger" */
-
 `ifdef verilator
+`ifdef CONFIG_VERILATOR_DBG
 
-   // wire breakpoint = 1'b0; // no breakpoint
-   // wire breakpoint = (EM_addr == 32'h400004); // break on LEDs output
-   // wire breakpoint = (EM_addr == 32'h400008); // break on character output
-   // wire breakpoint = (DE_PC   == 32'h000000); // break on address reached
-   // wire breakpoint = DE_isRV32M && DE_isALUreg;
+   // 需要设断点时，直接把 breakpoint 的表达式改成想观察的条件即可。
    wire breakpoint = 1'b0;
 
-   reg step = 1'b1;
+   reg step = 1'b0;
    reg [31:0] dbg_cmd = 0;
 
    initial begin
@@ -883,15 +952,28 @@ module processor (
 	    step <= 1'b0;
 	 end
 	 if(breakpoint) begin
-	    step <= 1'b1;
 	 end
       end
    end
 `endif
+`endif
 
-`endif // `CONFIG_DEBUG
+`endif
 
-   /*************** statistics *************/
+`ifdef CONFIG_EVTLOG
+   always @(posedge clk) begin
+      if(resetn && !halt) begin
+         if(EM_correctPC) begin
+            $display("EVT_BRANCH_CORRECT pc_from=%h pc_to=%h", F_PC, EM_PCcorrection);
+         end
+         if(D_flush || E_flush || M_flush) begin
+            $display("EVT_PIPE_FLUSH D=%0d E=%0d M=%0d pc=%h", D_flush, E_flush, M_flush, F_PC);
+         end
+      end
+   end
+`endif
+
+   // 仿真统计信息集中在这里维护，方便观察预测命中率、CPI 和指令构成。
 
    integer nbBranch = 0;
    integer nbBranchHit = 0;
@@ -949,6 +1031,7 @@ module processor (
    /* verilator lint_off WIDTH */
    always @(posedge clk) begin
       if(halt) begin
+`ifndef EXTERNAL_BENCH_FINISH
 	 $display("Simulated processor's report");
 	 $display("----------------------------");
 	 $display("Branch hit = %3.3f\%%",
@@ -969,12 +1052,11 @@ module processor (
 `endif
 	 $write(")\n");
 	 $finish();
+`endif
       end
    end
    /* verilator lint_on WIDTH */
 
-`endif // `BENCH
-
-/******************************************************************************/
+`endif
 
 endmodule

@@ -9,22 +9,22 @@ module regfile (
     output wire [31:0] rdata2
 );
 
-    // 中文说明：
-    // - 32x32 通用寄存器堆
-    // - 异步双读，同步单写
-    // - x0 恒为 0（写入 x0 被忽略，读 x0 永远返回 0）
+    // 标准 RV32I 通用寄存器堆，提供两个组合读端口和一个时序写端口。
+    // x0 是硬连线零寄存器，因此任何写入都会被忽略，读取时也始终返回 0。
 
     reg [31:0] regs[0:31];
 
     always @(posedge clk) begin
         if (wen && (waddr != 5'd0)) begin
+            // 只有写使能有效且目标寄存器不是 x0 时才真正更新寄存器内容。
             regs[waddr] <= wdata;
         end
+        // 即便仿真中曾被未知值污染，也在每拍强制把 x0 拉回 0。
         regs[0] <= 32'b0;
     end
 
+    // 读口是异步的，地址变化后数据会直接从数组反映出来。
     assign rdata1 = (raddr1 == 5'd0) ? 32'b0 : regs[raddr1];
     assign rdata2 = (raddr2 == 5'd0) ? 32'b0 : regs[raddr2];
 
 endmodule
-
