@@ -57,6 +57,7 @@ VL_MODULE(VSoc) {
         CData/*0:0*/ Soc__DOT__CPU__DOT__F_redirect;
         CData/*1:0*/ Soc__DOT__CPU__DOT__F_epochNext;
         CData/*0:0*/ Soc__DOT__CPU__DOT__FD_nop;
+        CData/*0:0*/ Soc__DOT__CPU__DOT__D_isBranch;
         CData/*0:0*/ Soc__DOT__CPU__DOT__D_isJALR;
         CData/*0:0*/ Soc__DOT__CPU__DOT__D_predictPC;
         CData/*0:0*/ Soc__DOT__CPU__DOT__D_predictBranch;
@@ -93,12 +94,13 @@ VL_MODULE(VSoc) {
         CData/*0:0*/ Soc__DOT__CPU__DOT__MW_nop;
         CData/*4:0*/ Soc__DOT__CPU__DOT__MW_rdId;
         CData/*0:0*/ Soc__DOT__CPU__DOT__MW_wbEnable;
+        CData/*0:0*/ Soc__DOT__CPU__DOT__BP__DOT__gshare_commit;
         CData/*0:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__sign_r;
         CData/*0:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__busy_r;
-        CData/*0:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__finished_r;
-        CData/*0:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__divstep_do;
     };
     struct {
+        CData/*0:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__finished_r;
+        CData/*0:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__divstep_do;
         CData/*2:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__divsel;
         CData/*7:0*/ Soc__DOT__CPU__DOT__LSU_ALIGN__DOT__load_b;
         CData/*0:0*/ Soc__DOT__CPU__DOT__LSU_ALIGN__DOT__load_sign;
@@ -118,8 +120,11 @@ VL_MODULE(VSoc) {
         CData/*3:0*/ Soc__DOT__AXI_DDR__DOT__latency_cnt;
         CData/*7:0*/ Soc__DOT__UART__DOT__cnt;
         SData/*11:0*/ Soc__DOT__CPU__DOT__DE_BHTindex;
-        SData/*8:0*/ Soc__DOT__CPU__DOT__BP__DOT__branch_history;
+        SData/*11:0*/ Soc__DOT__CPU__DOT__BP__DOT__branch_history;
+        SData/*11:0*/ Soc__DOT__CPU__DOT__BP__DOT__branch_history_arch;
         SData/*11:0*/ Soc__DOT__CPU__DOT__BP__DOT__bht_index;
+        SData/*11:0*/ Soc__DOT__CPU__DOT__BP__DOT__branch_history_arch_next;
+        SData/*11:0*/ Soc__DOT__CPU__DOT__BP__DOT__branch_history_spec_next;
         SData/*15:0*/ Soc__DOT__CPU__DOT__LSU_ALIGN__DOT__load_h;
         SData/*9:0*/ Soc__DOT__UART__DOT__data;
         IData/*31:0*/ Soc__DOT__data_rdata;
@@ -151,6 +156,35 @@ VL_MODULE(VSoc) {
         IData/*31:0*/ Soc__DOT__CPU__DOT__EM_addr;
         IData/*31:0*/ Soc__DOT__CPU__DOT__M_STORE_data;
         IData/*31:0*/ Soc__DOT__CPU__DOT__MW_wbData;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__DE_instr;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__DE_PC;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__EM_instr;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__MW_instr;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbBranch;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbBranchHit;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbBranchBackward;
+    };
+    struct {
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbBranchBackwardHit;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbBranchForward;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbBranchForwardHit;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbJAL;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbJALR;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbJALRhit;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbLoad;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbStore;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbLoadHazard;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbMUL;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbDIV;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbPHTSharedEntries;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__nbPHTUniquePcOver1;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__stats_i;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__stats_slot;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__stats_free;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__stats_idx;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__stats_best;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__stats_unique;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__stats_alias;
         IData/*31:0*/ Soc__DOT__CPU__DOT__BP__DOT__ras_spec_0;
         IData/*31:0*/ Soc__DOT__CPU__DOT__BP__DOT__ras_spec_1;
         IData/*31:0*/ Soc__DOT__CPU__DOT__BP__DOT__ras_spec_2;
@@ -163,8 +197,6 @@ VL_MODULE(VSoc) {
         IData/*31:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__dividend_r;
         IData/*31:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__quotient_r;
         IData/*31:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__quotient_msk_r;
-    };
-    struct {
         IData/*31:0*/ Soc__DOT__CPU__DOT__ALU__DOT__shifter_in;
         IData/*31:0*/ Soc__DOT__CPU__DOT__ALU__DOT__shifter;
         IData/*31:0*/ Soc__DOT__CPU__DOT__ALU__DOT__leftshift;
@@ -182,9 +214,23 @@ VL_MODULE(VSoc) {
         QData/*62:0*/ Soc__DOT__CPU__DOT__DIVU__DOT__divisor_r;
         QData/*32:0*/ Soc__DOT__CPU__DOT__ALU__DOT__alu_minus;
         QData/*63:0*/ Soc__DOT__CPU__DOT__ALU__DOT__genblk1__DOT__multiply;
+        IData/*31:0*/ Soc__DOT__CPU__DOT__brProfTotal[256];
+        IData/*31:0*/ Soc__DOT__CPU__DOT__brProfHit[256];
+        IData/*31:0*/ Soc__DOT__CPU__DOT__brProfPC[256];
+        CData/*0:0*/ Soc__DOT__CPU__DOT__brProfValid[256];
+        CData/*0:0*/ Soc__DOT__CPU__DOT__reportUsed[256];
+        IData/*31:0*/ Soc__DOT__CPU__DOT__phtUseCount[4096];
+        IData/*31:0*/ Soc__DOT__CPU__DOT__phtAliasCount[4096];
+        IData/*31:0*/ Soc__DOT__CPU__DOT__phtUniqueCount[4096];
+        IData/*31:0*/ Soc__DOT__CPU__DOT__phtPC0[4096];
+        IData/*31:0*/ Soc__DOT__CPU__DOT__phtPC1[4096];
+        IData/*31:0*/ Soc__DOT__CPU__DOT__phtPC2[4096];
+        IData/*31:0*/ Soc__DOT__CPU__DOT__phtPC3[4096];
         CData/*1:0*/ Soc__DOT__CPU__DOT__BP__DOT__BHT[4096];
         IData/*31:0*/ Soc__DOT__CPU__DOT__RF__DOT__regs[32];
         WData/*255:0*/ Soc__DOT__ICACHE__DOT__data_array_way0[128][8];
+    };
+    struct {
         IData/*19:0*/ Soc__DOT__ICACHE__DOT__tag_array_way0[128];
         CData/*0:0*/ Soc__DOT__ICACHE__DOT__valid_array_way0[128];
         WData/*255:0*/ Soc__DOT__ICACHE__DOT__data_array_way1[128][8];
@@ -198,11 +244,14 @@ VL_MODULE(VSoc) {
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
     CData/*0:0*/ Soc__DOT__CPU__DOT____Vcellinp__DIVU__start;
+    CData/*0:0*/ Soc__DOT__CPU__DOT__BP__DOT____Vlvbound1;
     CData/*0:0*/ __Vclklast__TOP__CLK;
-    IData/*31:0*/ __Vfunc_Soc__DOT__CPU__DOT__ALU__DOT__flip32__8__Vfuncout;
-    IData/*31:0*/ __Vfunc_Soc__DOT__CPU__DOT__ALU__DOT__flip32__8__x;
+    SData/*11:0*/ __Vfunc_Soc__DOT__CPU__DOT__BP__DOT__history_hash__7__Vfuncout;
+    SData/*11:0*/ __Vfunc_Soc__DOT__CPU__DOT__BP__DOT__history_hash__7__history;
     IData/*31:0*/ __Vfunc_Soc__DOT__CPU__DOT__ALU__DOT__flip32__9__Vfuncout;
     IData/*31:0*/ __Vfunc_Soc__DOT__CPU__DOT__ALU__DOT__flip32__9__x;
+    IData/*31:0*/ __Vfunc_Soc__DOT__CPU__DOT__ALU__DOT__flip32__10__Vfuncout;
+    IData/*31:0*/ __Vfunc_Soc__DOT__CPU__DOT__ALU__DOT__flip32__10__x;
     
     // INTERNAL VARIABLES
     // Internals; generally not touched by application code

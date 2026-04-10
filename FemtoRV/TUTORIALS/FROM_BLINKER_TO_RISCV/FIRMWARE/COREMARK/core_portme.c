@@ -165,34 +165,58 @@ portable_init(core_portable *p, int *argc, char *argv[])
 }
 
 
-// Print "fixed point" number (integer/1000)
-void printk(uint64_t kx) {
-    int intpart  = (int)(kx / 1000);
-    int fracpart = (int)(kx % 1000);
-    printf("%d.",intpart);
-    if(fracpart<100) {
-	printf("0");
+void print_u64(uint64_t x) {
+    char buffer[32];
+    int i = 0;
+    if(x == 0) {
+        putchar('0');
+        return;
     }
-    if(fracpart<10) {
-	printf("0");
+    while(x != 0) {
+        buffer[i++] = '0' + (x % 10);
+        x /= 10;
     }
-    printf("%d",fracpart);
+    while(i != 0) {
+        putchar(buffer[--i]);
+    }
+}
+
+void print_scaled(uint64_t x, uint32_t scale) {
+    uint64_t div = 1;
+    for(uint32_t i = 0; i < scale; ++i) {
+        div *= 10;
+    }
+    uint64_t intpart  = x / div;
+    uint64_t fracpart = x % div;
+    print_u64(intpart);
+    putchar('.');
+    while(div > 1) {
+        div /= 10;
+        putchar('0' + (fracpart / div) % 10);
+    }
+}
+
+void print_ratio(uint64_t numer, uint64_t denom, uint32_t scale) {
+    uint64_t intpart = numer / denom;
+    uint64_t rem = numer % denom;
+    print_u64(intpart);
+    putchar('.');
+    for(uint32_t i = 0; i < scale; ++i) {
+        rem *= 10;
+        putchar('0' + (rem / denom));
+        rem %= denom;
+    }
 }
 
 
 void print_coremarks(uint64_t ticks) {
-   const uint64_t MHz = CLOCKS_PER_SEC/1000000;
-// printf("*** MHz        : %d\n",(int)MHz);    
+   uint64_t cm_numer = (uint64_t)ITERATIONS * 1000000ull;
    printf("*** Ticks        : %d\n",(int)ticks);
-   uint64_t ksecs=ticks/(CLOCKS_PER_SEC/1000);
-// printf("*** Time       : "); printk(ksecs); printf("\n");
-   uint64_t kiter_per_sec= (uint64_t)(ITERATIONS*1000*1000)/ksecs;
-// printf("*** Iter/s     : "); printk(kiter_per_sec); printf("\n");
-   printf("*** Coremark/MHz : "); printk(kiter_per_sec/MHz); printf("\n");
+   printf("*** Coremark/MHz : "); print_ratio(cm_numer, ticks, 6); printf("\n");
 
    uint64_t kticks2 = rdcycle() * (uint64_t)1000;
    uint64_t instret2 = rdinstret();
-   printf("*** CPI (2)      : "); printk(kticks2/instret2); printf("\n");
+   printf("*** CPI (2)      : "); print_scaled(kticks2/instret2, 3); printf("\n");
 }
 
 /* Function : portable_fini
@@ -206,12 +230,8 @@ portable_fini(core_portable *p)
     p->portable_id = 0;
     {
         uint64_t ticks = get_time();
-        uint64_t MHz = CLOCKS_PER_SEC/1000000;
-        if(MHz == 0) MHz = 1;
-        uint64_t ksecs = ticks/(CLOCKS_PER_SEC/1000);
-        if(ksecs == 0) ksecs = 1;
-        uint64_t kiter_per_sec = (uint64_t)(ITERATIONS*1000*1000)/ksecs;
-        uint64_t cm_milli = kiter_per_sec/MHz;
+        if(ticks == 0) ticks = 1;
+        uint64_t cm_milli = ((((uint64_t)ITERATIONS * 1000000ull) * 1000ull) + (ticks / 2)) / ticks;
         uint64_t kticks2 = rdcycle() * (uint64_t)1000;
         uint64_t instret2 = rdinstret();
         uint64_t cpi_milli = instret2 ? (kticks2/instret2) : 0;

@@ -1,6 +1,6 @@
 module branch_predictor #(
-    parameter BHT_ADDR_BITS = 12,
-    parameter BHT_HISTO_BITS = 9,
+    parameter BHT_ADDR_BITS = 8,
+    parameter BHT_HISTO_BITS = 4,
     parameter WITH_GSHARE = 1,
     parameter WITH_RAS = 1
 ) (
@@ -53,9 +53,25 @@ module branch_predictor #(
     reg [31:0] ras_arch_0, ras_arch_1, ras_arch_2, ras_arch_3;
 
     // GShare 用 PC 与全局历史异或形成索引，能让同一段代码在不同历史上下文下分开学习。
-    /* verilator lint_off WIDTH */
-    wire [BHT_ADDR_BITS-1:0] bht_index = fd_pc[BHT_ADDR_BITS+1:2] ^ (branch_history << (BHT_ADDR_BITS - BHT_HISTO_BITS));
-    /* verilator lint_on WIDTH */
+    function [BHT_ADDR_BITS-1:0] history_hash;
+        input [BHT_HISTO_BITS-1:0] history;
+        integer idx;
+        begin
+            history_hash = {BHT_ADDR_BITS{1'b0}};
+            if (BHT_HISTO_BITS <= BHT_ADDR_BITS) begin
+                for (idx = 0; idx < BHT_HISTO_BITS; idx = idx + 1) begin
+                    history_hash[idx + (BHT_ADDR_BITS - BHT_HISTO_BITS)] = history[idx];
+                end
+            end else begin
+                for (idx = 0; idx < BHT_HISTO_BITS; idx = idx + 1) begin
+                    history_hash[idx % BHT_ADDR_BITS] =
+                        history_hash[idx % BHT_ADDR_BITS] ^ history[idx];
+                end
+            end
+        end
+    endfunction
+
+    wire [BHT_ADDR_BITS-1:0] bht_index = fd_pc[BHT_ADDR_BITS+1:2] ^ history_hash(branch_history);
     assign d_bht_index = bht_index;
 
     generate

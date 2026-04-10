@@ -323,12 +323,22 @@ module processor (
    wire [31:0] D_PCprediction;
    wire D_predictBranch;
    wire [31:0] D_predictRA;
-   wire [11:0] D_BHTindex;
+`ifdef CONFIG_BHT_ADDR_BITS
+   localparam BP_BHT_ADDR_BITS = `CONFIG_BHT_ADDR_BITS;
+`else
+   localparam BP_BHT_ADDR_BITS = 12;
+`endif
+`ifdef CONFIG_BHT_HISTO_BITS
+   localparam BP_BHT_HISTO_BITS = `CONFIG_BHT_HISTO_BITS;
+`else
+   localparam BP_BHT_HISTO_BITS = 9;
+`endif
+   wire [BP_BHT_ADDR_BITS-1:0] D_BHTindex;
 
 `ifdef CONFIG_PC_PREDICT
    branch_predictor #(
-      .BHT_ADDR_BITS(12),
-      .BHT_HISTO_BITS(9),
+      .BHT_ADDR_BITS(BP_BHT_ADDR_BITS),
+      .BHT_HISTO_BITS(BP_BHT_HISTO_BITS),
 `ifdef CONFIG_GSHARE
       .WITH_GSHARE(1),
 `else
@@ -375,7 +385,7 @@ module processor (
    assign D_PCprediction = 32'b0;
    assign D_predictBranch = 1'b0;
    assign D_predictRA = 32'b0;
-   assign D_BHTindex = 12'b0;
+   assign D_BHTindex = {BP_BHT_ADDR_BITS{1'b0}};
 `endif
 
    wire [31:0] RF_rs1_data;
@@ -515,7 +525,7 @@ module processor (
    reg DE_predictBranch;
    reg [31:0] DE_predictRA;
  `ifdef CONFIG_GSHARE
-   reg [11:0] DE_BHTindex;
+   reg [BP_BHT_ADDR_BITS-1:0] DE_BHTindex;
  `endif
 `else
    reg [31:0] DE_PCplusBorJimm;
@@ -975,8 +985,15 @@ module processor (
 
    // 仿真统计信息集中在这里维护，方便观察预测命中率、CPI 和指令构成。
 
+   localparam BR_PROFILE_SLOTS = 256;
+   localparam PHT_PROFILE_SLOTS = 1 << BP_BHT_ADDR_BITS;
+
    integer nbBranch = 0;
    integer nbBranchHit = 0;
+   integer nbBranchBackward = 0;
+   integer nbBranchBackwardHit = 0;
+   integer nbBranchForward = 0;
+   integer nbBranchForwardHit = 0;
    integer nbJAL  = 0;
    integer nbJALR = 0;
    integer nbJALRhit = 0;
@@ -986,9 +1003,50 @@ module processor (
    integer nbRV32M = 0;
    integer nbMUL = 0;
    integer nbDIV = 0;
+   integer nbPHTSharedEntries = 0;
+   integer nbPHTUniquePcOver1 = 0;
+   integer brProfTotal [0:BR_PROFILE_SLOTS-1];
+   integer brProfHit [0:BR_PROFILE_SLOTS-1];
+   reg [31:0] brProfPC [0:BR_PROFILE_SLOTS-1];
+   reg brProfValid [0:BR_PROFILE_SLOTS-1];
+   reg reportUsed [0:BR_PROFILE_SLOTS-1];
+   integer phtUseCount [0:PHT_PROFILE_SLOTS-1];
+   integer phtAliasCount [0:PHT_PROFILE_SLOTS-1];
+   integer phtUniqueCount [0:PHT_PROFILE_SLOTS-1];
+   reg [31:0] phtPC0 [0:PHT_PROFILE_SLOTS-1];
+   reg [31:0] phtPC1 [0:PHT_PROFILE_SLOTS-1];
+   reg [31:0] phtPC2 [0:PHT_PROFILE_SLOTS-1];
+   reg [31:0] phtPC3 [0:PHT_PROFILE_SLOTS-1];
+   integer stats_i;
+   integer stats_slot;
+   integer stats_free;
+   integer stats_idx;
+   integer stats_best;
+   integer stats_metric;
+   integer stats_unique;
+   integer stats_alias;
+
+   initial begin
+      for(stats_i = 0; stats_i < BR_PROFILE_SLOTS; stats_i = stats_i + 1) begin
+         brProfTotal[stats_i] = 0;
+         brProfHit[stats_i] = 0;
+         brProfPC[stats_i] = 32'b0;
+         brProfValid[stats_i] = 1'b0;
+         reportUsed[stats_i] = 1'b0;
+      end
+      for(stats_i = 0; stats_i < PHT_PROFILE_SLOTS; stats_i = stats_i + 1) begin
+         phtUseCount[stats_i] = 0;
+         phtAliasCount[stats_i] = 0;
+         phtUniqueCount[stats_i] = 0;
+         phtPC0[stats_i] = 32'b0;
+         phtPC1[stats_i] = 32'b0;
+         phtPC2[stats_i] = 32'b0;
+         phtPC3[stats_i] = 32'b0;
+      end
+   end
 
    always @(posedge clk) begin
-      if(resetn & !D_stall) begin
+      if(resetn) begin
 	 if(riscv_disasm_isBranch(DE_instr)) begin
 	    nbBranch <= nbBranch + 1;
 `ifdef CONFIG_PC_PREDICT
@@ -996,7 +1054,90 @@ module processor (
 	       nbBranchHit <= nbBranchHit + 1;
 	    end
 `endif
+	    if(DE_instr[31]) begin
+	       nbBranchBackward <= nbBranchBackward + 1;
+`ifdef CONFIG_PC_PREDICT
+	       if(E_takeBranch == DE_predictBranch) begin
+	          nbBranchBackwardHit <= nbBranchBackwardHit + 1;
+	       end
+`endif
+	    end else begin
+	       nbBranchForward <= nbBranchForward + 1;
+`ifdef CONFIG_PC_PREDICT
+	       if(E_takeBranch == DE_predictBranch) begin
+	          nbBranchForwardHit <= nbBranchForwardHit + 1;
+	       end
+`endif
+	    end
+
+	    stats_slot = -1;
+	    stats_free = -1;
+	    for(stats_i = 0; stats_i < BR_PROFILE_SLOTS; stats_i = stats_i + 1) begin
+	       if(brProfValid[stats_i] && brProfPC[stats_i] == DE_PC) begin
+	          stats_slot = stats_i;
+	       end
+	       if(!brProfValid[stats_i] && stats_free == -1) begin
+	          stats_free = stats_i;
+	       end
+	    end
+	    if(stats_slot == -1) begin
+	       stats_slot = stats_free;
+	       if(stats_slot != -1) begin
+	          brProfValid[stats_slot] <= 1'b1;
+	          brProfPC[stats_slot] <= DE_PC;
+	          brProfTotal[stats_slot] <= 1;
+`ifdef CONFIG_PC_PREDICT
+	          brProfHit[stats_slot] <= (E_takeBranch == DE_predictBranch) ? 1 : 0;
+`else
+	          brProfHit[stats_slot] <= 0;
+`endif
+	       end
+	    end else begin
+	       brProfTotal[stats_slot] <= brProfTotal[stats_slot] + 1;
+`ifdef CONFIG_PC_PREDICT
+	       if(E_takeBranch == DE_predictBranch) begin
+	          brProfHit[stats_slot] <= brProfHit[stats_slot] + 1;
+	       end
+`endif
+	    end
+
+`ifdef CONFIG_GSHARE
+	    stats_idx = {{(32-BP_BHT_ADDR_BITS){1'b0}}, DE_BHTindex};
+	    stats_unique = phtUniqueCount[stats_idx];
+	    stats_alias = phtAliasCount[stats_idx];
+	    phtUseCount[stats_idx] <= phtUseCount[stats_idx] + 1;
+	    if(stats_unique == 0) begin
+	       phtPC0[stats_idx] <= DE_PC;
+	       phtUniqueCount[stats_idx] <= 1;
+	    end else if(
+	         (phtPC0[stats_idx] == DE_PC) ||
+	         (stats_unique > 1 && phtPC1[stats_idx] == DE_PC) ||
+	         (stats_unique > 2 && phtPC2[stats_idx] == DE_PC) ||
+	         (stats_unique > 3 && phtPC3[stats_idx] == DE_PC)
+	    ) begin
+	    end else begin
+	       phtAliasCount[stats_idx] <= stats_alias + 1;
+	       if(stats_unique == 1) begin
+	          phtPC1[stats_idx] <= DE_PC;
+	          phtUniqueCount[stats_idx] <= 2;
+	          nbPHTSharedEntries <= nbPHTSharedEntries + 1;
+	          nbPHTUniquePcOver1 <= nbPHTUniquePcOver1 + 1;
+	       end else if(stats_unique == 2) begin
+	          phtPC2[stats_idx] <= DE_PC;
+	          phtUniqueCount[stats_idx] <= 3;
+	          nbPHTUniquePcOver1 <= nbPHTUniquePcOver1 + 1;
+	       end else if(stats_unique == 3) begin
+	          phtPC3[stats_idx] <= DE_PC;
+	          phtUniqueCount[stats_idx] <= 4;
+	          nbPHTUniquePcOver1 <= nbPHTUniquePcOver1 + 1;
+	       end else if(stats_unique < 5) begin
+	          phtUniqueCount[stats_idx] <= 5;
+	          nbPHTUniquePcOver1 <= nbPHTUniquePcOver1 + 1;
+	       end
+	    end
+`endif
 	 end
+
 	 if(riscv_disasm_isJAL(DE_instr)) begin
 	    nbJAL <= nbJAL + 1;
 	 end
@@ -1036,10 +1177,20 @@ module processor (
 	 $display("----------------------------");
 	 $display("Branch hit = %3.3f\%%",
 		   nbBranchHit*100.0/nbBranch	 );
+	 $display("Branch bwd = %3.3f\%% (%0d/%0d)",
+		   nbBranchBackwardHit*100.0/nbBranchBackward,
+		   nbBranchBackwardHit, nbBranchBackward);
+	 $display("Branch fwd = %3.3f\%% (%0d/%0d)",
+		   nbBranchForwardHit*100.0/nbBranchForward,
+		   nbBranchForwardHit, nbBranchForward);
 	 $display("JALR   hit = %3.3f\%%",
 		   nbJALRhit*100.0/nbJALR	 );
 	 $display("Load hzrds = %3.3f\%%", nbLoadHazard*100.0/nbLoad);
 	 $display("CPI        = %3.3f",(cycle*1.0)/(instret*1.0));
+`ifdef CONFIG_GSHARE
+	 $display("PHT shared entries = %0d", nbPHTSharedEntries);
+	 $display("PHT extra PC refs  = %0d", nbPHTUniquePcOver1);
+`endif
 	 $write("Instr. mix = (");
 	 $write("Branch:%3.3f\%%",    nbBranch*100.0/instret);
 	 $write(" JAL:%3.3f\%%",       nbJAL*100.0/instret);
@@ -1051,6 +1202,78 @@ module processor (
 	 $write(" DIV/REM:%3.3f\%% ",   nbDIV*100.0/instret);
 `endif
 	 $write(")\n");
+	 for(stats_i = 0; stats_i < BR_PROFILE_SLOTS; stats_i = stats_i + 1) begin
+	    reportUsed[stats_i] = 1'b0;
+	 end
+	 $display("Top hot branches");
+	 for(stats_i = 0; stats_i < 10; stats_i = stats_i + 1) begin
+	    stats_best = -1;
+	    for(stats_slot = 0; stats_slot < BR_PROFILE_SLOTS; stats_slot = stats_slot + 1) begin
+	       if(brProfValid[stats_slot] && !reportUsed[stats_slot]) begin
+	          if(stats_best == -1 || brProfTotal[stats_slot] > brProfTotal[stats_best]) begin
+	             stats_best = stats_slot;
+	          end
+	       end
+	    end
+	    if(stats_best != -1) begin
+	       reportUsed[stats_best] = 1'b1;
+	       $display("  pc=%h count=%0d hit=%3.3f\%%",
+	                brProfPC[stats_best],
+	                brProfTotal[stats_best],
+	                brProfHit[stats_best]*100.0/brProfTotal[stats_best]);
+	    end
+	 end
+	 for(stats_i = 0; stats_i < BR_PROFILE_SLOTS; stats_i = stats_i + 1) begin
+	    reportUsed[stats_i] = 1'b0;
+	 end
+	 $display("Worst hot branches");
+	 for(stats_i = 0; stats_i < 10; stats_i = stats_i + 1) begin
+	    stats_best = -1;
+	    for(stats_slot = 0; stats_slot < BR_PROFILE_SLOTS; stats_slot = stats_slot + 1) begin
+	       if(brProfValid[stats_slot] && !reportUsed[stats_slot] && brProfTotal[stats_slot] >= 20) begin
+	          if(stats_best == -1) begin
+	             stats_best = stats_slot;
+	          end else if((brProfHit[stats_slot]*1000)/brProfTotal[stats_slot] <
+	                   (brProfHit[stats_best]*1000)/brProfTotal[stats_best]) begin
+	             stats_best = stats_slot;
+	          end else if((brProfHit[stats_slot]*1000)/brProfTotal[stats_slot] ==
+	                   (brProfHit[stats_best]*1000)/brProfTotal[stats_best] &&
+	                   brProfTotal[stats_slot] > brProfTotal[stats_best]) begin
+	             stats_best = stats_slot;
+	          end
+	       end
+	    end
+	    if(stats_best != -1) begin
+	       reportUsed[stats_best] = 1'b1;
+	       $display("  pc=%h count=%0d hit=%3.3f\%%",
+	                brProfPC[stats_best],
+	                brProfTotal[stats_best],
+	                brProfHit[stats_best]*100.0/brProfTotal[stats_best]);
+	    end
+	 end
+`ifdef CONFIG_GSHARE
+	 $display("Hot shared PHT entries");
+	 for(stats_i = 0; stats_i < 10; stats_i = stats_i + 1) begin
+	    stats_best = -1;
+	    for(stats_slot = 0; stats_slot < PHT_PROFILE_SLOTS; stats_slot = stats_slot + 1) begin
+	       if(phtUniqueCount[stats_slot] > 1) begin
+	          if(stats_best == -1 || phtUseCount[stats_slot] > phtUseCount[stats_best]) begin
+	             stats_best = stats_slot;
+	          end
+	       end
+	    end
+	    if(stats_best != -1 && phtUseCount[stats_best] > 0) begin
+	       $display("  idx=%0d uses=%0d unique=%0d alias_new=%0d pc0=%h pc1=%h",
+	                stats_best,
+	                phtUseCount[stats_best],
+	                phtUniqueCount[stats_best],
+	                phtAliasCount[stats_best],
+	                phtPC0[stats_best],
+	                phtPC1[stats_best]);
+	       phtUseCount[stats_best] = -1;
+	    end
+	 end
+`endif
 	 $finish();
 `endif
       end
