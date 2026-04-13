@@ -1,9 +1,19 @@
 `ifndef DISABLE_BP
+`ifndef CONFIG_PC_PREDICT
 `define CONFIG_PC_PREDICT
+`endif
+`ifndef CONFIG_RAS
 `define CONFIG_RAS
+`endif
+`ifndef CONFIG_GSHARE
 `define CONFIG_GSHARE
 `endif
+`endif
+`ifndef DISABLE_RV32M
+`ifndef CONFIG_RV32M
 `define CONFIG_RV32M
+`endif
+`endif
 `ifndef CPU_FREQ
 `define CPU_FREQ 10
 `endif
@@ -98,10 +108,17 @@ module Soc (
       end
    end
 
+`ifdef VIVADO_XPM_MEMORY
+   progrom_ip_model #(
+      .ADDR_WIDTH(14),
+      .INIT_FILE("PROGROM.mem")
+   ) PROGROM (
+`else
    progrom_ip_model #(
       .ADDR_WIDTH(14),
       .INIT_FILE("PROGROM.hex")
    ) PROGROM (
+`endif
       .clk(clk),
       .en(inst_en),
       .addr(inst_addr[15:2]),
@@ -176,10 +193,17 @@ module Soc (
    wire [13:0] DATARAM_raddr = DATARAM_raddr_word[13:0];
    wire [13:0] DATARAM_waddr = DATARAM_waddr_word[13:0];
 
+`ifdef VIVADO_XPM_MEMORY
+   dataram_ip_model #(
+      .ADDR_WIDTH(14),
+      .INIT_FILE("DATARAM.mem")
+   ) DATARAM (
+`else
    dataram_ip_model #(
       .ADDR_WIDTH(14),
       .INIT_FILE("DATARAM.hex")
    ) DATARAM (
+`endif
       .clk(clk),
       .ren(1'b1),
       .raddr(DATARAM_raddr),

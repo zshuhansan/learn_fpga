@@ -63,12 +63,7 @@ module icache (
 `endif
     
     wire cache_hit = hit_way0 || hit_way1;
-    wire is_hit  = (state == IDLE) && req_fire && cache_hit;
-    wire is_miss = (state == IDLE) && req_fire && !cache_hit;
-
-    wire [255:0] cache_line = hit_way0 ? cache_line_way0 : cache_line_way1;
-
-    // miss 处理流程分成发 AR、等 R、完成回填三个阶段。
+    // 把状态和本模块的 localparam/reg 声明提前，避免先用后定义导致综合报错。
     localparam IDLE       = 3'd0;
     localparam AR_REQ     = 3'd1;
     localparam R_WAIT     = 3'd2;
@@ -82,6 +77,13 @@ module icache (
     reg [2:0]  miss_word_offset;
     reg [31:0] resp_data_r;
     reg        resp_valid_r;
+
+    wire is_hit  = (state == IDLE) && req_fire && cache_hit;
+    wire is_miss = (state == IDLE) && req_fire && !cache_hit;
+
+    wire [255:0] cache_line = hit_way0 ? cache_line_way0 : cache_line_way1;
+
+    // miss 处理流程分成发 AR、等 R、完成回填三个阶段。
 
 `ifdef BENCH
     integer hit_count;

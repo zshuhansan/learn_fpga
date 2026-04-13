@@ -1,0 +1,147 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Sat Apr 11 17:35:03 2026
+# Process ID: 109567
+# Current directory: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV
+# Command line: vivado -mode batch -source /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado/run_soc_zynq7020_synth.tcl
+# Log file: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/vivado.log
+# Journal file: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/vivado.jou
+# Running On: zshuhansan-ubuntu-pc, OS: Linux, CPU Frequency: 2200.000 MHz, CPU Physical cores: 12, Host memory: 33564 MB
+#-----------------------------------------------------------
+source /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado/run_soc_zynq7020_synth.tcl
+# set script_dir [file normalize [file dirname [info script]]]
+# set soc_dir [file normalize [file join $script_dir ..]]
+# set repo_dir [file normalize [file join $soc_dir ..]]
+# set src_dir [file normalize [file join $soc_dir src]]
+# set tb_dir [file normalize [file join $soc_dir tb]]
+# set variant_name [expr {[info exists ::env(VIVADO_VARIANT)] && $::env(VIVADO_VARIANT) ne "" ? $::env(VIVADO_VARIANT) : ""}]
+# set variant_suffix [expr {$variant_name eq "" ? "" : "_$variant_name"}]
+# set project_name [format "soc_zynq7020_clg400_2%s" $variant_suffix]
+# set proj_dir [file normalize [file join $script_dir [format "project_zynq7020_clg400_2%s" $variant_suffix]]]
+# set reports_dir [file normalize [file join $script_dir [format "reports_zynq7020_clg400_2%s" $variant_suffix]]]
+# set xdc_file [file normalize [file join $script_dir zynq7020_clg400_2_synth_only.xdc]]
+# set progrom_mem [file normalize [file join $repo_dir PROGROM.mem]]
+# set dataram_mem [file normalize [file join $repo_dir DATARAM.mem]]
+# set jobs [expr {[info exists ::env(VIVADO_JOBS)] ? $::env(VIVADO_JOBS) : 8}]
+# set enable_rv32m [expr {![info exists ::env(ENABLE_RV32M)] || $::env(ENABLE_RV32M) ne "0"}]
+# set_param general.maxThreads $jobs
+# if {[file exists $proj_dir]} {
+#     file delete -force $proj_dir
+# }
+# file mkdir $proj_dir
+# file mkdir $reports_dir
+# set source_files [list \
+#     [file join $src_dir alu.v] \
+#     [file join $src_dir branch_predictor.v] \
+#     [file join $src_dir csr_unit.v] \
+#     [file join $src_dir decoder.v] \
+#     [file join $src_dir div_unit.v] \
+#     [file join $src_dir hazard_unit.v] \
+#     [file join $src_dir imm_gen.v] \
+#     [file join $src_dir lsu_align.v] \
+#     [file join $src_dir regfile.v] \
+#     [file join $src_dir Soc.v]]
+# set verilog_defines [list \
+#     BYPASS_ICACHE \
+#     VIVADO_XPM_MEMORY \
+#     CONFIG_PC_PREDICT \
+#     CONFIG_RAS \
+#     CONFIG_GSHARE \
+#     CONFIG_INITIALIZE \
+#     FAST_UART_STATUS \
+#     CPU_FREQ=100]
+# if {$enable_rv32m} {
+#     lappend verilog_defines CONFIG_RV32M
+# } else {
+#     lappend verilog_defines DISABLE_RV32M
+# }
+# create_project -force $project_name $proj_dir -part xc7z020clg400-2
+create_project: Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1334.723 ; gain = 0.023 ; free physical = 13037 ; free virtual = 28534
+# set_property target_language Verilog [current_project]
+# set_property default_lib xil_defaultlib [current_project]
+# set_property XPM_LIBRARIES {XPM_MEMORY} [current_project]
+# set_property top Soc [current_fileset]
+# set_property include_dirs [list $src_dir $tb_dir] [current_fileset]
+# set_property verilog_define $verilog_defines [current_fileset]
+# add_files -norecurse $source_files
+# add_files -fileset constrs_1 -norecurse $xdc_file
+# if {[file exists $progrom_mem]} {
+#     add_files -norecurse $progrom_mem
+#     set_property FILE_TYPE {Memory File} [get_files $progrom_mem]
+# }
+# if {[file exists $dataram_mem]} {
+#     add_files -norecurse $dataram_mem
+#     set_property FILE_TYPE {Memory File} [get_files $dataram_mem]
+# }
+# update_compile_order -fileset sources_1
+# set synth_run [get_runs synth_1]
+# set_property strategy Flow_PerfOptimized_high $synth_run
+# set_property STEPS.SYNTH_DESIGN.ARGS.FLATTEN_HIERARCHY rebuilt $synth_run
+# set_property STEPS.SYNTH_DESIGN.ARGS.FSM_EXTRACTION one_hot $synth_run
+# reset_run $synth_run
+# set synth_dir [file normalize [file join $proj_dir [format "%s.runs" $project_name] synth_1]]
+# file mkdir $synth_dir
+# if {[file exists $progrom_mem]} {
+#     file copy -force $progrom_mem [file join $synth_dir PROGROM.mem]
+# }
+# if {[file exists $dataram_mem]} {
+#     file copy -force $dataram_mem [file join $synth_dir DATARAM.mem]
+# }
+# launch_runs $synth_run -jobs $jobs
+WARNING: [Vivado 12-7122] Auto Incremental Compile:: No reference checkpoint was found in run synth_1. Auto-incremental flow will not be run, the standard flow will be run instead.
+[Sat Apr 11 17:35:15 2026] Launched synth_1...
+Run output will be captured here: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado/project_zynq7020_clg400_2_mulpipe_fanout32/soc_zynq7020_clg400_2_mulpipe_fanout32.runs/synth_1/runme.log
+# wait_on_run $synth_run
+[Sat Apr 11 17:35:15 2026] Waiting for synth_1 to finish...
+
+*** Running vivado
+    with args -log Soc.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source Soc.tcl
+
+
+****** Vivado v2023.2 (64-bit)
+  **** SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+  **** IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+  **** SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source Soc.tcl -notrace
+create_project: Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1336.148 ; gain = 0.023 ; free physical = 12558 ; free virtual = 28056
+Command: synth_design -top Soc -part xc7z020clg400-2 -directive PerformanceOptimized -fsm_extraction one_hot -keep_equivalent_registers -resource_sharing off -no_lc -shreg_min_size 5
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg400-2
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 110653
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2092.426 ; gain = 404.715 ; free physical = 11507 ; free virtual = 27005
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-6901] identifier 'F_pendingValid' is used before its declaration [/home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/src/processor.v:44]
+INFO: [Synth 8-6157] synthesizing module 'Soc' [/home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/src/Soc.v:27]
+INFO: [Synth 8-6157] synthesizing module 'processor' [/home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/src/processor.v:1]
+ERROR: [Synth 8-439] module 'csr_unit' not found [/home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/src/processor.v:288]
+ERROR: [Synth 8-6156] failed synthesizing module 'processor' [/home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/src/processor.v:1]
+ERROR: [Synth 8-6156] failed synthesizing module 'Soc' [/home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/src/Soc.v:27]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2188.395 ; gain = 500.684 ; free physical = 11402 ; free virtual = 26900
+---------------------------------------------------------------------------------
+RTL Elaboration failed
+INFO: [Common 17-83] Releasing license: Synthesis
+8 Infos, 1 Warnings, 0 Critical Warnings and 4 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
+INFO: [Common 17-206] Exiting Vivado at Sat Apr 11 17:35:34 2026...
+[Sat Apr 11 17:35:37 2026] synth_1 finished
+ERROR: [Vivado 12-13638] Failed runs(s) : 'synth_1'
+wait_on_runs: Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 1358.668 ; gain = 0.000 ; free physical = 13008 ; free virtual = 28506
+ERROR: [Common 17-39] 'wait_on_runs' failed due to earlier errors.
+
+    while executing
+"wait_on_run $synth_run"
+    (file "/home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado/run_soc_zynq7020_synth.tcl" line 91)
+INFO: [Common 17-206] Exiting Vivado at Sat Apr 11 17:35:37 2026...

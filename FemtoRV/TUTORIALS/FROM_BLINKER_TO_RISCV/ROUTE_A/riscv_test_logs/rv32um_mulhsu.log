@@ -1,5 +1,6 @@
+SIM_START progrom=PROGROM.hex dataram=DATARAM.hex timeout_sec=0 heartbeat_sec=15 heartbeat_mcycles=5
 FCOREMARK_TICKS=70
 COREMARK_MHZ_X1000=0
 COREMARK_CPI_X1000=0
-- src/Soc.v:265: Verilog $finish
-SIM_DONE finish=1 cycles=87
+- src/Soc.v:285: Verilog $finish
+SIM_DONE finish=1 cycles=110 wall_ms=10

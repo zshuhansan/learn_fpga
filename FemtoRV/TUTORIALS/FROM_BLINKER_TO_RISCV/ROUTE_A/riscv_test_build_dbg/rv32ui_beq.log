@@ -1,0 +1,5 @@
+COREMARK_TICKS=0
+COREMARK_MHZ_X1000=0
+COREMARK_CPI_X1000=0
+- src/Soc.v:267: Verilog $finish
+SIM_DONE finish=1 cycles=345

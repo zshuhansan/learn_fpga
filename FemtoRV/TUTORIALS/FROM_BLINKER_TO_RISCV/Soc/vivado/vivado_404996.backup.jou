@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Sat Apr 11 18:36:09 2026
+# Process ID: 404996
+# Current directory: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado
+# Command line: vivado -mode batch -source /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado/run_soc_zynq7020_impl.tcl
+# Log file: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado/vivado.log
+# Journal file: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado/vivado.jou
+# Running On: zshuhansan-ubuntu-pc, OS: Linux, CPU Frequency: 2046.143 MHz, CPU Physical cores: 12, Host memory: 33564 MB
+#-----------------------------------------------------------
+source /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado/run_soc_zynq7020_impl.tcl

@@ -1,0 +1,24 @@
+P- src/processor.v:812: Verilog $finish
+Simulated processor's report
+----------------------------
+Branch hit = 60.000%
+Branch bwd = 50.000% (3/6)
+Branch fwd = 75.000% (3/4)
+JALR   hit = 0.000%
+Load hzrds = -nan%
+CPI        = 4.043
+PHT shared entries = 0
+PHT extra PC refs  = 0
+Instr. mix = (Branch:8.696% JAL:0.000% JALR:7.826% Load:0.000% Store:1.739% MUL(HSU):0.000%  DIV/REM:0.000% )
+Top hot branches
+  pc=000000e4 count=2 hit=50.000%
+  pc=0000010c count=2 hit=50.000%
+  pc=00000138 count=2 hit=50.000%
+  pc=000000a0 count=1 hit=100.000%
+  pc=000000c0 count=1 hit=100.000%
+  pc=0000016c count=1 hit=100.000%
+  pc=00000170 count=1 hit=0.000%
+Worst hot branches
+Hot shared PHT entries
+- src/processor.v:1286: Verilog $finish
+- src/processor.v:1286: Second verilog $finish, exiting

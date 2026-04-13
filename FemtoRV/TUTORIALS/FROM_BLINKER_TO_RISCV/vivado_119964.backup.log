@@ -1,0 +1,123 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Sat Apr 11 17:40:20 2026
+# Process ID: 119964
+# Current directory: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV
+# Command line: vivado -mode batch -source /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado/run_soc_zynq7020_synth.tcl
+# Log file: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/vivado.log
+# Journal file: /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/vivado.jou
+# Running On: zshuhansan-ubuntu-pc, OS: Linux, CPU Frequency: 3600.000 MHz, CPU Physical cores: 12, Host memory: 33564 MB
+#-----------------------------------------------------------
+source /home/zshuhansan/git_project/learn_fpga/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/Soc/vivado/run_soc_zynq7020_synth.tcl
+# set script_dir [file normalize [file dirname [info script]]]
+# set soc_dir [file normalize [file join $script_dir ..]]
+# set repo_dir [file normalize [file join $soc_dir ..]]
+# set src_dir [file normalize [file join $soc_dir src]]
+# set tb_dir [file normalize [file join $soc_dir tb]]
+# set variant_name [expr {[info exists ::env(VIVADO_VARIANT)] && $::env(VIVADO_VARIANT) ne "" ? $::env(VIVADO_VARIANT) : ""}]
+# set variant_suffix [expr {$variant_name eq "" ? "" : "_$variant_name"}]
+# set project_name [format "soc_zynq7020_clg400_2%s" $variant_suffix]
+# set proj_dir [file normalize [file join $script_dir [format "project_zynq7020_clg400_2%s" $variant_suffix]]]
+# set reports_dir [file normalize [file join $script_dir [format "reports_zynq7020_clg400_2%s" $variant_suffix]]]
+# set xdc_file [file normalize [file join $script_dir zynq7020_clg400_2_synth_only.xdc]]
+# set progrom_mem [file normalize [file join $repo_dir PROGROM.mem]]
+# set dataram_mem [file normalize [file join $repo_dir DATARAM.mem]]
+# set jobs [expr {[info exists ::env(VIVADO_JOBS)] ? $::env(VIVADO_JOBS) : 8}]
+# set enable_rv32m [expr {![info exists ::env(ENABLE_RV32M)] || $::env(ENABLE_RV32M) ne "0"}]
+# set_param general.maxThreads $jobs
+# if {[file exists $proj_dir]} {
+#     file delete -force $proj_dir
+# }
+# file mkdir $proj_dir
+# file mkdir $reports_dir
+# set source_files [list \
+#     [file join $src_dir alu.v] \
+#     [file join $src_dir branch_predictor.v] \
+#     [file join $src_dir csr_unit.v] \
+#     [file join $src_dir decoder.v] \
+#     [file join $src_dir div_unit.v] \
+#     [file join $src_dir hazard_unit.v] \
+#     [file join $src_dir imm_gen.v] \
+#     [file join $src_dir lsu_align.v] \
+#     [file join $src_dir regfile.v] \
+#     [file join $src_dir Soc.v]]
+# set verilog_defines [list \
+#     BYPASS_ICACHE \
+#     VIVADO_XPM_MEMORY \
+#     CONFIG_PC_PREDICT \
+#     CONFIG_RAS \
+#     CONFIG_GSHARE \
+#     CONFIG_INITIALIZE \
+#     FAST_UART_STATUS \
+#     CPU_FREQ=100]
+# if {$enable_rv32m} {
+#     lappend verilog_defines CONFIG_RV32M
+# } else {
+#     lappend verilog_defines DISABLE_RV32M
+# }
+# create_project -force $project_name $proj_dir -part xc7z020clg400-2
+create_project: Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1334.723 ; gain = 0.023 ; free physical = 13031 ; free virtual = 28530
+# set_property target_language Verilog [current_project]
+# set_property default_lib xil_defaultlib [current_project]
+# set_property XPM_LIBRARIES {XPM_MEMORY} [current_project]
+# set_property top Soc [current_fileset]
+# set_property include_dirs [list $src_dir $tb_dir] [current_fileset]
+# set_property verilog_define $verilog_defines [current_fileset]
+# add_files -norecurse $source_files
+# add_files -fileset constrs_1 -norecurse $xdc_file
+# if {[file exists $progrom_mem]} {
+#     add_files -norecurse $progrom_mem
+#     set_property FILE_TYPE {Memory File} [get_files $progrom_mem]
+# }
+# if {[file exists $dataram_mem]} {
+#     add_files -norecurse $dataram_mem
+#     set_property FILE_TYPE {Memory File} [get_files $dataram_mem]
+# }
+# update_compile_order -fileset sources_1
+# synth_design -top Soc -part xc7z020clg400-2 -directive PerformanceOptimized -fsm_extraction one_hot -keep_equivalent_registers -resource_sharing off -no_lc -shreg_min_size 5
+Command: synth_design -top Soc -part xc7z020clg400-2 -directive PerformanceOptimized -fsm_extraction one_hot -keep_equivalent_registers -resource_sharing off -no_lc -shreg_min_size 5
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg400-2
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 120521
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2100.973 ; gain = 394.742 ; free physical = 12017 ; free virtual = 27516
+---------------------------------------------------------------------------------
+CRITICAL WARNING: [Synth 8-9339] data object 'DE_BHTindex' is already declared [processor.v:447]
+INFO: [Synth 8-6826] previous declaration of 'DE_BHTindex' is from here [processor.v:260]
+CRITICAL WARNING: [Synth 8-11152] second declaration of 'DE_BHTindex' is ignored [processor.v:447]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'clk' when default_nettype is none [processor.v:12]
+ERROR: [Synth 8-9844] non-net port 'clk' cannot be of mode input [processor.v:12]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'resetn' when default_nettype is none [processor.v:13]
+ERROR: [Synth 8-9844] non-net port 'resetn' cannot be of mode input [processor.v:13]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'inst_addr' when default_nettype is none [processor.v:16]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'inst_rdata' when default_nettype is none [processor.v:17]
+ERROR: [Synth 8-9844] non-net port 'inst_rdata' cannot be of mode input [processor.v:17]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'inst_en' when default_nettype is none [processor.v:18]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'data_raddr' when default_nettype is none [processor.v:22]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'data_rdata' when default_nettype is none [processor.v:23]
+ERROR: [Synth 8-9844] non-net port 'data_rdata' cannot be of mode input [processor.v:23]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'data_waddr' when default_nettype is none [processor.v:25]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'data_wdata' when default_nettype is none [processor.v:26]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'data_wmask' when default_nettype is none [processor.v:27]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'data_wen' when default_nettype is none [processor.v:28]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'IO_mem_addr' when default_nettype is none [processor.v:31]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'IO_mem_rdata' when default_nettype is none [processor.v:32]
+ERROR: [Synth 8-9844] non-net port 'IO_mem_rdata' cannot be of mode input [processor.v:32]
+ERROR: [Synth 8-6735] net type must be explicitly specified for 'IO_mem_wdata' when default_nettype is none [processor.v:33]
+ERROR: [Synth 8-439] module 'Soc' not found
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2184.910 ; gain = 478.680 ; free physical = 11923 ; free virtual = 27422
+---------------------------------------------------------------------------------
+RTL Elaboration failed
+INFO: [Common 17-83] Releasing license: Synthesis
+7 Infos, 0 Warnings, 2 Critical Warnings and 21 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
+INFO: [Common 17-206] Exiting Vivado at Sat Apr 11 17:40:39 2026...

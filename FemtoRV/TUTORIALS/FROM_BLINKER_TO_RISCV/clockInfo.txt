@@ -1,0 +1,10 @@
+-------------------------------------
+| Tool Version : Vivado v.2023.2
+| Date         : Sat Apr 11 17:53:21 2026
+| Host         : zshuhansan-ubuntu-pc
+| Design       : checkpoint_soc_zynq7020_clg400_2_mulpipe_fanout32_post_synth
+| Device       : xc7z020-clg400-2--
+-------------------------------------
+
+For more information on clockInfo.txt clock routing debug file see https://support.xilinx.com/s/article/000035660?language=en_US
+

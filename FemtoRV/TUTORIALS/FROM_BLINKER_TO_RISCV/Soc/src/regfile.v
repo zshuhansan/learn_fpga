@@ -14,6 +14,9 @@ module regfile (
 
     reg [31:0] regs[0:31];
 
+    (* max_fanout = 32 *) wire [31:0] rdata1_int;
+    (* max_fanout = 32 *) wire [31:0] rdata2_int;
+
     always @(posedge clk) begin
         if (wen && (waddr != 5'd0)) begin
             // 只有写使能有效且目标寄存器不是 x0 时才真正更新寄存器内容。
@@ -24,7 +27,10 @@ module regfile (
     end
 
     // 读口是异步的，地址变化后数据会直接从数组反映出来。
-    assign rdata1 = (raddr1 == 5'd0) ? 32'b0 : regs[raddr1];
-    assign rdata2 = (raddr2 == 5'd0) ? 32'b0 : regs[raddr2];
+    assign rdata1_int = (raddr1 == 5'd0) ? 32'b0 : regs[raddr1];
+    assign rdata2_int = (raddr2 == 5'd0) ? 32'b0 : regs[raddr2];
+
+    assign rdata1 = rdata1_int;
+    assign rdata2 = rdata2_int;
 
 endmodule

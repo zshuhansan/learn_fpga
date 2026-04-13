@@ -1,0 +1,5 @@
+FCOREMARK_TICKS=0
+COREMARK_MHZ_X1000=70
+COREMARK_CPI_X1000=70
+- src/Soc.v:267: Verilog $finish
+SIM_DONE finish=1 cycles=58

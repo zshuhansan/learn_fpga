@@ -71,7 +71,7 @@ module branch_predictor #(
         end
     endfunction
 
-    wire [BHT_ADDR_BITS-1:0] bht_index = fd_pc[BHT_ADDR_BITS+1:2] ^ history_hash(branch_history);
+    (* max_fanout = 32 *) wire [BHT_ADDR_BITS-1:0] bht_index = fd_pc[BHT_ADDR_BITS+1:2] ^ history_hash(branch_history);
     assign d_bht_index = bht_index;
 
     generate

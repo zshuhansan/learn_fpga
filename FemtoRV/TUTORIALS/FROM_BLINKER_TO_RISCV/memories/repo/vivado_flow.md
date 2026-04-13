@@ -1,0 +1,3 @@
+- Soc/vivado/run_soc_zynq7020_synth.tcl must resolve Verilog includes with Soc/src before repo root; otherwise Soc/src/Soc.v can accidentally include the tutorial-root processor.v and pull in ROUTE_A modules.
+- Stable Vivado synth flow for this repo is in-memory non-project read_verilog/read_xdc, not launch_runs-generated synth scripts for new variants.
+- Vivado 2023.2 post-route phys_opt_design -directive AggressiveExplore can crash on mulpipe_fanout32 after route_design; use route-only reports as stable evidence unless explicitly retrying the tool bug.

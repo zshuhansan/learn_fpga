@@ -1,0 +1,12 @@
+SIM_START progrom=../FIRMWARE/coremark.PROGROM.hex dataram=../FIRMWARE/coremark.DATARAM.hex timeout_sec=30 heartbeat_sec=5 heartbeat_mcycles=10
+SIM_HEARTBEAT cycles=10000000 wall_ms=1487 halt=0 pc=000021b4 fpc=000021b4 fdpc=000021d8 ppc=000021b0 pred=0 corr=0
+SIM_HEARTBEAT cycles=20000000 wall_ms=2948 halt=0 pc=00000798 fpc=00000798 fdpc=00000790 ppc=00000794 pred=0 corr=0
+SIM_HEARTBEAT cycles=30000000 wall_ms=4414 halt=0 pc=000021d0 fpc=000021d0 fdpc=000021c8 ppc=000021cc pred=0 corr=0
+*** Ticks        : 29983640
+*** Coremark/MHz : 1.000545
+*** CPI (2)      : 1.351
+COREMARK_TICKS=29983640
+COREMARK_MHZ_X1000=1001
+COREMARK_CPI_X1000=1350
+- src/Soc.v:285: Verilog $finish
+SIM_DONE finish=1 cycles=30020008 wall_ms=4417
